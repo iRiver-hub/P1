@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="我的第一个网站" />
-    <title>River · 站点</title>
+    <meta
+      name="description"
+      content="上传照片，在线生成定制冰箱贴效果图，支持下载预览。"
+    />
+    <title>River 冰箱贴 · 照片定制</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
@@ -12,10 +15,11 @@
 
     <header class="site-header">
       <div class="container header-inner">
-        <a class="logo" href="#">River</a>
+        <a class="logo" href="#">River 冰箱贴</a>
         <nav class="nav" aria-label="主导航">
-          <a href="#about">关于</a>
-          <a href="#projects">作品</a>
+          <a href="#customizer">在线定制</a>
+          <a href="#specs">规格说明</a>
+          <a href="#shipping">配送与售后</a>
           <a href="#contact">联系</a>
         </nav>
         <button
@@ -31,58 +35,174 @@
 
     <main id="main">
       <section class="hero">
-        <div class="container hero__inner">
-          <p class="hero__eyebrow">你好，欢迎</p>
-          <h1 class="hero__title">
-            从这里开始<br />
-            <span class="hero__accent">搭建你的网站</span>
-          </h1>
-          <p class="hero__lead">
-            这是一个静态页面骨架：改文案、换配色、加页面，都可以一步一步来。
-          </p>
-          <div class="hero__actions">
-            <a class="btn btn--primary" href="#projects">看看示例区块</a>
-            <a class="btn btn--ghost" href="#contact">留个占位</a>
+        <div class="container hero__grid">
+          <div class="hero__copy">
+            <p class="hero__eyebrow">照片 · 纪念 · 礼物</p>
+            <h1 class="hero__title">
+              把你的照片<br />
+              <span class="hero__accent">做成冰箱贴</span>
+            </h1>
+            <p class="hero__lead">
+              上传一张图片，即时生成定制冰箱贴效果图。确认样式后可下载预览图，便于下单或与客服沟通细节。
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#customizer">开始定制</a>
+              <a class="btn btn--ghost" href="#specs">查看规格</a>
+            </div>
+          </div>
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero-magnet-decor"></div>
           </div>
         </div>
       </section>
 
-      <section id="about" class="section">
+      <section id="customizer" class="section section--alt customizer">
         <div class="container">
-          <h2 class="section__title">关于这个站点</h2>
-          <p class="section__text">
-            文件都在本地：<code>index.html</code> 管结构，
-            <code>css/styles.css</code> 管样式，<code>js/main.js</code>
-            管少量交互。推送 GitHub 后，可以用 GitHub Pages 免费托管静态站。
+          <h2 class="section__title">在线定制</h2>
+          <p class="section__intro">
+            选择本地图片后自动生成预览。拖动滑块可微调圆角与边框，更接近你想要的成品观感。
           </p>
+
+          <div class="customizer__grid">
+            <div class="panel panel--controls">
+              <label class="dropzone" data-dropzone>
+                <input
+                  type="file"
+                  class="dropzone__input"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  data-file-input
+                  aria-label="上传图片"
+                />
+                <span class="dropzone__icon" aria-hidden="true"></span>
+                <span class="dropzone__text">
+                  <strong>点击或拖放图片到此处</strong>
+                  <span class="dropzone__hint">支持 JPG、PNG、WEBP、GIF</span>
+                </span>
+              </label>
+
+              <p class="status-line" role="status" aria-live="polite" data-status>
+                尚未选择图片。
+              </p>
+
+              <fieldset class="controls-fieldset" data-controls disabled>
+                <legend class="controls-fieldset__legend">外观调节</legend>
+
+                <div class="control-row">
+                  <label class="control-label" for="radius-range">
+                    圆角 <span data-radius-value>18</span> px
+                  </label>
+                  <input
+                    id="radius-range"
+                    type="range"
+                    min="8"
+                    max="48"
+                    value="18"
+                    data-radius-range
+                  />
+                </div>
+
+                <div class="control-row">
+                  <label class="control-label" for="frame-range">
+                    白色边框 <span data-frame-value>14</span> px
+                  </label>
+                  <input
+                    id="frame-range"
+                    type="range"
+                    min="6"
+                    max="28"
+                    value="14"
+                    data-frame-range
+                  />
+                </div>
+
+                <div class="control-row">
+                  <label class="control-label" for="shadow-range">
+                    投影强度 <span data-shadow-value>50</span> %
+                  </label>
+                  <input
+                    id="shadow-range"
+                    type="range"
+                    min="20"
+                    max="80"
+                    value="50"
+                    data-shadow-range
+                  />
+                </div>
+
+                <label class="checkbox-row">
+                  <input type="checkbox" data-gloss-toggle checked />
+                  <span>高光釉面效果（示意图）</span>
+                </label>
+              </fieldset>
+
+              <div class="panel-actions">
+                <button type="button" class="btn btn--primary btn--block" data-render-btn disabled>
+                  更新预览
+                </button>
+                <button type="button" class="btn btn--ghost btn--block" data-download-btn disabled>
+                  下载预览 PNG
+                </button>
+              </div>
+            </div>
+
+            <div class="panel panel--preview">
+              <div class="preview-wrap">
+                <canvas
+                  id="magnet-canvas"
+                  width="880"
+                  height="720"
+                  class="magnet-canvas"
+                  aria-label="冰箱贴效果图预览"
+                ></canvas>
+              </div>
+              <p class="preview-note">
+                预览为浏览器生成的示意图（含冰箱金属背景与磁铁投影），印刷成品可能存在色差与裁切差异，以实物为准。
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="projects" class="section section--alt">
+      <section id="specs" class="section">
         <div class="container">
-          <h2 class="section__title">作品 / 区块占位</h2>
+          <h2 class="section__title">规格说明（示例）</h2>
           <ul class="cards">
             <li class="card">
-              <h3 class="card__title">第一项</h3>
-              <p class="card__text">之后可以换成真实项目介绍或截图。</p>
+              <h3 class="card__title">尺寸</h3>
+              <p class="card__text">
+                常见约 6×8 cm（竖版）或按比例定制，具体以下单选项为准。
+              </p>
             </li>
             <li class="card">
-              <h3 class="card__title">第二项</h3>
-              <p class="card__text">复制卡片结构就能扩展成列表或作品集。</p>
+              <h3 class="card__title">材质</h3>
+              <p class="card__text">
+                软磁背部 + 印刷面层；表面光滑易于擦拭（请以商品详情为准）。
+              </p>
             </li>
             <li class="card">
-              <h3 class="card__title">第三项</h3>
-              <p class="card__text">需要博客或文档时，再加新页面链接过来即可。</p>
+              <h3 class="card__title">图片要求</h3>
+              <p class="card__text">
+                尽量提供清晰、光线均匀的正向照片；过于模糊或强压缩图会影响成品。
+              </p>
             </li>
           </ul>
         </div>
       </section>
 
+      <section id="shipping" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">配送与售后（占位）</h2>
+          <p class="section__text">
+            你可在此补充发货范围、时效、退换规则等。当前站点为静态演示，下单与支付需另行接入电商平台或客服流程。
+          </p>
+        </div>
+      </section>
+
       <section id="contact" class="section">
         <div class="container">
-          <h2 class="section__title">联系</h2>
+          <h2 class="section__title">联系与下单</h2>
           <p class="section__text">
-            把邮箱或社交媒体链接写在这里。也可以在 GitHub 仓库说明里补充联系方式。
+            在此填写微信号、淘宝店铺链接或邮箱；顾客下载预览图后可凭图咨询下单。
           </p>
         </div>
       </section>
@@ -90,10 +210,11 @@
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>© <span data-year></span> River · 本地开发与学习用</p>
+        <p>© <span data-year></span> River 冰箱贴 · 预览图仅供展示</p>
       </div>
     </footer>
 
     <script src="js/main.js" defer></script>
+    <script src="js/magnet.js" defer></script>
   </body>
 </html>
