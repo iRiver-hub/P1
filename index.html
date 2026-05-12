@@ -84,6 +84,25 @@
                 尚未选择图片。
               </p>
 
+              <button type="button" class="btn btn--ghost btn--small api-settings-btn" data-api-settings-btn>
+                ⚙️ AI API 设置
+              </button>
+
+              <div class="api-settings-panel" data-api-settings-panel style="display:none;">
+                <div class="api-settings-row">
+                  <label for="provider-select">服务商</label>
+                  <select id="provider-select" data-provider-select class="api-settings-input">
+                    <option value="openai">OpenAI DALL-E</option>
+                    <option value="stability">Stability AI</option>
+                  </select>
+                </div>
+                <div class="api-settings-row">
+                  <label for="api-key-input">API 密钥</label>
+                  <input type="password" id="api-key-input" data-api-key-input class="api-settings-input" placeholder="sk-..." />
+                </div>
+                <button type="button" class="btn btn--primary btn--small" data-save-api-key-btn>保存设置</button>
+              </div>
+
               <fieldset class="controls-fieldset" data-controls disabled>
                 <legend class="controls-fieldset__legend">外观调节</legend>
 
@@ -133,6 +152,48 @@
                   <input type="checkbox" data-gloss-toggle checked />
                   <span>高光釉面效果（示意图）</span>
                 </label>
+              </fieldset>
+
+              <fieldset class="controls-fieldset ai-style-section" data-ai-controls disabled>
+                <legend class="controls-fieldset__legend">🎨 AI 风格生成</legend>
+                <p class="ai-style-desc">上传图片后，选择风格并点击"AI 生成"转换为不同效果的冰箱贴</p>
+
+                <div class="style-grid" data-style-grid>
+                  <label class="style-option">
+                    <input type="radio" name="ai-style" value="3d-cartoon" checked />
+                    <span class="style-option__preview style-preview--3d"></span>
+                    <span class="style-option__name">3D卡通</span>
+                  </label>
+                  <label class="style-option">
+                    <input type="radio" name="ai-style" value="clay-world" />
+                    <span class="style-option__preview style-preview--clay"></span>
+                    <span class="style-option__name">粘土世界</span>
+                  </label>
+                  <label class="style-option">
+                    <input type="radio" name="ai-style" value="pixel-art" />
+                    <span class="style-option__preview style-preview--pixel"></span>
+                    <span class="style-option__name">像素游戏</span>
+                  </label>
+                  <label class="style-option">
+                    <input type="radio" name="ai-style" value="anime" />
+                    <span class="style-option__preview style-preview--anime"></span>
+                    <span class="style-option__name">动漫风格</span>
+                  </label>
+                  <label class="style-option">
+                    <input type="radio" name="ai-style" value="watercolor" />
+                    <span class="style-option__preview style-preview--watercolor"></span>
+                    <span class="style-option__name">水彩画</span>
+                  </label>
+                  <label class="style-option">
+                    <input type="radio" name="ai-style" value="oil-painting" />
+                    <span class="style-option__preview style-preview--oil"></span>
+                    <span class="style-option__name">油画风格</span>
+                  </label>
+                </div>
+
+                <button type="button" class="btn btn--accent btn--block" data-ai-generate-btn disabled>
+                  ✨ AI 生成风格冰箱贴
+                </button>
               </fieldset>
 
               <div class="panel-actions">
@@ -215,6 +276,7 @@
     </footer>
 
     <script src="js/main.js" defer></script>
+    <script src="js/ai-service.js" defer></script>
     <script src="js/magnet.js" defer></script>
   </body>
 </html>

@@ -7,6 +7,7 @@
   const dropzone = document.querySelector("[data-dropzone]");
   const statusEl = document.querySelector("[data-status]");
   const controls = document.querySelector("[data-controls]");
+  const aiControls = document.querySelector("[data-ai-controls]");
   const radiusRange = document.querySelector("[data-radius-range]");
   const frameRange = document.querySelector("[data-frame-range]");
   const shadowRange = document.querySelector("[data-shadow-range]");
@@ -16,9 +17,13 @@
   const glossToggle = document.querySelector("[data-gloss-toggle]");
   const renderBtn = document.querySelector("[data-render-btn]");
   const downloadBtn = document.querySelector("[data-download-btn]");
+  const aiGenerateBtn = document.querySelector("[data-ai-generate-btn]");
+  const styleGrid = document.querySelector("[data-style-grid]");
 
   let sourceImage = null;
+  let aiGeneratedImage = null;
   let objectUrl = null;
+  let isGenerating = false;
 
   const W = canvas.width;
   const H = canvas.height;
@@ -31,6 +36,10 @@
     if (controls) controls.disabled = !hasImage;
     if (renderBtn) renderBtn.disabled = !hasImage;
     if (downloadBtn) downloadBtn.disabled = !hasImage;
+    if (aiControls) aiControls.disabled = !hasImage;
+    if (aiGenerateBtn) {
+      aiGenerateBtn.disabled = !hasImage || !window.AIService?.isConfigured() || isGenerating;
+    }
   }
 
   function revokeObjectUrl() {
@@ -245,6 +254,49 @@
       "image/png",
       1
     );
+  });
+
+  aiGenerateBtn?.addEventListener("click", () => {
+    if (!sourceImage || !window.AIService || isGenerating) return;
+
+    const selectedStyle = styleGrid?.querySelector('input[name="ai-style"]:checked');
+    if (!selectedStyle) {
+      setStatus("请选择一个风格选项");
+      return;
+    }
+
+    const styleId = selectedStyle.value;
+    isGenerating = true;
+    setReadyState(true);
+    setStatus("正在准备 AI 生成...");
+
+    window.AIService.generate(
+      sourceImage,
+      styleId,
+      function onProgress(text) {
+        setStatus(text);
+      },
+      function onSuccess(generatedImg) {
+        aiGeneratedImage = generatedImg;
+        sourceImage = generatedImg;
+        setReadyState(true);
+        setStatus("AI 生成完成！已应用风格效果");
+        render();
+        isGenerating = false;
+      },
+      function onError(errorMsg) {
+        setStatus("AI 生成失败: " + errorMsg);
+        isGenerating = false;
+        setReadyState(true);
+      }
+    );
+  });
+
+  styleGrid?.addEventListener("change", (e) => {
+    if (e.target.name === "ai-style" && aiGeneratedImage) {
+      const selectedStyle = e.target.value;
+      setStatus("已选择风格: " + selectedStyle + "，点击 AI 生成按钮应用");
+    }
   });
 
   render();
