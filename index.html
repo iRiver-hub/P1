@@ -17,9 +17,10 @@
       <div class="container header-inner">
         <a class="logo" href="#">River 冰箱贴</a>
         <nav class="nav" aria-label="主导航">
+          <a href="#showcase">案例</a>
           <a href="#customizer">在线定制</a>
+          <a href="#how-it-works">如何定制</a>
           <a href="#specs">规格说明</a>
-          <a href="#shipping">配送与售后</a>
           <a href="#contact">联系</a>
         </nav>
         <button
@@ -43,11 +44,11 @@
               <span class="hero__accent">做成冰箱贴</span>
             </h1>
             <p class="hero__lead">
-              上传一张图片，即时生成定制冰箱贴效果图。确认样式后可下载预览图，便于下单或与客服沟通细节。
+              每张照片都有一个故事。我们帮你把珍贵回忆变成可以贴在冰箱上的立体冰箱贴，让美好时刻每天都能被看见。
             </p>
             <div class="hero__actions">
               <a class="btn btn--primary" href="#customizer">开始定制</a>
-              <a class="btn btn--ghost" href="#specs">查看规格</a>
+              <a class="btn btn--ghost" href="#showcase">查看案例</a>
             </div>
           </div>
           <div class="hero__visual" aria-hidden="true">
@@ -56,11 +57,86 @@
         </div>
       </section>
 
-      <section id="customizer" class="section section--alt customizer">
+      <section id="showcase" class="section showcase">
         <div class="container">
-          <h2 class="section__title">在线定制</h2>
+          <h2 class="section__title">定制案例</h2>
           <p class="section__intro">
-            选择本地图片后自动生成预览。拖动滑块可微调圆角与边框，更接近你想要的成品观感。
+            无论是宝宝成长的可爱瞬间、宠物的萌态时刻，还是旅行中的风景大片，都能变成独一无二的冰箱贴。
+          </p>
+          <div class="showcase__grid">
+            <div class="showcase-item">
+              <div class="showcase-item__image showcase-image--family"></div>
+              <div class="showcase-item__content">
+                <h3>家庭合影</h3>
+                <p>把全家福或亲子照变成温馨的厨房角落，每次开冰箱都是一次幸福回忆。</p>
+              </div>
+            </div>
+            <div class="showcase-item">
+              <div class="showcase-item__image showcase-image--pet"></div>
+              <div class="showcase-item__content">
+                <h3>萌宠时刻</h3>
+                <p>猫咪狗狗的可爱瞬间，永远定格在冰箱上，治愈每一次疲惫的下班时光。</p>
+              </div>
+            </div>
+            <div class="showcase-item">
+              <div class="showcase-item__image showcase-image--travel"></div>
+              <div class="showcase-item__content">
+                <h3>旅行记忆</h3>
+                <p>去过的美丽风景、吃过的地道美食，让旅途的回忆成为家中最特别的装饰。</p>
+              </div>
+            </div>
+            <div class="showcase-item">
+              <div class="showcase-item__image showcase-image--art"></div>
+              <div class="showcase-item__content">
+                <h3>艺术风格</h3>
+                <p>通过AI技术，将照片转换成水彩、油画、粘土等艺术风格，打造别具一格的冰箱贴。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt how-it-works">
+        <div class="container">
+          <h2 class="section__title">如何定制</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step__number">1</div>
+              <div class="step__content">
+                <h3>上传照片</h3>
+                <p>选择一张有意义的照片，支持 JPG、PNG、WEBP 等常见格式。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step__number">2</div>
+              <div class="step__content">
+                <h3>选择风格</h3>
+                <p>使用 AI 一键转换照片风格，从3D卡通到水彩画，多种创意玩法等你探索。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step__number">3</div>
+              <div class="step__content">
+                <h3>微调细节</h3>
+                <p>调节圆角、边框、阴影等参数，找到最满意的视觉效果。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step__number">4</div>
+              <div class="step__content">
+                <h3>下载下单</h3>
+                <p>下载预览图，联系客服确认下单，等待独一无二的冰箱贴送到家。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="customizer" class="section customizer">
+        <div class="container">
+          <h2 class="section__title">开始创作你的冰箱贴</h2>
+          <p class="section__intro">
+            上传你的照片，选择喜欢的风格，让 AI 帮你转换成独特的艺术效果。调节细节直到满意，下载预览图联系我们下单。
           </p>
 
           <div class="customizer__grid">
@@ -83,25 +159,6 @@
               <p class="status-line" role="status" aria-live="polite" data-status>
                 尚未选择图片。
               </p>
-
-              <button type="button" class="btn btn--ghost btn--small api-settings-btn" data-api-settings-btn>
-                ⚙️ AI API 设置
-              </button>
-
-              <div class="api-settings-panel" data-api-settings-panel style="display:none;">
-                <div class="api-settings-row">
-                  <label for="provider-select">服务商</label>
-                  <select id="provider-select" data-provider-select class="api-settings-input">
-                    <option value="openai">OpenAI DALL-E</option>
-                    <option value="stability">Stability AI</option>
-                  </select>
-                </div>
-                <div class="api-settings-row">
-                  <label for="api-key-input">API 密钥</label>
-                  <input type="password" id="api-key-input" data-api-key-input class="api-settings-input" placeholder="sk-..." />
-                </div>
-                <button type="button" class="btn btn--primary btn--small" data-save-api-key-btn>保存设置</button>
-              </div>
 
               <fieldset class="controls-fieldset" data-controls disabled>
                 <legend class="controls-fieldset__legend">外观调节</legend>
@@ -224,47 +281,58 @@
         </div>
       </section>
 
-      <section id="specs" class="section">
+      <section id="specs" class="section section--alt">
         <div class="container">
-          <h2 class="section__title">规格说明（示例）</h2>
+          <h2 class="section__title">产品特点</h2>
+          <p class="section__intro">
+            每一枚冰箱贴都经过精心制作，确保色彩饱满、细节清晰、经久耐用。
+          </p>
           <ul class="cards">
             <li class="card">
-              <h3 class="card__title">尺寸</h3>
+              <h3 class="card__title">优质材质</h3>
               <p class="card__text">
-                常见约 6×8 cm（竖版）或按比例定制，具体以下单选项为准。
+                软磁背部 + 高清印刷面层，表面光滑如镜面，轻轻一贴就能牢牢吸附，取下也不留痕迹。
               </p>
             </li>
             <li class="card">
-              <h3 class="card__title">材质</h3>
+              <h3 class="card__title">持久色彩</h3>
               <p class="card__text">
-                软磁背部 + 印刷面层；表面光滑易于擦拭（请以商品详情为准）。
+                采用专业印刷技术，色彩鲜艳不易褪色。即使长时间使用，依然能保持照片的清晰与生动。
               </p>
             </li>
             <li class="card">
-              <h3 class="card__title">图片要求</h3>
+              <h3 class="card__title">个性定制</h3>
               <p class="card__text">
-                尽量提供清晰、光线均匀的正向照片；过于模糊或强压缩图会影响成品。
+                支持各种尺寸和形状，从经典圆角矩形到创意异形，让你的冰箱贴与众不同。
               </p>
             </li>
           </ul>
         </div>
       </section>
 
-      <section id="shipping" class="section section--alt">
-        <div class="container">
-          <h2 class="section__title">配送与售后（占位）</h2>
-          <p class="section__text">
-            你可在此补充发货范围、时效、退换规则等。当前站点为静态演示，下单与支付需另行接入电商平台或客服流程。
-          </p>
-        </div>
-      </section>
-
       <section id="contact" class="section">
         <div class="container">
-          <h2 class="section__title">联系与下单</h2>
-          <p class="section__text">
-            在此填写微信号、淘宝店铺链接或邮箱；顾客下载预览图后可凭图咨询下单。
+          <h2 class="section__title">开始你的定制之旅</h2>
+          <p class="section__intro">
+            用照片讲述你的故事，让每一个日常瞬间都变得特别。准备好开始创作了吗？联系我们，告诉我们你的想法。
           </p>
+          <div class="contact-cards">
+            <div class="contact-card">
+              <div class="contact-card__icon">💬</div>
+              <h3>微信咨询</h3>
+              <p>添加好友，发送预览图，轻松完成定制</p>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card__icon">📱</div>
+              <h3>淘宝店铺</h3>
+              <p>店铺下单更便捷，售后有保障</p>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card__icon">📧</div>
+              <h3>邮件联系</h3>
+              <p>发送高清原图，详细描述你的需求</p>
+            </div>
+          </div>
         </div>
       </section>
     </main>
