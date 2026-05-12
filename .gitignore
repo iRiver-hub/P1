@@ -13,4 +13,4 @@ desktop.ini
 
 # Server
 server/node_modules/
-server/*.db
+server/users.json
