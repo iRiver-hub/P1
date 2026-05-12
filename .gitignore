@@ -10,3 +10,7 @@ desktop.ini
 
 # Logs / OS
 *.log
+
+# Server
+server/node_modules/
+server/*.db

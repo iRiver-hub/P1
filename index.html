@@ -23,6 +23,12 @@
           <a href="#specs">规格说明</a>
           <a href="#contact">联系</a>
         </nav>
+        <div class="header-auth">
+          <span class="user-display" data-user-display style="display:none;"></span>
+          <button type="button" class="btn btn--primary btn--small" data-open-login>登录</button>
+          <button type="button" class="btn btn--accent btn--small" data-open-register>注册</button>
+          <button type="button" class="btn btn--ghost btn--small" data-logout-btn style="display:none;">退出</button>
+        </div>
         <button
           type="button"
           class="theme-toggle"
@@ -132,12 +138,24 @@
         </div>
       </section>
 
-      <section id="customizer" class="section customizer">
+      <section id="customizer" class="section customizer customizer--locked">
         <div class="container">
           <h2 class="section__title">开始创作你的冰箱贴</h2>
           <p class="section__intro">
             上传你的照片，选择喜欢的风格，让 AI 帮你转换成独特的艺术效果。调节细节直到满意，下载预览图联系我们下单。
           </p>
+
+          <div class="customizer__lock" style="display:none;">
+            <div class="lock-content">
+              <div class="lock-icon">🔒</div>
+              <h3>会员专属功能</h3>
+              <p>登录或注册成为会员，即可开始定制你的专属冰箱贴</p>
+              <div class="lock-buttons">
+                <button type="button" class="btn btn--primary" data-open-login>立即登录</button>
+                <button type="button" class="btn btn--ghost" data-open-register>免费注册</button>
+              </div>
+            </div>
+          </div>
 
           <div class="customizer__grid">
             <div class="panel panel--controls">
@@ -337,6 +355,50 @@
       </section>
     </main>
 
+    <div class="auth-modal" data-auth-modal style="display:none;">
+      <div class="auth-modal__content">
+        <button type="button" class="auth-modal__close" data-auth-close>×</button>
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" data-login-tab>登录</button>
+          <button type="button" class="auth-tab" data-register-tab>注册</button>
+        </div>
+        <p class="auth-error" data-auth-error style="display:none;"></p>
+        <p class="auth-success" data-auth-success style="display:none;"></p>
+
+        <form class="auth-form login-form" data-login-form style="display:flex;">
+          <div class="form-group">
+            <label for="login-username">用户名或邮箱</label>
+            <input type="text" id="login-username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="login-password">密码</label>
+            <input type="password" id="login-password" name="password" required />
+          </div>
+          <button type="submit" class="btn btn--primary btn--block">登录</button>
+        </form>
+
+        <form class="auth-form register-form" data-register-form style="display:none;">
+          <div class="form-group">
+            <label for="register-username">用户名</label>
+            <input type="text" id="register-username" name="username" required minlength="3" maxlength="20" />
+          </div>
+          <div class="form-group">
+            <label for="register-email">邮箱</label>
+            <input type="email" id="register-email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="register-password">密码</label>
+            <input type="password" id="register-password" name="password" required minlength="6" />
+          </div>
+          <div class="form-group">
+            <label for="register-password-confirm">确认密码</label>
+            <input type="password" id="register-password-confirm" name="password-confirm" required />
+          </div>
+          <button type="submit" class="btn btn--primary btn--block">注册</button>
+        </form>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <div class="container footer-inner">
         <p>© <span data-year></span> River 冰箱贴 · 预览图仅供展示</p>
@@ -345,6 +407,7 @@
 
     <script src="js/main.js" defer></script>
     <script src="js/ai-service.js" defer></script>
+    <script src="js/auth.js" defer></script>
     <script src="js/magnet.js" defer></script>
   </body>
 </html>
