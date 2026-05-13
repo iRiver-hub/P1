@@ -307,14 +307,10 @@
       var customizerSection = document.getElementById("customizer");
       if (!customizerSection) return;
 
-      if (window.AuthService.isLoggedIn()) {
-        customizerSection.classList.remove("customizer--locked");
-        var lockOverlay = customizerSection.querySelector(".customizer__lock");
-        if (lockOverlay) {
-          lockOverlay.style.display = "none";
-        }
-      } else {
-        customizerSection.classList.add("customizer--locked");
+      customizerSection.classList.remove("customizer--locked");
+      var lockOverlay = customizerSection.querySelector(".customizer__lock");
+      if (lockOverlay) {
+        lockOverlay.style.display = "none";
       }
     };
 
