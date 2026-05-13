@@ -288,9 +288,7 @@ body {
   width: min(100%, 320px);
   aspect-ratio: 4 / 5;
   border-radius: 20px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.15), transparent 45%),
-    linear-gradient(160deg, #38bdf8 0%, #a78bfa 50%, #f472b6 100%);
+  background: url('https://picsum.photos/seed/magnet1/400/500') center/cover;
   box-shadow:
     0 24px 48px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
@@ -788,40 +786,28 @@ input[type="range"] {
 }
 
 .style-preview--3d {
-  background: linear-gradient(145deg, #60a5fa, #a78bfa, #f472b6);
-  box-shadow: inset 0 2px 4px rgba(255,255,255,0.4);
+  background: url('https://picsum.photos/seed/3d/100/100') center/cover;
 }
 
 .style-preview--clay {
-  background: linear-gradient(145deg, #fcd34d, #f97316, #ef4444);
+  background: url('https://picsum.photos/seed/clay/100/100') center/cover;
   border-radius: 14px;
-  box-shadow: inset 0 -4px 8px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.5);
 }
 
 .style-preview--pixel {
-  background:
-    repeating-conic-gradient(#22c55e 0% 25%, #15803d 0% 50%)
-    0 0 / 12px 12px;
-  image-rendering: pixelated;
+  background: url('https://picsum.photos/seed/pixel/100/100') center/cover;
 }
 
 .style-preview--anime {
-  background: linear-gradient(160deg, #f472b6 0%, #c084fc 50%, #60a5fa 100%);
+  background: url('https://picsum.photos/seed/anime/100/100') center/cover;
 }
 
 .style-preview--watercolor {
-  background:
-    radial-gradient(ellipse at 30% 40%, rgba(255,200,200,0.8), transparent 60%),
-    radial-gradient(ellipse at 70% 60%, rgba(200,220,255,0.7), transparent 50%),
-    linear-gradient(135deg, #fef3c7, #fce7f3, #dbeafe);
+  background: url('https://picsum.photos/seed/watercolor/100/100') center/cover;
 }
 
 .style-preview--oil {
-  background:
-    linear-gradient(145deg, rgba(255,255,255,0.3), transparent 50%),
-    linear-gradient(160deg, #92400e, #78350f, #451a03);
-  border: 3px solid;
-  border-color: #d97706 #b45309 #78350f;
+  background: url('https://picsum.photos/seed/oil/100/100') center/cover;
 }
 
 .showcase__grid {
@@ -861,23 +847,19 @@ input[type="range"] {
 }
 
 .showcase-image--family {
-  background:
-    linear-gradient(135deg, #fef3c7 0%, #fce7f3 50%, #fecaca 100%);
+  background: url('https://picsum.photos/seed/family/400/300') center/cover;
 }
 
 .showcase-image--pet {
-  background:
-    linear-gradient(135deg, #dbeafe 0%, #ddd6fe 50%, #fbcfe8 100%);
+  background: url('https://picsum.photos/seed/pet/400/300') center/cover;
 }
 
 .showcase-image--travel {
-  background:
-    linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 50%, #34d399 100%);
+  background: url('https://picsum.photos/seed/travel/400/300') center/cover;
 }
 
 .showcase-image--art {
-  background:
-    linear-gradient(135deg, #f472b6 0%, #a78bfa 50%, #60a5fa 100%);
+  background: url('https://picsum.photos/seed/art/400/300') center/cover;
 }
 
 .showcase-item__content {
