@@ -171,6 +171,11 @@ body {
   border-left: 1px solid var(--border);
 }
 
+.lang-btn--active {
+  background: var(--accent-dim);
+  color: var(--text);
+}
+
 .theme-toggle {
   flex-shrink: 0;
   width: 40px;

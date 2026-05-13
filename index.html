@@ -11,33 +11,33 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="skip-link" href="#main" data-lang-key="skip-link">Skip to main content</a>
 
     <header class="site-header">
       <div class="container header-inner">
         <a class="logo" href="#">River Magnets</a>
         <nav class="nav" aria-label="Main navigation">
-          <a href="#showcase">Gallery</a>
-          <a href="#customizer">Customize</a>
-          <a href="#how-it-works">How It Works</a>
-          <a href="#specs">Specs</a>
-          <a href="#contact">Contact</a>
+          <a href="#showcase" data-lang-key="nav-gallery">Gallery</a>
+          <a href="#customizer" data-lang-key="nav-customize">Customize</a>
+          <a href="#how-it-works" data-lang-key="nav-how-it-works">How It Works</a>
+          <a href="#specs" data-lang-key="nav-specs">Specs</a>
+          <a href="#contact" data-lang-key="nav-contact">Contact</a>
         </nav>
         <div class="header-tools">
           <div class="lang-selector">
-            <button type="button" class="lang-btn" data-lang="en">EN</button>
+            <button type="button" class="lang-btn lang-btn--active" data-lang="en">EN</button>
             <button type="button" class="lang-btn lang-btn--secondary" data-lang="zh">中文</button>
           </div>
           <div class="header-auth">
             <span class="user-display" data-user-display style="display:none;"></span>
-            <button type="button" class="btn btn--primary btn--small" data-open-login>Login</button>
-            <button type="button" class="btn btn--accent btn--small" data-open-register>Sign Up</button>
-            <button type="button" class="btn btn--ghost btn--small" data-logout-btn style="display:none;">Logout</button>
+            <button type="button" class="btn btn--primary btn--small" data-open-login data-lang-key="btn-login">Login</button>
+            <button type="button" class="btn btn--accent btn--small" data-open-register data-lang-key="btn-signup">Sign Up</button>
+            <button type="button" class="btn btn--ghost btn--small" data-logout-btn style="display:none;" data-lang-key="btn-logout">Logout</button>
           </div>
           <button
             type="button"
             class="theme-toggle"
-            aria-label="Toggle light/dark theme"
+            data-lang-attr="aria-label|theme-toggle"
             data-theme-toggle
           >
             <span class="theme-toggle__icon" aria-hidden="true"></span>
@@ -50,17 +50,17 @@
       <section class="hero">
         <div class="container hero__grid">
           <div class="hero__copy">
-            <p class="hero__eyebrow">Memories at Your Fingertips</p>
-            <h1 class="hero__title">
+            <p class="hero__eyebrow" data-lang-key="hero-eyebrow">Memories at Your Fingertips</p>
+            <h1 class="hero__title" data-lang-key="hero-title">
               Turn Your<br />
               <span class="hero__accent">Photos into Art</span>
             </h1>
-            <p class="hero__lead">
+            <p class="hero__lead" data-lang-key="hero-lead">
               Every photo tells a story. Transform your precious memories into tangible 3D fridge magnets with AI magic. Let those warm moments come alive in your everyday life.
             </p>
             <div class="hero__actions">
-              <a class="btn btn--primary" href="#customizer">Create Yours Now</a>
-              <a class="btn btn--ghost" href="#story">Our Story</a>
+              <a class="btn btn--primary" href="#customizer" data-lang-key="hero-action-1">Create Yours Now</a>
+              <a class="btn btn--ghost" href="#story" data-lang-key="hero-action-2">Our Story</a>
             </div>
           </div>
           <div class="hero__visual" aria-hidden="true">
@@ -71,36 +71,36 @@
 
       <section id="story" class="section section--alt story-section">
         <div class="container">
-          <h2 class="section__title">Every Magnet Tells a Story</h2>
+          <h2 class="section__title" data-lang-key="story-title">Every Magnet Tells a Story</h2>
           <div class="story-content">
-            <p>
+            <p data-lang-key="story-p1">
               In this fast-paced world, our lives are filled with countless photos, yet most of them lie forgotten in our phone galleries.
             </p>
-            <p>
+            <p data-lang-key="story-p2">
               <strong>River Magnets</strong> was born from a simple wish: <em>to make every precious moment visible, touchable, and cherished forever.</em>
             </p>
-            <p>
+            <p data-lang-key="story-p3">
               We believe a great photo is more than pixels - it carries laughter, tears, love, and memories. Through advanced AI technology and 3D printing, we transform these emotions into art you can hold in your hand.
             </p>
-            <p>
+            <p data-lang-key="story-p4">
               Whether it's your baby's first steps, your pet's adorable moments, a breathtaking sunset from your travels, or a sweet portrait with your loved one - every story deserves to be remembered.
             </p>
           </div>
           <div class="story-features">
             <div class="story-feature">
               <div class="story-feature__icon">✨</div>
-              <h3>AI Artistic Styles</h3>
-              <p>Choose from Van Gogh's Starry Night, Monet's Impressionism, Studio Ghibli's whimsical style... let AI breathe artistic life into your photos</p>
+              <h3 data-lang-key="story-feature-1-title">AI Artistic Styles</h3>
+              <p data-lang-key="story-feature-1-desc">Choose from Van Gogh's Starry Night, Monet's Impressionism, Studio Ghibli's whimsical style... let AI breathe artistic life into your photos</p>
             </div>
             <div class="story-feature">
               <div class="story-feature__icon">🎨</div>
-              <h3>Unique Customization</h3>
-              <p>Control every detail from corner radius to border design. Create a one-of-a-kind masterpiece that reflects your style</p>
+              <h3 data-lang-key="story-feature-2-title">Unique Customization</h3>
+              <p data-lang-key="story-feature-2-desc">Control every detail from corner radius to border design. Create a one-of-a-kind masterpiece that reflects your style</p>
             </div>
             <div class="story-feature">
               <div class="story-feature__icon">🎁</div>
-              <h3>Meaningful Gifts</h3>
-              <p>Perfect gifts for parents, anniversary surprises for partners, and cherished keepsakes for growing children</p>
+              <h3 data-lang-key="story-feature-3-title">Meaningful Gifts</h3>
+              <p data-lang-key="story-feature-3-desc">Perfect gifts for parents, anniversary surprises for partners, and cherished keepsakes for growing children</p>
             </div>
           </div>
         </div>
@@ -108,37 +108,37 @@
 
       <section id="showcase" class="section showcase">
         <div class="container">
-          <h2 class="section__title">Gallery</h2>
-          <p class="section__intro">
+          <h2 class="section__title" data-lang-key="gallery-title">Gallery</h2>
+          <p class="section__intro" data-lang-key="gallery-intro">
             Behind every magnet lies a heartfelt story. They are not just decorations, but carriers of emotion and testaments of love.
           </p>
           <div class="showcase__grid">
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--family"></div>
               <div class="showcase-item__content">
-                <h3>Family Moments</h3>
-                <p>Transform family portraits into warm kitchen decor. Every time you open the fridge, it's a happy memory.</p>
+                <h3 data-lang-key="gallery-item-1-title">Family Moments</h3>
+                <p data-lang-key="gallery-item-1-desc">Transform family portraits into warm kitchen decor. Every time you open the fridge, it's a happy memory.</p>
               </div>
             </div>
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--pet"></div>
               <div class="showcase-item__content">
-                <h3>Pet Love</h3>
-                <p>Capture your furry friend's cutest moments forever on your fridge. A daily dose of joy awaits.</p>
+                <h3 data-lang-key="gallery-item-2-title">Pet Love</h3>
+                <p data-lang-key="gallery-item-2-desc">Capture your furry friend's cutest moments forever on your fridge. A daily dose of joy awaits.</p>
               </div>
             </div>
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--travel"></div>
               <div class="showcase-item__content">
-                <h3>Travel Memories</h3>
-                <p>Beautiful landscapes and delicious cuisines from your journeys. Let travel memories become the most special decoration in your home.</p>
+                <h3 data-lang-key="gallery-item-3-title">Travel Memories</h3>
+                <p data-lang-key="gallery-item-3-desc">Beautiful landscapes and delicious cuisines from your journeys. Let travel memories become the most special decoration in your home.</p>
               </div>
             </div>
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--art"></div>
               <div class="showcase-item__content">
-                <h3>Artistic Styles</h3>
-                <p>Transform photos into watercolor, oil painting, clay and more artistic styles with AI. Create truly unique fridge magnets.</p>
+                <h3 data-lang-key="gallery-item-4-title">Artistic Styles</h3>
+                <p data-lang-key="gallery-item-4-desc">Transform photos into watercolor, oil painting, clay and more artistic styles with AI. Create truly unique fridge magnets.</p>
               </div>
             </div>
           </div>
@@ -147,34 +147,34 @@
 
       <section class="section section--alt how-it-works">
         <div class="container">
-          <h2 class="section__title">How It Works</h2>
+          <h2 class="section__title" data-lang-key="how-title">How It Works</h2>
           <div class="steps">
             <div class="step">
               <div class="step__number">1</div>
               <div class="step__content">
-                <h3>Upload Photo</h3>
-                <p>Choose a meaningful photo. Supports JPG, PNG, WEBP and other common formats.</p>
+                <h3 data-lang-key="step-1-title">Upload Photo</h3>
+                <p data-lang-key="step-1-desc">Choose a meaningful photo. Supports JPG, PNG, WEBP and other common formats.</p>
               </div>
             </div>
             <div class="step">
               <div class="step__number">2</div>
               <div class="step__content">
-                <h3>Choose Style</h3>
-                <p>Transform your photo with AI. Explore styles from 3D cartoon to watercolor painting.</p>
+                <h3 data-lang-key="step-2-title">Choose Style</h3>
+                <p data-lang-key="step-2-desc">Transform your photo with AI. Explore styles from 3D cartoon to watercolor painting.</p>
               </div>
             </div>
             <div class="step">
               <div class="step__number">3</div>
               <div class="step__content">
-                <h3>Fine Tune</h3>
-                <p>Adjust corners, borders, shadows and other parameters for the perfect look.</p>
+                <h3 data-lang-key="step-3-title">Fine Tune</h3>
+                <p data-lang-key="step-3-desc">Adjust corners, borders, shadows and other parameters for the perfect look.</p>
               </div>
             </div>
             <div class="step">
               <div class="step__number">4</div>
               <div class="step__content">
-                <h3>Download & Order</h3>
-                <p>Download the preview and contact us to place your order. Your unique magnet is on the way!</p>
+                <h3 data-lang-key="step-4-title">Download & Order</h3>
+                <p data-lang-key="step-4-desc">Download the preview and contact us to place your order. Your unique magnet is on the way!</p>
               </div>
             </div>
           </div>
@@ -183,8 +183,8 @@
 
       <section id="customizer" class="section customizer">
         <div class="container">
-          <h2 class="section__title">Create Your Magnet</h2>
-          <p class="section__intro">
+          <h2 class="section__title" data-lang-key="customizer-title">Create Your Magnet</h2>
+          <p class="section__intro" data-lang-key="customizer-intro">
             Upload your photo, choose a style, and let AI transform it into a unique artistic masterpiece. Fine-tune until perfect, then download the preview and contact us to order.
           </p>
 
@@ -199,22 +199,22 @@
                   aria-label="Upload image"
                 />
                 <span class="dropzone__icon" aria-hidden="true"></span>
-                <span class="dropzone__text">
+                <span class="dropzone__text" data-lang-key="dropzone-text">
                   <strong>Click or drag image here</strong>
-                  <span class="dropzone__hint">Supports JPG, PNG, WEBP, GIF</span>
+                  <span class="dropzone__hint" data-lang-key="dropzone-hint">Supports JPG, PNG, WEBP, GIF</span>
                 </span>
               </label>
 
-              <p class="status-line" role="status" aria-live="polite" data-status>
+              <p class="status-line" role="status" aria-live="polite" data-status data-lang-key="status-no-image">
                 No image selected yet.
               </p>
 
               <fieldset class="controls-fieldset" data-controls disabled>
-                <legend class="controls-fieldset__legend">Appearance</legend>
+                <legend class="controls-fieldset__legend" data-lang-key="appearance-legend">Appearance</legend>
 
                 <div class="control-row">
                   <label class="control-label" for="radius-range">
-                    Corner Radius <span data-radius-value>18</span> px
+                    <span data-lang-key="radius-label">Corner Radius</span> <span data-radius-value>18</span> px
                   </label>
                   <input
                     id="radius-range"
@@ -228,7 +228,7 @@
 
                 <div class="control-row">
                   <label class="control-label" for="frame-range">
-                    White Border <span data-frame-value>14</span> px
+                    <span data-lang-key="frame-label">White Border</span> <span data-frame-value>14</span> px
                   </label>
                   <input
                     id="frame-range"
@@ -242,7 +242,7 @@
 
                 <div class="control-row">
                   <label class="control-label" for="shadow-range">
-                    Shadow Intensity <span data-shadow-value>50</span> %
+                    <span data-lang-key="shadow-label">Shadow Intensity</span> <span data-shadow-value>50</span> %
                   </label>
                   <input
                     id="shadow-range"
@@ -256,57 +256,57 @@
 
                 <label class="checkbox-row">
                   <input type="checkbox" data-gloss-toggle checked />
-                  <span>Glossy Finish (Preview)</span>
+                  <span data-lang-key="gloss-label">Glossy Finish (Preview)</span>
                 </label>
               </fieldset>
 
               <fieldset class="controls-fieldset ai-style-section" data-ai-controls disabled>
-                <legend class="controls-fieldset__legend">🎨 AI Style Generation</legend>
-                <p class="ai-style-desc">After uploading, select a style and click "AI Generate" to transform your photo</p>
+                <legend class="controls-fieldset__legend" data-lang-key="ai-legend">🎨 AI Style Generation</legend>
+                <p class="ai-style-desc" data-lang-key="ai-desc">After uploading, select a style and click "AI Generate" to transform your photo</p>
 
                 <div class="style-grid" data-style-grid>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="3d-cartoon" checked />
                     <span class="style-option__preview style-preview--3d"></span>
-                    <span class="style-option__name">3D Cartoon</span>
+                    <span class="style-option__name" data-lang-key="style-3d">3D Cartoon</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="clay-world" />
                     <span class="style-option__preview style-preview--clay"></span>
-                    <span class="style-option__name">Clay Art</span>
+                    <span class="style-option__name" data-lang-key="style-clay">Clay Art</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="pixel-art" />
                     <span class="style-option__preview style-preview--pixel"></span>
-                    <span class="style-option__name">Pixel Art</span>
+                    <span class="style-option__name" data-lang-key="style-pixel">Pixel Art</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="anime" />
                     <span class="style-option__preview style-preview--anime"></span>
-                    <span class="style-option__name">Anime Style</span>
+                    <span class="style-option__name" data-lang-key="style-anime">Anime Style</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="watercolor" />
                     <span class="style-option__preview style-preview--watercolor"></span>
-                    <span class="style-option__name">Watercolor</span>
+                    <span class="style-option__name" data-lang-key="style-watercolor">Watercolor</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="oil-painting" />
                     <span class="style-option__preview style-preview--oil"></span>
-                    <span class="style-option__name">Oil Painting</span>
+                    <span class="style-option__name" data-lang-key="style-oil">Oil Painting</span>
                   </label>
                 </div>
 
-                <button type="button" class="btn btn--accent btn--block" data-ai-generate-btn disabled>
+                <button type="button" class="btn btn--accent btn--block" data-ai-generate-btn disabled data-lang-key="btn-ai-generate">
                   ✨ AI Generate Style
                 </button>
               </fieldset>
 
               <div class="panel-actions">
-                <button type="button" class="btn btn--primary btn--block" data-render-btn disabled>
+                <button type="button" class="btn btn--primary btn--block" data-render-btn disabled data-lang-key="btn-update-preview">
                   Update Preview
                 </button>
-                <button type="button" class="btn btn--ghost btn--block" data-download-btn disabled>
+                <button type="button" class="btn btn--ghost btn--block" data-download-btn disabled data-lang-key="btn-download">
                   Download Preview PNG
                 </button>
               </div>
@@ -319,10 +319,10 @@
                   width="880"
                   height="720"
                   class="magnet-canvas"
-                  aria-label="冰箱贴效果图预览"
+                  data-lang-attr="aria-label|preview-label"
                 ></canvas>
               </div>
-              <p class="preview-note">
+              <p class="preview-note" data-lang-key="preview-note">
                 Preview generated by browser (includes fridge metal background and magnet shadow). Final print may have color variations and cropping differences. Actual product takes precedence.
               </p>
             </div>
@@ -332,26 +332,26 @@
 
       <section id="specs" class="section section--alt">
         <div class="container">
-          <h2 class="section__title">Product Features</h2>
-          <p class="section__intro">
+          <h2 class="section__title" data-lang-key="specs-title">Product Features</h2>
+          <p class="section__intro" data-lang-key="specs-intro">
             Every magnet is meticulously crafted to ensure vibrant colors, sharp details, and lasting durability.
           </p>
           <ul class="cards">
             <li class="card">
-              <h3 class="card__title">Premium Materials</h3>
-              <p class="card__text">
+              <h3 class="card__title" data-lang-key="spec-card-1-title">Premium Materials</h3>
+              <p class="card__text" data-lang-key="spec-card-1-desc">
                 Soft magnetic backing + high-definition printed surface. Smooth as glass, sticks securely and removes cleanly without residue.
               </p>
             </li>
             <li class="card">
-              <h3 class="card__title">Vibrant Colors</h3>
-              <p class="card__text">
+              <h3 class="card__title" data-lang-key="spec-card-2-title">Vibrant Colors</h3>
+              <p class="card__text" data-lang-key="spec-card-2-desc">
                 Professional printing technology ensures vivid colors that resist fading. Your photos stay sharp and lively for years.
               </p>
             </li>
             <li class="card">
-              <h3 class="card__title">Custom Shapes</h3>
-              <p class="card__text">
+              <h3 class="card__title" data-lang-key="spec-card-3-title">Custom Shapes</h3>
+              <p class="card__text" data-lang-key="spec-card-3-desc">
                 Choose from classic rounded rectangles or create custom shapes. Make your magnet truly one-of-a-kind.
               </p>
             </li>
@@ -361,20 +361,20 @@
 
       <section id="contact" class="section">
         <div class="container">
-          <h2 class="section__title">Contact Us</h2>
-          <p class="section__intro">
+          <h2 class="section__title" data-lang-key="contact-title">Contact Us</h2>
+          <p class="section__intro" data-lang-key="contact-intro">
             Tell your story through photos and make every everyday moment special. Ready to create? Contact us and share your vision.
           </p>
           <div class="contact-cards">
             <div class="contact-card">
               <div class="contact-card__icon">📧</div>
-              <h3>Email</h3>
-              <p>hello@rivermagnets.com</p>
+              <h3 data-lang-key="contact-card-1-title">Email</h3>
+              <p data-lang-key="contact-card-1-desc">hello@rivermagnets.com</p>
             </div>
             <div class="contact-card">
               <div class="contact-card__icon">💬</div>
-              <h3>Message</h3>
-              <p>Send us your preview and requirements</p>
+              <h3 data-lang-key="contact-card-2-title">Message</h3>
+              <p data-lang-key="contact-card-2-desc">Send us your preview and requirements</p>
             </div>
           </div>
         </div>
@@ -385,53 +385,54 @@
       <div class="auth-modal__content">
         <button type="button" class="auth-modal__close" data-auth-close>×</button>
         <div class="auth-tabs">
-          <button type="button" class="auth-tab active" data-login-tab>Login</button>
-          <button type="button" class="auth-tab" data-register-tab>Sign Up</button>
+          <button type="button" class="auth-tab active" data-login-tab data-lang-key="auth-tab-login">Login</button>
+          <button type="button" class="auth-tab" data-register-tab data-lang-key="auth-tab-signup">Sign Up</button>
         </div>
         <p class="auth-error" data-auth-error style="display:none;"></p>
         <p class="auth-success" data-auth-success style="display:none;"></p>
 
         <form class="auth-form login-form" data-login-form style="display:flex;">
           <div class="form-group">
-            <label for="login-username">Username or Email</label>
+            <label for="login-username" data-lang-key="login-username-label">Username or Email</label>
             <input type="text" id="login-username" name="username" required />
           </div>
           <div class="form-group">
-            <label for="login-password">Password</label>
+            <label for="login-password" data-lang-key="login-password-label">Password</label>
             <input type="password" id="login-password" name="password" required />
           </div>
-          <button type="submit" class="btn btn--primary btn--block">Login</button>
+          <button type="submit" class="btn btn--primary btn--block" data-lang-key="btn-login-submit">Login</button>
         </form>
 
         <form class="auth-form register-form" data-register-form style="display:none;">
           <div class="form-group">
-            <label for="register-username">Username</label>
+            <label for="register-username" data-lang-key="signup-username-label">Username</label>
             <input type="text" id="register-username" name="username" required minlength="3" maxlength="20" />
           </div>
           <div class="form-group">
-            <label for="register-email">Email</label>
+            <label for="register-email" data-lang-key="signup-email-label">Email</label>
             <input type="email" id="register-email" name="email" required />
           </div>
           <div class="form-group">
-            <label for="register-password">Password</label>
+            <label for="register-password" data-lang-key="signup-password-label">Password</label>
             <input type="password" id="register-password" name="password" required minlength="6" />
           </div>
           <div class="form-group">
-            <label for="register-password-confirm">Confirm Password</label>
+            <label for="register-password-confirm" data-lang-key="signup-confirm-label">Confirm Password</label>
             <input type="password" id="register-password-confirm" name="password-confirm" required />
           </div>
-          <button type="submit" class="btn btn--primary btn--block">Sign Up</button>
+          <button type="submit" class="btn btn--primary btn--block" data-lang-key="btn-signup-submit">Sign Up</button>
         </form>
       </div>
     </div>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>© <span data-year></span> River Magnets · Previews for display only</p>
+        <p data-lang-key="footer-text">© <span data-year></span> River Magnets · Previews for display only</p>
       </div>
     </footer>
 
     <script src="js/main.js" defer></script>
+    <script src="js/lang.js" defer></script>
     <script src="js/ai-service.js" defer></script>
     <script src="js/auth.js" defer></script>
     <script src="js/magnet.js" defer></script>
