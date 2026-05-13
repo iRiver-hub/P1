@@ -137,6 +137,40 @@ body {
   color: var(--text);
 }
 
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.lang-selector {
+  display: flex;
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.lang-btn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lang-btn:hover {
+  color: var(--text);
+  background: var(--accent-dim);
+}
+
+.lang-btn--secondary {
+  border-left: 1px solid var(--border);
+}
+
 .theme-toggle {
   flex-shrink: 0;
   width: 40px;

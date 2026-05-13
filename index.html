@@ -1,42 +1,48 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="上传照片，在线生成定制冰箱贴效果图，支持下载预览。"
+      content="Turn your photos into custom 3D fridge magnets. Upload your photo, choose a style, and create unique keepsakes with AI-powered customization."
     />
-    <title>River 冰箱贴 · 照片定制</title>
+    <title>River Magnets - Custom Photo Magnets</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main">跳到主要内容</a>
+    <a class="skip-link" href="#main">Skip to main content</a>
 
     <header class="site-header">
       <div class="container header-inner">
-        <a class="logo" href="#">River 冰箱贴</a>
-        <nav class="nav" aria-label="主导航">
-          <a href="#showcase">案例</a>
-          <a href="#customizer">在线定制</a>
-          <a href="#how-it-works">如何定制</a>
-          <a href="#specs">规格说明</a>
-          <a href="#contact">联系</a>
+        <a class="logo" href="#">River Magnets</a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#showcase">Gallery</a>
+          <a href="#customizer">Customize</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#specs">Specs</a>
+          <a href="#contact">Contact</a>
         </nav>
-        <div class="header-auth">
-          <span class="user-display" data-user-display style="display:none;"></span>
-          <button type="button" class="btn btn--primary btn--small" data-open-login>登录</button>
-          <button type="button" class="btn btn--accent btn--small" data-open-register>注册</button>
-          <button type="button" class="btn btn--ghost btn--small" data-logout-btn style="display:none;">退出</button>
+        <div class="header-tools">
+          <div class="lang-selector">
+            <button type="button" class="lang-btn" data-lang="en">EN</button>
+            <button type="button" class="lang-btn lang-btn--secondary" data-lang="zh">中文</button>
+          </div>
+          <div class="header-auth">
+            <span class="user-display" data-user-display style="display:none;"></span>
+            <button type="button" class="btn btn--primary btn--small" data-open-login>Login</button>
+            <button type="button" class="btn btn--accent btn--small" data-open-register>Sign Up</button>
+            <button type="button" class="btn btn--ghost btn--small" data-logout-btn style="display:none;">Logout</button>
+          </div>
+          <button
+            type="button"
+            class="theme-toggle"
+            aria-label="Toggle light/dark theme"
+            data-theme-toggle
+          >
+            <span class="theme-toggle__icon" aria-hidden="true"></span>
+          </button>
         </div>
-        <button
-          type="button"
-          class="theme-toggle"
-          aria-label="切换浅色/深色主题"
-          data-theme-toggle
-        >
-          <span class="theme-toggle__icon" aria-hidden="true"></span>
-        </button>
       </div>
     </header>
 
@@ -44,17 +50,17 @@
       <section class="hero">
         <div class="container hero__grid">
           <div class="hero__copy">
-            <p class="hero__eyebrow">让回忆触手可及</p>
+            <p class="hero__eyebrow">Memories at Your Fingertips</p>
             <h1 class="hero__title">
-              把爱<br />
-              <span class="hero__accent">贴在心上</span>
+              Turn Your<br />
+              <span class="hero__accent">Photos into Art</span>
             </h1>
             <p class="hero__lead">
-              一张照片，一个故事。我们用AI魔法将你最珍贵的瞬间变成触手可及的立体冰箱贴，让那些温暖的回忆不再沉睡在相册里，而是每天陪伴在你的生活中。
+              Every photo tells a story. Transform your precious memories into tangible 3D fridge magnets with AI magic. Let those warm moments come alive in your everyday life.
             </p>
             <div class="hero__actions">
-              <a class="btn btn--primary" href="#customizer">创造专属回忆</a>
-              <a class="btn btn--ghost" href="#story">了解我们的故事</a>
+              <a class="btn btn--primary" href="#customizer">Create Yours Now</a>
+              <a class="btn btn--ghost" href="#story">Our Story</a>
             </div>
           </div>
           <div class="hero__visual" aria-hidden="true">
@@ -65,36 +71,36 @@
 
       <section id="story" class="section section--alt story-section">
         <div class="container">
-          <h2 class="section__title">每一个冰箱贴，都是爱的形状</h2>
+          <h2 class="section__title">Every Magnet Tells a Story</h2>
           <div class="story-content">
             <p>
-              在这个快节奏的时代，我们的生活被无数照片填满，但它们大多沉睡在手机相册里，渐渐被遗忘。
+              In this fast-paced world, our lives are filled with countless photos, yet most of them lie forgotten in our phone galleries.
             </p>
             <p>
-              <strong>River 冰箱贴</strong> 诞生于这样一个简单的愿望：<em>让每一个珍贵瞬间，都能被看见、被触摸、被珍藏。</em>
+              <strong>River Magnets</strong> was born from a simple wish: <em>to make every precious moment visible, touchable, and cherished forever.</em>
             </p>
             <p>
-              我们相信，一张好照片不仅仅是像素的组合，它承载着欢笑、泪水、爱与思念。通过先进的AI技术和3D打印工艺，我们将这些情感凝固成可以握在手心的艺术品。
+              We believe a great photo is more than pixels - it carries laughter, tears, love, and memories. Through advanced AI technology and 3D printing, we transform these emotions into art you can hold in your hand.
             </p>
             <p>
-              无论是宝宝第一次蹒跚学步的模样、毛孩子撒娇的可爱瞬间、旅行途中的落日余晖，还是与爱人的甜蜜合照——每一个故事都值得被铭记。
+              Whether it's your baby's first steps, your pet's adorable moments, a breathtaking sunset from your travels, or a sweet portrait with your loved one - every story deserves to be remembered.
             </p>
           </div>
           <div class="story-features">
             <div class="story-feature">
               <div class="story-feature__icon">✨</div>
-              <h3>AI艺术升华</h3>
-              <p>选择梵高的星空、莫奈的印象派、宫崎骏的童话风格...让AI为你的照片赋予艺术生命</p>
+              <h3>AI Artistic Styles</h3>
+              <p>Choose from Van Gogh's Starry Night, Monet's Impressionism, Studio Ghibli's whimsical style... let AI breathe artistic life into your photos</p>
             </div>
             <div class="story-feature">
               <div class="story-feature__icon">🎨</div>
-              <h3>独一无二定制</h3>
-              <p>从圆角弧度到边框细节，每一个参数都由你掌控，打造专属于你的艺术品</p>
+              <h3>Unique Customization</h3>
+              <p>Control every detail from corner radius to border design. Create a one-of-a-kind masterpiece that reflects your style</p>
             </div>
             <div class="story-feature">
               <div class="story-feature__icon">🎁</div>
-              <h3>情感传递礼物</h3>
-              <p>送给父母的暖心礼物、送给爱人的纪念日惊喜、送给孩子的成长记录</p>
+              <h3>Meaningful Gifts</h3>
+              <p>Perfect gifts for parents, anniversary surprises for partners, and cherished keepsakes for growing children</p>
             </div>
           </div>
         </div>
@@ -102,37 +108,37 @@
 
       <section id="showcase" class="section showcase">
         <div class="container">
-          <h2 class="section__title">爱的纪念册</h2>
+          <h2 class="section__title">Gallery</h2>
           <p class="section__intro">
-            每一个冰箱贴背后，都藏着一个动人的故事。它们不只是装饰品，更是情感的载体，是爱的见证。
+            Behind every magnet lies a heartfelt story. They are not just decorations, but carriers of emotion and testaments of love.
           </p>
           <div class="showcase__grid">
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--family"></div>
               <div class="showcase-item__content">
-                <h3>家庭合影</h3>
-                <p>把全家福或亲子照变成温馨的厨房角落，每次开冰箱都是一次幸福回忆。</p>
+                <h3>Family Moments</h3>
+                <p>Transform family portraits into warm kitchen decor. Every time you open the fridge, it's a happy memory.</p>
               </div>
             </div>
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--pet"></div>
               <div class="showcase-item__content">
-                <h3>萌宠时刻</h3>
-                <p>猫咪狗狗的可爱瞬间，永远定格在冰箱上，治愈每一次疲惫的下班时光。</p>
+                <h3>Pet Love</h3>
+                <p>Capture your furry friend's cutest moments forever on your fridge. A daily dose of joy awaits.</p>
               </div>
             </div>
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--travel"></div>
               <div class="showcase-item__content">
-                <h3>旅行记忆</h3>
-                <p>去过的美丽风景、吃过的地道美食，让旅途的回忆成为家中最特别的装饰。</p>
+                <h3>Travel Memories</h3>
+                <p>Beautiful landscapes and delicious cuisines from your journeys. Let travel memories become the most special decoration in your home.</p>
               </div>
             </div>
             <div class="showcase-item">
               <div class="showcase-item__image showcase-image--art"></div>
               <div class="showcase-item__content">
-                <h3>艺术风格</h3>
-                <p>通过AI技术，将照片转换成水彩、油画、粘土等艺术风格，打造别具一格的冰箱贴。</p>
+                <h3>Artistic Styles</h3>
+                <p>Transform photos into watercolor, oil painting, clay and more artistic styles with AI. Create truly unique fridge magnets.</p>
               </div>
             </div>
           </div>
@@ -141,58 +147,46 @@
 
       <section class="section section--alt how-it-works">
         <div class="container">
-          <h2 class="section__title">如何定制</h2>
+          <h2 class="section__title">How It Works</h2>
           <div class="steps">
             <div class="step">
               <div class="step__number">1</div>
               <div class="step__content">
-                <h3>上传照片</h3>
-                <p>选择一张有意义的照片，支持 JPG、PNG、WEBP 等常见格式。</p>
+                <h3>Upload Photo</h3>
+                <p>Choose a meaningful photo. Supports JPG, PNG, WEBP and other common formats.</p>
               </div>
             </div>
             <div class="step">
               <div class="step__number">2</div>
               <div class="step__content">
-                <h3>选择风格</h3>
-                <p>使用 AI 一键转换照片风格，从3D卡通到水彩画，多种创意玩法等你探索。</p>
+                <h3>Choose Style</h3>
+                <p>Transform your photo with AI. Explore styles from 3D cartoon to watercolor painting.</p>
               </div>
             </div>
             <div class="step">
               <div class="step__number">3</div>
               <div class="step__content">
-                <h3>微调细节</h3>
-                <p>调节圆角、边框、阴影等参数，找到最满意的视觉效果。</p>
+                <h3>Fine Tune</h3>
+                <p>Adjust corners, borders, shadows and other parameters for the perfect look.</p>
               </div>
             </div>
             <div class="step">
               <div class="step__number">4</div>
               <div class="step__content">
-                <h3>下载下单</h3>
-                <p>下载预览图，联系客服确认下单，等待独一无二的冰箱贴送到家。</p>
+                <h3>Download & Order</h3>
+                <p>Download the preview and contact us to place your order. Your unique magnet is on the way!</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="customizer" class="section customizer customizer--locked">
+      <section id="customizer" class="section customizer">
         <div class="container">
-          <h2 class="section__title">开始创作你的冰箱贴</h2>
+          <h2 class="section__title">Create Your Magnet</h2>
           <p class="section__intro">
-            上传你的照片，选择喜欢的风格，让 AI 帮你转换成独特的艺术效果。调节细节直到满意，下载预览图联系我们下单。
+            Upload your photo, choose a style, and let AI transform it into a unique artistic masterpiece. Fine-tune until perfect, then download the preview and contact us to order.
           </p>
-
-          <div class="customizer__lock" style="display:none;">
-            <div class="lock-content">
-              <div class="lock-icon">🔒</div>
-              <h3>会员专属功能</h3>
-              <p>登录或注册成为会员，即可开始定制你的专属冰箱贴</p>
-              <div class="lock-buttons">
-                <button type="button" class="btn btn--primary" data-open-login>立即登录</button>
-                <button type="button" class="btn btn--ghost" data-open-register>免费注册</button>
-              </div>
-            </div>
-          </div>
 
           <div class="customizer__grid">
             <div class="panel panel--controls">
@@ -202,25 +196,25 @@
                   class="dropzone__input"
                   accept="image/jpeg,image/png,image/webp,image/gif"
                   data-file-input
-                  aria-label="上传图片"
+                  aria-label="Upload image"
                 />
                 <span class="dropzone__icon" aria-hidden="true"></span>
                 <span class="dropzone__text">
-                  <strong>点击或拖放图片到此处</strong>
-                  <span class="dropzone__hint">支持 JPG、PNG、WEBP、GIF</span>
+                  <strong>Click or drag image here</strong>
+                  <span class="dropzone__hint">Supports JPG, PNG, WEBP, GIF</span>
                 </span>
               </label>
 
               <p class="status-line" role="status" aria-live="polite" data-status>
-                尚未选择图片。
+                No image selected yet.
               </p>
 
               <fieldset class="controls-fieldset" data-controls disabled>
-                <legend class="controls-fieldset__legend">外观调节</legend>
+                <legend class="controls-fieldset__legend">Appearance</legend>
 
                 <div class="control-row">
                   <label class="control-label" for="radius-range">
-                    圆角 <span data-radius-value>18</span> px
+                    Corner Radius <span data-radius-value>18</span> px
                   </label>
                   <input
                     id="radius-range"
@@ -234,7 +228,7 @@
 
                 <div class="control-row">
                   <label class="control-label" for="frame-range">
-                    白色边框 <span data-frame-value>14</span> px
+                    White Border <span data-frame-value>14</span> px
                   </label>
                   <input
                     id="frame-range"
@@ -248,7 +242,7 @@
 
                 <div class="control-row">
                   <label class="control-label" for="shadow-range">
-                    投影强度 <span data-shadow-value>50</span> %
+                    Shadow Intensity <span data-shadow-value>50</span> %
                   </label>
                   <input
                     id="shadow-range"
@@ -262,58 +256,58 @@
 
                 <label class="checkbox-row">
                   <input type="checkbox" data-gloss-toggle checked />
-                  <span>高光釉面效果（示意图）</span>
+                  <span>Glossy Finish (Preview)</span>
                 </label>
               </fieldset>
 
               <fieldset class="controls-fieldset ai-style-section" data-ai-controls disabled>
-                <legend class="controls-fieldset__legend">🎨 AI 风格生成</legend>
-                <p class="ai-style-desc">上传图片后，选择风格并点击"AI 生成"转换为不同效果的冰箱贴</p>
+                <legend class="controls-fieldset__legend">🎨 AI Style Generation</legend>
+                <p class="ai-style-desc">After uploading, select a style and click "AI Generate" to transform your photo</p>
 
                 <div class="style-grid" data-style-grid>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="3d-cartoon" checked />
                     <span class="style-option__preview style-preview--3d"></span>
-                    <span class="style-option__name">3D卡通</span>
+                    <span class="style-option__name">3D Cartoon</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="clay-world" />
                     <span class="style-option__preview style-preview--clay"></span>
-                    <span class="style-option__name">粘土世界</span>
+                    <span class="style-option__name">Clay Art</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="pixel-art" />
                     <span class="style-option__preview style-preview--pixel"></span>
-                    <span class="style-option__name">像素游戏</span>
+                    <span class="style-option__name">Pixel Art</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="anime" />
                     <span class="style-option__preview style-preview--anime"></span>
-                    <span class="style-option__name">动漫风格</span>
+                    <span class="style-option__name">Anime Style</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="watercolor" />
                     <span class="style-option__preview style-preview--watercolor"></span>
-                    <span class="style-option__name">水彩画</span>
+                    <span class="style-option__name">Watercolor</span>
                   </label>
                   <label class="style-option">
                     <input type="radio" name="ai-style" value="oil-painting" />
                     <span class="style-option__preview style-preview--oil"></span>
-                    <span class="style-option__name">油画风格</span>
+                    <span class="style-option__name">Oil Painting</span>
                   </label>
                 </div>
 
                 <button type="button" class="btn btn--accent btn--block" data-ai-generate-btn disabled>
-                  ✨ AI 生成风格冰箱贴
+                  ✨ AI Generate Style
                 </button>
               </fieldset>
 
               <div class="panel-actions">
                 <button type="button" class="btn btn--primary btn--block" data-render-btn disabled>
-                  更新预览
+                  Update Preview
                 </button>
                 <button type="button" class="btn btn--ghost btn--block" data-download-btn disabled>
-                  下载预览 PNG
+                  Download Preview PNG
                 </button>
               </div>
             </div>
@@ -329,7 +323,7 @@
                 ></canvas>
               </div>
               <p class="preview-note">
-                预览为浏览器生成的示意图（含冰箱金属背景与磁铁投影），印刷成品可能存在色差与裁切差异，以实物为准。
+                Preview generated by browser (includes fridge metal background and magnet shadow). Final print may have color variations and cropping differences. Actual product takes precedence.
               </p>
             </div>
           </div>
@@ -338,27 +332,27 @@
 
       <section id="specs" class="section section--alt">
         <div class="container">
-          <h2 class="section__title">产品特点</h2>
+          <h2 class="section__title">Product Features</h2>
           <p class="section__intro">
-            每一枚冰箱贴都经过精心制作，确保色彩饱满、细节清晰、经久耐用。
+            Every magnet is meticulously crafted to ensure vibrant colors, sharp details, and lasting durability.
           </p>
           <ul class="cards">
             <li class="card">
-              <h3 class="card__title">优质材质</h3>
+              <h3 class="card__title">Premium Materials</h3>
               <p class="card__text">
-                软磁背部 + 高清印刷面层，表面光滑如镜面，轻轻一贴就能牢牢吸附，取下也不留痕迹。
+                Soft magnetic backing + high-definition printed surface. Smooth as glass, sticks securely and removes cleanly without residue.
               </p>
             </li>
             <li class="card">
-              <h3 class="card__title">持久色彩</h3>
+              <h3 class="card__title">Vibrant Colors</h3>
               <p class="card__text">
-                采用专业印刷技术，色彩鲜艳不易褪色。即使长时间使用，依然能保持照片的清晰与生动。
+                Professional printing technology ensures vivid colors that resist fading. Your photos stay sharp and lively for years.
               </p>
             </li>
             <li class="card">
-              <h3 class="card__title">个性定制</h3>
+              <h3 class="card__title">Custom Shapes</h3>
               <p class="card__text">
-                支持各种尺寸和形状，从经典圆角矩形到创意异形，让你的冰箱贴与众不同。
+                Choose from classic rounded rectangles or create custom shapes. Make your magnet truly one-of-a-kind.
               </p>
             </li>
           </ul>
@@ -367,25 +361,20 @@
 
       <section id="contact" class="section">
         <div class="container">
-          <h2 class="section__title">开始你的定制之旅</h2>
+          <h2 class="section__title">Contact Us</h2>
           <p class="section__intro">
-            用照片讲述你的故事，让每一个日常瞬间都变得特别。准备好开始创作了吗？联系我们，告诉我们你的想法。
+            Tell your story through photos and make every everyday moment special. Ready to create? Contact us and share your vision.
           </p>
           <div class="contact-cards">
             <div class="contact-card">
-              <div class="contact-card__icon">💬</div>
-              <h3>微信咨询</h3>
-              <p>添加好友，发送预览图，轻松完成定制</p>
-            </div>
-            <div class="contact-card">
-              <div class="contact-card__icon">📱</div>
-              <h3>淘宝店铺</h3>
-              <p>店铺下单更便捷，售后有保障</p>
-            </div>
-            <div class="contact-card">
               <div class="contact-card__icon">📧</div>
-              <h3>邮件联系</h3>
-              <p>发送高清原图，详细描述你的需求</p>
+              <h3>Email</h3>
+              <p>hello@rivermagnets.com</p>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card__icon">💬</div>
+              <h3>Message</h3>
+              <p>Send us your preview and requirements</p>
             </div>
           </div>
         </div>
@@ -396,49 +385,49 @@
       <div class="auth-modal__content">
         <button type="button" class="auth-modal__close" data-auth-close>×</button>
         <div class="auth-tabs">
-          <button type="button" class="auth-tab active" data-login-tab>登录</button>
-          <button type="button" class="auth-tab" data-register-tab>注册</button>
+          <button type="button" class="auth-tab active" data-login-tab>Login</button>
+          <button type="button" class="auth-tab" data-register-tab>Sign Up</button>
         </div>
         <p class="auth-error" data-auth-error style="display:none;"></p>
         <p class="auth-success" data-auth-success style="display:none;"></p>
 
         <form class="auth-form login-form" data-login-form style="display:flex;">
           <div class="form-group">
-            <label for="login-username">用户名或邮箱</label>
+            <label for="login-username">Username or Email</label>
             <input type="text" id="login-username" name="username" required />
           </div>
           <div class="form-group">
-            <label for="login-password">密码</label>
+            <label for="login-password">Password</label>
             <input type="password" id="login-password" name="password" required />
           </div>
-          <button type="submit" class="btn btn--primary btn--block">登录</button>
+          <button type="submit" class="btn btn--primary btn--block">Login</button>
         </form>
 
         <form class="auth-form register-form" data-register-form style="display:none;">
           <div class="form-group">
-            <label for="register-username">用户名</label>
+            <label for="register-username">Username</label>
             <input type="text" id="register-username" name="username" required minlength="3" maxlength="20" />
           </div>
           <div class="form-group">
-            <label for="register-email">邮箱</label>
+            <label for="register-email">Email</label>
             <input type="email" id="register-email" name="email" required />
           </div>
           <div class="form-group">
-            <label for="register-password">密码</label>
+            <label for="register-password">Password</label>
             <input type="password" id="register-password" name="password" required minlength="6" />
           </div>
           <div class="form-group">
-            <label for="register-password-confirm">确认密码</label>
+            <label for="register-password-confirm">Confirm Password</label>
             <input type="password" id="register-password-confirm" name="password-confirm" required />
           </div>
-          <button type="submit" class="btn btn--primary btn--block">注册</button>
+          <button type="submit" class="btn btn--primary btn--block">Sign Up</button>
         </form>
       </div>
     </div>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>© <span data-year></span> River 冰箱贴 · 预览图仅供展示</p>
+        <p>© <span data-year></span> River Magnets · Previews for display only</p>
       </div>
     </footer>
 
