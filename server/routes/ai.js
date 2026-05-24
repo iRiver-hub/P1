@@ -160,7 +160,24 @@ async function callSeedream(image, prompt) {
       }
 
       console.log(`Seedream success: model=${model}, url=${imageUrl.substring(0, 80)}...`);
-      return { success: true, imageUrl };
+
+      // Download the image from CDN and convert to base64
+      // This avoids CORS issues when the frontend tries to load the CDN URL
+      try {
+        const imgResponse = await fetch(imageUrl);
+        if (!imgResponse.ok) {
+          lastError = { status: 502, msg: `Failed to download generated image from CDN (HTTP ${imgResponse.status})` };
+          continue;
+        }
+        const imgBuffer = Buffer.from(await imgResponse.arrayBuffer());
+        const contentType = imgResponse.headers.get("content-type") || "image/png";
+        const base64 = imgBuffer.toString("base64");
+        const dataUri = `data:${contentType};base64,${base64}`;
+        return { success: true, imageDataUri: dataUri };
+      } catch (downloadErr) {
+        lastError = { status: 502, msg: `Failed to download generated image: ${downloadErr.message}` };
+        continue;
+      }
 
     } catch (err) {
       clearTimeout(timeout);
@@ -222,7 +239,7 @@ router.post("/generate", async (req, res) => {
   }
 
   console.log(`Seedream generation success: style=${styleId}, model used`);
-  return res.json({ image_url: result.imageUrl });
+  return res.json({ image_data_uri: result.imageDataUri });
 });
 
 // ─── Route: GET /api/ai/styles ─────────────────────────────────────────────

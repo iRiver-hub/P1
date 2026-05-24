@@ -166,16 +166,15 @@
         if (xhr.status === 200) {
           try {
             var data = JSON.parse(xhr.responseText);
-            if (!data.image_url) {
-              onError("AI service returned success but no image URL");
+            if (!data.image_data_uri) {
+              onError("AI service returned success but no image data");
               return;
             }
 
-            // ── Step 4: Load generated image ──
+            // ── Step 4: Load image from base64 data URI (no CORS issues) ──
             onProgress("Loading generated image...");
 
             var img = new Image();
-            img.crossOrigin = "anonymous";
 
             img.onload = function () {
               onProgress("Generation complete!");
@@ -183,12 +182,10 @@
             };
 
             img.onerror = function () {
-              // Some CDN URLs might not allow cross-origin from localhost
-              // Try loading via a proxy or fallback
-              onError("Generated image loaded but cannot be displayed. The CDN may block cross-origin access from this domain.");
+              onError("Failed to decode generated image data");
             };
 
-            img.src = data.image_url;
+            img.src = data.image_data_uri;
 
           } catch (e) {
             onError("Failed to parse AI service response: " + e.message);
