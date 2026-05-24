@@ -3,10 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Turn your photos into custom 3D fridge magnets. Upload your photo, choose a style, and create unique keepsakes with AI-powered customization."
-    />
+    <meta name="description" content="Turn your photos into custom 3D fridge magnets. Upload your photo, choose a style, and create unique keepsakes with AI-powered customization." />
+    <meta name="keywords" content="custom fridge magnets, photo magnets, 3D magnets, personalized magnets, AI photo to magnet, refrigerator magnets, custom gifts" />
+    <meta name="author" content="River Magnets" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#06b6d4" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="River Magnets - Custom Photo Magnets" />
+    <meta property="og:description" content="Turn your photos into custom 3D fridge magnets with AI. Upload, style, and create unique keepsakes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://iriver-hub.github.io/P1/" />
+    <meta property="og:site_name" content="River Magnets" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="River Magnets - Custom Photo Magnets" />
+    <meta name="twitter:description" content="Turn your photos into custom 3D fridge magnets with AI. Upload, style, and create unique keepsakes." />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://iriver-hub.github.io/P1/" />
+
+    <!-- Favicon (inline SVG) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2306b6d4'/><text y='.9em' font-size='80' text-anchor='middle' fill='white'>🧲</text></svg>" />
     <title>River Magnets - Custom Photo Magnets</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
@@ -19,11 +39,14 @@
         <nav class="nav" aria-label="Main navigation">
           <a href="#showcase" data-lang-key="nav-gallery">Gallery</a>
           <a href="#customizer" data-lang-key="nav-customize">Customize</a>
-          <a href="#how-it-works" data-lang-key="nav-how-it-works">How It Works</a>
+          <a href="#checkout" data-lang-key="nav-checkout">Order</a>
           <a href="#specs" data-lang-key="nav-specs">Specs</a>
           <a href="#contact" data-lang-key="nav-contact">Contact</a>
         </nav>
         <div class="header-tools">
+          <button type="button" class="hamburger" data-hamburger aria-label="Open menu" data-lang-attr="aria-label|menu-open">
+            <span></span><span></span><span></span>
+          </button>
           <div class="lang-selector">
             <button type="button" class="lang-btn lang-btn--active" data-lang="en">EN</button>
             <button type="button" class="lang-btn lang-btn--secondary" data-lang="zh">中文</button>
@@ -330,6 +353,98 @@
         </div>
       </section>
 
+      <section id="checkout" class="section section--alt checkout-section">
+        <div class="container">
+          <h2 class="section__title" data-lang-key="checkout-title">Place Your Order</h2>
+          <p class="section__intro" data-lang-key="checkout-intro">
+            Ready to bring your magnet to life? Fill in your shipping details and place your order.
+          </p>
+
+          <div class="checkout__grid">
+            <div class="checkout-summary">
+              <h3 data-lang-key="checkout-summary-title">Order Summary</h3>
+              <div class="checkout-summary__items">
+                <div class="checkout-summary__row">
+                  <span data-lang-key="checkout-product">Custom Photo Magnet</span>
+                  <span>$9.99</span>
+                </div>
+              </div>
+            </div>
+
+            <form class="checkout-form" data-order-form>
+              <div class="checkout-form__grid">
+                <div class="form-group">
+                  <label for="order-quantity" data-lang-key="order-quantity-label">Quantity *</label>
+                  <input type="number" id="order-quantity" name="quantity" min="1" max="100" value="1" required />
+                </div>
+                <div class="form-group">
+                  <label for="order-size" data-lang-key="order-size-label">Size</label>
+                  <select id="order-size" name="size">
+                    <option value="Standard (8x10 cm)" data-lang-key="order-size-standard">Standard (8x10 cm)</option>
+                    <option value="Large (12x15 cm)" data-lang-key="order-size-large">Large (12x15 cm)</option>
+                    <option value="Mini (5x6 cm)" data-lang-key="order-size-mini">Mini (5x6 cm)</option>
+                  </select>
+                </div>
+                <div class="form-group form-group--full">
+                  <label for="order-name" data-lang-key="order-name-label">Full Name *</label>
+                  <input type="text" id="order-name" name="shippingName" required />
+                </div>
+                <div class="form-group form-group--full">
+                  <label for="order-email" data-lang-key="order-email-label">Email</label>
+                  <input type="email" id="order-email" name="email" />
+                </div>
+                <div class="form-group form-group--full">
+                  <label for="order-address" data-lang-key="order-address-label">Address *</label>
+                  <input type="text" id="order-address" name="shippingAddress" required />
+                </div>
+                <div class="form-group">
+                  <label for="order-city" data-lang-key="order-city-label">City *</label>
+                  <input type="text" id="order-city" name="shippingCity" required />
+                </div>
+                <div class="form-group">
+                  <label for="order-state" data-lang-key="order-state-label">State / Province</label>
+                  <input type="text" id="order-state" name="shippingState" />
+                </div>
+                <div class="form-group">
+                  <label for="order-zip" data-lang-key="order-zip-label">ZIP / Postal Code</label>
+                  <input type="text" id="order-zip" name="shippingZip" />
+                </div>
+                <div class="form-group">
+                  <label for="order-country" data-lang-key="order-country-label">Country *</label>
+                  <select id="order-country" name="shippingCountry" required>
+                    <option value="">-- Select --</option>
+                    <option value="US">United States</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
+                    <option value="DE">Germany</option>
+                    <option value="FR">France</option>
+                    <option value="JP">Japan</option>
+                    <option value="SG">Singapore</option>
+                    <option value="CN">China</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
+                <div class="form-group form-group--full">
+                  <label for="order-notes" data-lang-key="order-notes-label">Special Notes</label>
+                  <textarea id="order-notes" name="notes" rows="3" data-lang-key="order-notes-placeholder" placeholder="Any special requirements or notes for your order..."></textarea>
+                </div>
+              </div>
+
+              <p class="order-error" data-order-error style="display:none;"></p>
+              <p class="order-success" data-order-success style="display:none;"></p>
+
+              <button type="submit" class="btn btn--primary btn--block" data-lang-key="btn-place-order">
+                Place Order — $9.99
+              </button>
+              <p class="checkout-note" data-lang-key="checkout-note">
+                By placing your order, you agree to our Terms of Service. We will contact you via email with payment and shipping details.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
       <section id="specs" class="section section--alt">
         <div class="container">
           <h2 class="section__title" data-lang-key="specs-title">Product Features</h2>
@@ -365,17 +480,36 @@
           <p class="section__intro" data-lang-key="contact-intro">
             Tell your story through photos and make every everyday moment special. Ready to create? Contact us and share your vision.
           </p>
-          <div class="contact-cards">
-            <div class="contact-card">
-              <div class="contact-card__icon">📧</div>
-              <h3 data-lang-key="contact-card-1-title">Email</h3>
-              <p data-lang-key="contact-card-1-desc">hello@rivermagnets.com</p>
+          <div class="contact-layout">
+            <div class="contact-cards">
+              <div class="contact-card">
+                <div class="contact-card__icon">📧</div>
+                <h3 data-lang-key="contact-card-1-title">Email</h3>
+                <p data-lang-key="contact-card-1-desc">hello@rivermagnets.com</p>
+              </div>
             </div>
-            <div class="contact-card">
-              <div class="contact-card__icon">💬</div>
-              <h3 data-lang-key="contact-card-2-title">Message</h3>
-              <p data-lang-key="contact-card-2-desc">Send us your preview and requirements</p>
-            </div>
+
+            <form class="contact-form" data-contact-form>
+              <div class="form-group">
+                <label for="contact-name" data-lang-key="contact-form-name-label">Name *</label>
+                <input type="text" id="contact-name" name="name" required />
+              </div>
+              <div class="form-group">
+                <label for="contact-email" data-lang-key="contact-form-email-label">Email *</label>
+                <input type="email" id="contact-email" name="email" required />
+              </div>
+              <div class="form-group">
+                <label for="contact-subject" data-lang-key="contact-form-subject-label">Subject</label>
+                <input type="text" id="contact-subject" name="subject" />
+              </div>
+              <div class="form-group">
+                <label for="contact-message" data-lang-key="contact-form-message-label">Message *</label>
+                <textarea id="contact-message" name="message" rows="5" required data-lang-key="contact-form-message-placeholder" placeholder="How can we help you? Tell us about your vision..."></textarea>
+              </div>
+              <p class="contact-form-error" data-contact-error style="display:none;"></p>
+              <p class="contact-form-success" data-contact-success style="display:none;"></p>
+              <button type="submit" class="btn btn--primary" data-lang-key="btn-send-message">Send Message</button>
+            </form>
           </div>
         </div>
       </section>
@@ -436,5 +570,17 @@
     <script src="js/ai-service.js" defer></script>
     <script src="js/auth.js" defer></script>
     <script src="js/magnet.js" defer></script>
+
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-banner" data-cookie-banner style="display:none;">
+      <div class="cookie-banner__content">
+        <p data-lang-key="cookie-text">
+          We use cookies to enhance your experience. By continuing, you agree to our use of cookies.
+        </p>
+        <div class="cookie-banner__actions">
+          <button type="button" class="btn btn--primary btn--sm" data-cookie-accept data-lang-key="cookie-accept">Accept</button>
+          <a href="#" data-lang-key="privacy-link" class="cookie-banner__link">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
   </body>
-</html>

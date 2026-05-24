@@ -35,10 +35,17 @@
   function setReadyState(hasImage) {
     if (controls) controls.disabled = !hasImage;
     if (renderBtn) renderBtn.disabled = !hasImage;
-    if (downloadBtn) downloadBtn.disabled = !hasImage;
     if (aiControls) aiControls.disabled = !hasImage;
     if (aiGenerateBtn) {
       aiGenerateBtn.disabled = !hasImage || !window.AIService?.isConfigured() || isGenerating;
+    }
+    // Download requires login: track image state, actual state set by auth.js
+    if (downloadBtn) {
+      downloadBtn.setAttribute("data-has-image", hasImage ? "true" : "false");
+    }
+    // Update access control display
+    if (window.updateCustomizerAccess) {
+      window.updateCustomizerAccess();
     }
   }
 
@@ -235,6 +242,14 @@
   renderBtn?.addEventListener("click", () => render());
 
   downloadBtn?.addEventListener("click", () => {
+    // Check login before download
+    if (!window.AuthService || !window.AuthService.isLoggedIn()) {
+      setStatus("Please login or sign up to download preview");
+      if (window.openAuthModal) {
+        window.openAuthModal("login");
+      }
+      return;
+    }
     if (!sourceImage) return;
     render();
     canvas.toBlob(

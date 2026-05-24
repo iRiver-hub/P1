@@ -45,4 +45,36 @@
   document.querySelector("[data-year]")?.appendChild(
     document.createTextNode(String(new Date().getFullYear()))
   );
+
+  // Hamburger menu toggle
+  var hamburger = document.querySelector("[data-hamburger]");
+  var nav = document.querySelector(".nav");
+
+  hamburger?.addEventListener("click", function () {
+    var isOpen = nav?.getAttribute("data-nav-open") === "true";
+    var next = !isOpen;
+    if (nav) nav.setAttribute("data-nav-open", String(next));
+    hamburger.setAttribute("aria-expanded", String(next));
+    hamburger.setAttribute("aria-label", next ? "Close menu" : "Open menu");
+  });
+
+  // Close menu on nav link click
+  nav?.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      nav.setAttribute("data-nav-open", "false");
+      if (hamburger) {
+        hamburger.setAttribute("aria-expanded", "false");
+        hamburger.setAttribute("aria-label", "Open menu");
+      }
+    });
+  });
+// Cookie consent
+  var cookieBanner = document.querySelector("[data-cookie-banner]");
+  if (cookieBanner && !localStorage.getItem("cookie-consent")) {
+    cookieBanner.style.display = "block";
+  }
+  document.querySelector("[data-cookie-accept]")?.addEventListener("click", function () {
+    localStorage.setItem("cookie-consent", "true");
+    if (cookieBanner) cookieBanner.style.display = "none";
+  });
 })();

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { createUser, findUserByUsername, findUserByEmail, verifyPassword, updateLastLogin } = require("../db");
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || "river-magnet-secret-key-2024";
+const JWT_SECRET = process.env.JWT_SECRET || "river-magnet-dev-secret-" + (process.env.NODE_ENV === "production" ? require("crypto").randomBytes(32).toString("hex") : "2024");
 const JWT_EXPIRES_IN = "7d";
 
 router.post("/register", (req, res) => {

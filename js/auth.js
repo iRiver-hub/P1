@@ -304,17 +304,207 @@
     });
 
     window.updateCustomizerAccess = function () {
-      var customizerSection = document.getElementById("customizer");
-      if (!customizerSection) return;
+      var isLoggedIn = window.AuthService.isLoggedIn();
+      var downloadBtn = document.querySelector("[data-download-btn]");
 
-      customizerSection.classList.remove("customizer--locked");
-      var lockOverlay = customizerSection.querySelector(".customizer__lock");
-      if (lockOverlay) {
-        lockOverlay.style.display = "none";
+      // Download button requires login
+      if (downloadBtn) {
+        if (!isLoggedIn) {
+          downloadBtn.disabled = true;
+          downloadBtn.title = "Login required to download preview";
+          downloadBtn.setAttribute("data-lang-key", "btn-login-to-download");
+        } else {
+          var hasImage = downloadBtn.getAttribute("data-has-image") === "true";
+          downloadBtn.disabled = !hasImage;
+          downloadBtn.title = "";
+          downloadBtn.setAttribute("data-lang-key", "btn-download");
+        }
+      }
+
+      // Apply language
+      if (window.applyLang && typeof window.applyLang === "function") {
+        var storedLang = localStorage.getItem("river-lang") || "en";
+        if (window.applyLang) window.applyLang(storedLang);
       }
     };
 
     updateUserDisplay();
     updateCustomizerAccess();
+
+    // Order form handler
+    var orderForm = document.querySelector("[data-order-form]");
+    var orderError = document.querySelector("[data-order-error]");
+    var orderSuccess = document.querySelector("[data-order-success]");
+
+    orderForm?.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (!window.AuthService.isLoggedIn()) {
+        if (orderError) {
+          orderError.textContent = "Please login first to place an order";
+          orderError.style.display = "block";
+        }
+        window.openAuthModal("login");
+        return;
+      }
+
+      if (orderError) orderError.style.display = "none";
+      if (orderSuccess) orderSuccess.style.display = "none";
+
+      var formData = {
+        quantity: parseInt(document.getElementById("order-quantity")?.value || "1"),
+        size: document.getElementById("order-size")?.value || "Standard (8x10 cm)",
+        shippingName: document.getElementById("order-name")?.value || "",
+        email: document.getElementById("order-email")?.value || "",
+        shippingAddress: document.getElementById("order-address")?.value || "",
+        shippingCity: document.getElementById("order-city")?.value || "",
+        shippingState: document.getElementById("order-state")?.value || "",
+        shippingZip: document.getElementById("order-zip")?.value || "",
+        shippingCountry: document.getElementById("order-country")?.value || "",
+        notes: document.getElementById("order-notes")?.value || ""
+      };
+
+      if (!formData.shippingName || !formData.shippingAddress || !formData.shippingCity || !formData.shippingCountry) {
+        if (orderError) {
+          orderError.textContent = "Please fill in all required fields: Name, Address, City, and Country";
+          orderError.style.display = "block";
+        }
+        return;
+      }
+
+      var submitBtn = orderForm.querySelector("button[type='submit']");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Placing order...";
+      }
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", API_BASE + "/orders");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.setRequestHeader("Authorization", "Bearer " + window.AuthService.getToken());
+
+      xhr.onload = function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Place Order — $9.99";
+        }
+
+        try {
+          var data = JSON.parse(xhr.responseText);
+        } catch (e) {
+          if (orderError) {
+            orderError.textContent = "Server error. Please try again later.";
+            orderError.style.display = "block";
+          }
+          return;
+        }
+
+        if (xhr.status === 201 || xhr.status === 200) {
+          if (orderSuccess) {
+            orderSuccess.innerHTML = "<strong>" + (data.message || "Order placed successfully!") + "</strong><br>Order #" + data.order.id + " | Status: " + data.order.status + "<br>We will contact you at your email shortly.";
+            orderSuccess.style.display = "block";
+          }
+          orderForm.reset();
+        } else {
+          if (orderError) {
+            orderError.textContent = data.error || "Failed to place order. Please try again.";
+            orderError.style.display = "block";
+          }
+        }
+      };
+
+      xhr.onerror = function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Place Order — $9.99";
+        }
+        if (orderError) {
+          orderError.textContent = "Network error. Is the server running?";
+          orderError.style.display = "block";
+        }
+      };
+
+      xhr.send(JSON.stringify(formData));
+    });
+
+    // Contact form handler
+    var contactForm = document.querySelector("[data-contact-form]");
+    var contactError = document.querySelector("[data-contact-error]");
+    var contactSuccess = document.querySelector("[data-contact-success]");
+
+    contactForm?.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (contactError) contactError.style.display = "none";
+      if (contactSuccess) contactSuccess.style.display = "none";
+
+      var contactData = {
+        name: document.getElementById("contact-name")?.value || "",
+        email: document.getElementById("contact-email")?.value || "",
+        subject: document.getElementById("contact-subject")?.value || "",
+        message: document.getElementById("contact-message")?.value || ""
+      };
+
+      if (!contactData.name || !contactData.email || !contactData.message) {
+        if (contactError) {
+          contactError.textContent = "Please fill in name, email, and message";
+          contactError.style.display = "block";
+        }
+        return;
+      }
+
+      var submitBtn = contactForm.querySelector("button[type='submit']");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+      }
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", API_BASE + "/contact");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Message";
+        }
+
+        try {
+          var data = JSON.parse(xhr.responseText);
+        } catch (e) {
+          if (contactError) {
+            contactError.textContent = "Server error. Please try again.";
+            contactError.style.display = "block";
+          }
+          return;
+        }
+
+        if (xhr.status === 201 || xhr.status === 200) {
+          if (contactSuccess) {
+            contactSuccess.textContent = data.message || "Message sent!";
+            contactSuccess.style.display = "block";
+          }
+          contactForm.reset();
+        } else {
+          if (contactError) {
+            contactError.textContent = data.error || "Failed to send message";
+            contactError.style.display = "block";
+          }
+        }
+      };
+
+      xhr.onerror = function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Message";
+        }
+        if (contactError) {
+          contactError.textContent = "Network error. Is the server running?";
+          contactError.style.display = "block";
+        }
+      };
+
+      xhr.send(JSON.stringify(contactData));
+    });
   });
 })();

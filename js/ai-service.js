@@ -1,17 +1,15 @@
 (function () {
   const AI_STYLES = [
-    { id: "3d-cartoon", name: "3D卡通", prompt: "3D cartoon style refrigerator magnet, cute vibrant colors, soft lighting, plastic material texture, white border, rounded corners" },
-    { id: "clay-world", name: "粘土世界", prompt: "Claymation style refrigerator magnet, clay-like texture, handcrafted feel, warm soft lighting, white border, rounded corners" },
-    { id: "pixel-art", name: "像素游戏", prompt: "Pixel art style refrigerator magnet, retro 16-bit video game aesthetic, vibrant colors, white border, rounded corners" },
-    { id: "anime", name: "动漫风格", prompt: "Anime style refrigerator magnet, Japanese animation aesthetic, clean linework, vibrant eyes, white border, rounded corners" },
-    { id: "watercolor", name: "水彩画", prompt: "Watercolor painting style refrigerator magnet, soft brush strokes, delicate paper texture, pastel colors, white border, rounded corners" },
-    { id: "oil-painting", name: "油画风格", prompt: "Oil painting style refrigerator magnet, classical art technique, rich textures, museum quality, white border, rounded corners" }
+    { id: "3d-cartoon", name: "3D Cartoon", prompt: "3D cartoon style refrigerator magnet, cute character, vibrant colors, soft lighting, plastic material texture, white border, rounded corners, fridge magnet design, isolated on white background" },
+    { id: "clay-world", name: "Clay Art", prompt: "Claymation style refrigerator magnet, clay-like texture, handcrafted feel, warm soft lighting, white border, rounded corners, fridge magnet design, isolated on white background" },
+    { id: "pixel-art", name: "Pixel Art", prompt: "Pixel art style refrigerator magnet, retro 16-bit video game aesthetic, vibrant colors, white border, rounded corners, fridge magnet design, isolated on white background" },
+    { id: "anime", name: "Anime Style", prompt: "Anime style refrigerator magnet, Japanese animation aesthetic, clean linework, vibrant eyes, white border, rounded corners, fridge magnet design, isolated on white background" },
+    { id: "watercolor", name: "Watercolor", prompt: "Watercolor painting style refrigerator magnet, soft brush strokes, delicate paper texture, pastel colors, white border, rounded corners, fridge magnet design, isolated on white background" },
+    { id: "oil-painting", name: "Oil Painting", prompt: "Oil painting style refrigerator magnet, classical art technique, rich textures, museum quality, white border, rounded corners, fridge magnet design, isolated on white background" }
   ];
 
-  const API_CONFIG = {
-    endpoint: "",
-    isConfigured: false
-  };
+  // API now proxied through our backend server. No API key exposed to browser.
+  var API_BASE = "http://localhost:3000/api";
 
   window.AIService = {
     getStyles: function () {
@@ -22,33 +20,24 @@
       return AI_STYLES.find(function (s) { return s.id === id; });
     },
 
-    configure: function (config) {
-      if (config.endpoint) API_CONFIG.endpoint = config.endpoint;
-      if (config.isConfigured !== undefined) API_CONFIG.isConfigured = config.isConfigured;
-    },
-
     isConfigured: function () {
-      return API_CONFIG.isConfigured && API_CONFIG.endpoint && API_CONFIG.endpoint.length > 0;
+      // Configuration is now server-side; always return true to allow attempt
+      return true;
     },
 
     generate: function (sourceImage, styleId, onProgress, onSuccess, onError) {
       var style = this.getStyleById(styleId);
       if (!style) {
-        onError("未知的风格选项");
-        return;
-      }
-
-      if (!this.isConfigured()) {
-        onError("AI 服务正在配置中，请稍后再试");
+        onError("Unknown style option");
         return;
       }
 
       if (!sourceImage) {
-        onError("请先上传一张图片");
+        onError("Please upload a photo first");
         return;
       }
 
-      onProgress("正在连接 AI 服务...");
+      onProgress("Preparing image...");
 
       var canvas = document.createElement("canvas");
       var ctx = canvas.getContext("2d");
@@ -75,66 +64,88 @@
 
       ctx.drawImage(sourceImage, drawX, drawY, drawW, drawH);
 
-      var me = this;
-      var stylePrompt = style.prompt + ", refrigerator magnet design";
+      // Strict prompt: always about fridge magnets
+      var stylePrompt = "fridge magnet, 3D refrigerator magnet product photo, " + style.prompt + ", high quality, detailed texture, product photography, white border frame, glossy finish";
+      var negativePrompt = "text, watermark, logo, signature, blurry, low quality, distorted, person, human, face, nude, nsfw, not a fridge magnet, not a magnet, irrelevant objects, dangerous content, offensive content";
 
       canvas.toBlob(function (blob) {
         if (!blob) {
-          onError("图像处理失败");
+          onError("Image processing failed");
           return;
         }
 
-        var formData = new FormData();
-        formData.append("image", blob, "source.png");
-        formData.append("prompt", stylePrompt);
-        formData.append("style", styleId);
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          var base64Image = reader.result.split(',')[1];
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", API_CONFIG.endpoint);
+          onProgress("Generating fridge magnet with AI...");
 
-        xhr.onload = function () {
-          if (xhr.status === 200) {
-            try {
-              var data = JSON.parse(xhr.responseText);
-              if (data.url) {
-                var img = new Image();
-                img.onload = function () {
-                  onSuccess(img);
-                };
-                img.onerror = function () {
-                  onError("无法加载生成的图像");
-                };
-                img.crossOrigin = "anonymous";
-                img.src = data.url;
-              } else if (data.error) {
-                onError(data.error);
-              } else {
-                onError("AI 服务响应格式错误");
+          var requestBody = {
+            prompt: stylePrompt,
+            image: base64Image,
+            negative_prompt: negativePrompt,
+            styleId: styleId
+          };
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", API_BASE + "/ai/generate");
+          xhr.setRequestHeader("Content-Type", "application/json");
+
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              try {
+                var data = JSON.parse(xhr.responseText);
+                if (data.image_url) {
+                  var img = new Image();
+                  img.onload = function () {
+                    onSuccess(img);
+                  };
+                  img.onerror = function () {
+                    onError("Failed to load generated image");
+                  };
+                  img.crossOrigin = "anonymous";
+                  img.src = data.image_url;
+                } else {
+                  onError("AI service response format error");
+                }
+              } catch (e) {
+                onError("Failed to parse AI response");
               }
-            } catch (e) {
-              onError("解析 AI 响应失败");
+            } else if (xhr.status === 400) {
+              try {
+                var errData = JSON.parse(xhr.responseText);
+                onError(errData.error || "Invalid request");
+              } catch (e) {
+                onError("Invalid request");
+              }
+            } else if (xhr.status === 401 || xhr.status === 403) {
+              onError("AI service not authorized on server. Please contact support.");
+            } else if (xhr.status === 429) {
+              onError("Too many requests, please try again later");
+            } else if (xhr.status === 502) {
+              try {
+                var errData2 = JSON.parse(xhr.responseText);
+                onError("AI service error: " + (errData2.error || "Unknown"));
+              } catch (e) {
+                onError("AI service temporarily unavailable");
+              }
+            } else {
+              try {
+                var errData3 = JSON.parse(xhr.responseText);
+                onError(errData3.error || "AI service request failed (code: " + xhr.status + ")");
+              } catch (e) {
+                onError("AI service request failed (code: " + xhr.status + ")");
+              }
             }
-          } else if (xhr.status === 401 || xhr.status === 403) {
-            onError("AI 服务未授权，请联系网站管理员");
-          } else if (xhr.status === 429) {
-            onError("请求过于频繁，请稍后再试");
-          } else {
-            onError("AI 服务请求失败 (错误码: " + xhr.status + ")");
-          }
-        };
+          };
 
-        xhr.onerror = function () {
-          onError("网络错误，无法连接 AI 服务");
-        };
+          xhr.onerror = function () {
+            onError("Network error. Is the server running? Start server with: cd server && npm start");
+          };
 
-        xhr.upload.onprogress = function (e) {
-          if (e.lengthComputable) {
-            var pct = Math.round((e.loaded / e.total) * 50);
-            onProgress("正在上传图像... " + pct + "%");
-          }
+          xhr.send(JSON.stringify(requestBody));
         };
-
-        xhr.send(formData);
+        reader.readAsDataURL(blob);
       }, "image/png");
     }
   };
