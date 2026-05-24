@@ -22,5 +22,5 @@ app.get("/api/health", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`River Magnet Server running on port ${PORT}`);
-  console.log(`AI service: ${process.env.SEEDREAM_API_KEY ? "Configured" : "Not configured"}`);
+  console.log(`AI service: ${process.env.SEEDREAM_API_KEY ? "Env configured" : "Using built-in API key"}`);
 });

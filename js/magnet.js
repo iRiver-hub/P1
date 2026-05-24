@@ -20,8 +20,9 @@
   const aiGenerateBtn = document.querySelector("[data-ai-generate-btn]");
   const styleGrid = document.querySelector("[data-style-grid]");
 
-  let sourceImage = null;
-  let aiGeneratedImage = null;
+  let sourceImage = null;       // current display image (original or AI-generated)
+  let originalImage = null;    // always the user's original upload
+  let aiGeneratedImage = null; // latest AI-generated result
   let objectUrl = null;
   let isGenerating = false;
 
@@ -66,8 +67,11 @@
     const img = new Image();
     img.onload = () => {
       sourceImage = img;
+      originalImage = img; // keep original for reset
+      aiGeneratedImage = null;
       setReadyState(true);
-      setStatus(`已载入：${file.name}（${img.naturalWidth}×${img.naturalHeight}）`);
+      setStatus(`Loaded: ${file.name} (${img.naturalWidth}×${img.naturalHeight})`);
+      updateResetButton();
       render();
     };
     img.onerror = () => {
@@ -276,14 +280,14 @@
 
     const selectedStyle = styleGrid?.querySelector('input[name="ai-style"]:checked');
     if (!selectedStyle) {
-      setStatus("请选择一个风格选项");
+      setStatus("Please select an AI style first");
       return;
     }
 
     const styleId = selectedStyle.value;
     isGenerating = true;
     setReadyState(true);
-    setStatus("正在准备 AI 生成...");
+    setStatus("Preparing AI generation...");
 
     window.AIService.generate(
       sourceImage,
@@ -295,12 +299,13 @@
         aiGeneratedImage = generatedImg;
         sourceImage = generatedImg;
         setReadyState(true);
-        setStatus("AI 生成完成！已应用风格效果");
+        setStatus("AI generation complete! Style applied: " + (window.AIService.getStyleById(styleId)?.name || styleId));
+        updateResetButton();
         render();
         isGenerating = false;
       },
       function onError(errorMsg) {
-        setStatus("AI 生成失败: " + errorMsg);
+        setStatus("AI generation failed: " + errorMsg);
         isGenerating = false;
         setReadyState(true);
       }
@@ -308,11 +313,47 @@
   });
 
   styleGrid?.addEventListener("change", (e) => {
-    if (e.target.name === "ai-style" && aiGeneratedImage) {
-      const selectedStyle = e.target.value;
-      setStatus("已选择风格: " + selectedStyle + "，点击 AI 生成按钮应用");
+    if (e.target.name === "ai-style") {
+      // If user changes style, hint that they need to click generate again
+      var styleName = e.target.value;
+      var styleObj = window.AIService && window.AIService.getStyleById(styleName);
+      if (aiGeneratedImage) {
+        setStatus("Style changed to: " + (styleObj?.name || styleName) + ". Click 'AI Generate' to apply.");
+      }
     }
   });
+
+  // ─── Reset to Original ────────────────────────────────────────────────
+  var resetBtn = document.querySelector("[data-reset-btn]");
+
+  function updateResetButton() {
+    if (!resetBtn) return;
+    if (aiGeneratedImage) {
+      resetBtn.style.display = "";
+      var styleName = "";
+      if (window.AIService) {
+        var selected = styleGrid?.querySelector('input[name="ai-style"]:checked');
+        if (selected) {
+          var s = window.AIService.getStyleById(selected.value);
+          styleName = s ? s.name : "";
+        }
+      }
+      resetBtn.textContent = "↩ Reset to Original" + (styleName ? " (current: " + styleName + ")" : "");
+    } else {
+      resetBtn.style.display = "none";
+    }
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", function () {
+      if (!originalImage) return;
+      sourceImage = originalImage;
+      aiGeneratedImage = null;
+      updateResetButton();
+      setStatus("Reset to original photo. You can select a different style and generate again.");
+      render();
+    });
+  }
 
   render();
   setReadyState(false);
