@@ -4,7 +4,9 @@ const router = express.Router();
 // ─── Volcengine Ark (Seedream) API Configuration ──────────────────────────
 const ARK_API_KEY = process.env.SEEDREAM_API_KEY || "ark-0e32b23e-a8dc-4718-a6a4-94f50dadc430-d0bd9";
 const ARK_BASE = process.env.SEEDREAM_ENDPOINT || "https://ark.cn-beijing.volces.com/api/v3";
-const MODEL_ID = process.env.SEEDREAM_MODEL || "doubao-seedream-4-0-250828";
+// Seedream 4.5: latest & recommended. 4.0: doubao-seedream-4-0-250828
+const PRIMARY_MODEL = process.env.SEEDREAM_MODEL || "doubao-seedream-4-5-251128";
+const FALLBACK_MODEL = "doubao-seedream-4-0-250828";
 const GENERATION_TIMEOUT_MS = 120000; // 2 minutes
 
 // ─── Fridge Magnet Prompt Templates ────────────────────────────────────────
@@ -85,6 +87,94 @@ function normalizeImage(imageData) {
 
 // ─── Route: POST /api/ai/generate ──────────────────────────────────────────
 
+/**
+ * Call Seedream API with automatic model fallback.
+ * Tries PRIMARY_MODEL first; if account hasn't activated it, retries with FALLBACK_MODEL.
+ */
+async function callSeedream(image, prompt) {
+  const modelsToTry = [PRIMARY_MODEL, FALLBACK_MODEL];
+  let lastError = null;
+
+  for (const model of modelsToTry) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), GENERATION_TIMEOUT_MS);
+
+    try {
+      console.log(`Trying model: ${model}...`);
+      const arkResponse = await fetch(`${ARK_BASE}/images/generations`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${ARK_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: model,
+          prompt: prompt,
+          image: image,
+          size: "2048x2048",
+          sequential_image_generation: "disabled",
+          response_format: "url",
+          watermark: false
+        }),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeout);
+
+      let data;
+      try {
+        data = await arkResponse.json();
+      } catch {
+        const text = await arkResponse.text().catch(() => "No response body");
+        lastError = { status: 502, msg: "AI service returned non-JSON response: " + text.substring(0, 200) };
+        continue;
+      }
+
+      // Check for "not activated" error → try next model
+      const errorMsg = data.error?.message || data.error?.code || data.message || "";
+      if (!arkResponse.ok && errorMsg.includes("not activated")) {
+        console.log(`Model ${model} not activated, trying next...`);
+        lastError = { status: 502, msg: `Model ${model} not activated` };
+        continue;
+      }
+
+      if (!arkResponse.ok) {
+        const msg = errorMsg || `HTTP ${arkResponse.status}`;
+        console.error(`Seedream API error (${model}):`, JSON.stringify(data).substring(0, 500));
+        return { success: false, error: { status: arkResponse.status, msg } };
+      }
+
+      // Extract image URL
+      let imageUrl = null;
+      if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+        imageUrl = data.data[0].url;
+      } else if (data.url) {
+        imageUrl = data.url;
+      } else if (data.output && data.output.image_url) {
+        imageUrl = data.output.image_url;
+      }
+
+      if (!imageUrl) {
+        console.error(`Seedream unexpected response (${model}):`, JSON.stringify(data).substring(0, 500));
+        return { success: false, error: { status: 502, msg: "AI service returned unexpected response format" } };
+      }
+
+      console.log(`Seedream success: model=${model}, url=${imageUrl.substring(0, 80)}...`);
+      return { success: true, imageUrl };
+
+    } catch (err) {
+      clearTimeout(timeout);
+      if (err.name === "AbortError") {
+        lastError = { status: 502, msg: "AI generation timed out" };
+      } else {
+        lastError = { status: 502, msg: `Network error: ${err.message}` };
+      }
+    }
+  }
+
+  return { success: false, error: lastError || { status: 502, msg: "All models exhausted" } };
+}
+
 router.post("/generate", async (req, res) => {
   const { prompt: customPrompt, image: rawImage, styleId, lang } = req.body;
 
@@ -108,91 +198,31 @@ router.post("/generate", async (req, res) => {
   // --- Build prompt ---
   const prompt = customPrompt || buildPrompt(styleId || "3d-cartoon", lang || "en");
 
-  // --- Call Seedream API via Volcengine Ark ---
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), GENERATION_TIMEOUT_MS);
+  // --- Call Seedream API with automatic model fallback ---
+  const result = await callSeedream(image, prompt);
 
-  try {
-    const arkResponse = await fetch(`${ARK_BASE}/images/generations`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${ARK_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: MODEL_ID,
-        prompt: prompt,
-        image: image,
-        size: "1024x1024",
-        sequential_image_generation: "disabled",
-        response_format: "url",
-        watermark: false,
-        negative_prompt: UNIVERSAL_NEGATIVE
-      }),
-      signal: controller.signal
-    });
-
-    clearTimeout(timeout);
-
-    // --- Parse response ---
-    let data;
-    try {
-      data = await arkResponse.json();
-    } catch {
-      const text = await arkResponse.text().catch(() => "No response body");
-      console.error("Seedream non-JSON response:", text.substring(0, 500));
-      return res.status(502).json({ error: "AI service returned non-JSON response" });
+  if (!result.success) {
+    const err = result.error;
+    if (err.status === 401 || err.status === 403) {
+      return res.status(502).json({ error: "AI service authentication failed. Please check API key configuration." });
     }
-
-    if (!arkResponse.ok) {
-      const errorMsg = data.error?.message || data.error?.code || data.message || `HTTP ${arkResponse.status}`;
-      console.error("Seedream API error:", JSON.stringify(data).substring(0, 500));
-
-      // Map common errors to user-friendly messages
-      if (arkResponse.status === 401 || arkResponse.status === 403) {
-        return res.status(502).json({ error: "AI service authentication failed. Please check API key configuration." });
-      }
-      if (arkResponse.status === 429) {
-        return res.status(429).json({ error: "AI service rate limit exceeded. Please try again in a minute." });
-      }
-      if (arkResponse.status === 400 && errorMsg.includes("content")) {
-        return res.status(400).json({ error: "AI service rejected content. Please try a different photo or style." });
-      }
-
-      return res.status(502).json({ error: `AI service error: ${errorMsg}` });
+    if (err.status === 429) {
+      return res.status(429).json({ error: "AI service rate limit exceeded. Please try again in a minute." });
     }
-
-    // --- Extract image URL from Ark response ---
-    // Standard Ark format: { data: [{ url: "...", size: "..." }] }
-    let imageUrl = null;
-
-    if (data.data && Array.isArray(data.data) && data.data.length > 0) {
-      imageUrl = data.data[0].url;
-    } else if (data.url) {
-      imageUrl = data.url;
-    } else if (data.output && data.output.image_url) {
-      imageUrl = data.output.image_url;
+    const msg = err.msg || "Unknown error";
+    if (msg.includes("not activated")) {
+      return res.status(502).json({
+        error: "AI model not activated. Please go to https://console.volcengine.com/ark/region:ark+cn-beijing/openManagement and activate doubao-seedream-4-5-251128 or doubao-seedream-4-0-250828"
+      });
     }
-
-    if (!imageUrl) {
-      console.error("Seedream unexpected response format:", JSON.stringify(data).substring(0, 500));
-      return res.status(502).json({ error: "AI service returned unexpected response format. Please try again." });
+    if (msg.includes("content")) {
+      return res.status(400).json({ error: "AI service rejected content. Please try a different photo or style." });
     }
-
-    console.log(`Seedream generation success: style=${styleId}, url=${imageUrl.substring(0, 80)}...`);
-    return res.json({ image_url: imageUrl });
-
-  } catch (err) {
-    clearTimeout(timeout);
-
-    if (err.name === "AbortError") {
-      console.error("Seedream API timeout");
-      return res.status(502).json({ error: "AI generation timed out. Image may be too complex. Please try with a simpler photo or different style." });
-    }
-
-    console.error("Seedream network error:", err.message);
-    return res.status(502).json({ error: `Failed to connect to AI service: ${err.message}` });
+    return res.status(502).json({ error: `AI service error: ${msg}` });
   }
+
+  console.log(`Seedream generation success: style=${styleId}, model used`);
+  return res.json({ image_url: result.imageUrl });
 });
 
 // ─── Route: GET /api/ai/styles ─────────────────────────────────────────────
