@@ -234,53 +234,67 @@
 
               <fieldset class="controls-fieldset ai-style-section" data-ai-controls disabled>
                 <legend class="controls-fieldset__legend" data-lang-key="ai-legend">Choose Your Style</legend>
-                <p class="ai-style-desc" data-lang-key="ai-desc">Select a 3D artistic style to transform your photo</p>
+
+                <div class="dim-toggle" data-dim-toggle>
+                  <span class="dim-toggle__label" data-lang-key="dim-label">Type</span>
+                  <button type="button" class="dim-btn dim-btn--active" data-dim-btn data-dim="3d">
+                    <span class="dim-btn__icon dim-btn__icon--3d"></span>
+                    <span class="dim-btn__text" data-lang-key="dim-3d">3D Magnet</span>
+                  </button>
+                  <button type="button" class="dim-btn" data-dim-btn data-dim="2d">
+                    <span class="dim-btn__icon dim-btn__icon--2d"></span>
+                    <span class="dim-btn__text" data-lang-key="dim-2d">2D Magnet</span>
+                  </button>
+                </div>
+
+                <p class="ai-style-desc" data-lang-key="ai-desc">Select an artistic style to transform your photo</p>
 
                 <div class="style-grid-v2" data-style-grid>
                   <label class="style-card">
                     <input type="radio" name="ai-style" value="3d-cartoon" checked />
-                    <span class="style-card__preview">
-                      <span class="style-card__emoji">🧸</span>
-                    </span>
-                    <span class="style-card__name" data-lang-key="style-3d-cartoon">Cute 3D Cartoon</span>
-                    <span class="style-card__desc" data-lang-key="style-3d-cartoon-desc">Playful & adorable</span>
+                    <span class="style-card__preview"><span class="style-card__emoji">🧸</span></span>
+                    <span class="style-card__name" data-lang-key="style-3d-cartoon">Cute Cartoon</span>
                   </label>
                   <label class="style-card">
                     <input type="radio" name="ai-style" value="ceramic" />
-                    <span class="style-card__preview">
-                      <span class="style-card__emoji">🏺</span>
-                    </span>
-                    <span class="style-card__name" data-lang-key="style-ceramic">Handcrafted Ceramic</span>
-                    <span class="style-card__desc" data-lang-key="style-ceramic-desc">Warm & textured</span>
+                    <span class="style-card__preview"><span class="style-card__emoji">🏺</span></span>
+                    <span class="style-card__name" data-lang-key="style-ceramic">Ceramic Art</span>
                   </label>
                   <label class="style-card">
                     <input type="radio" name="ai-style" value="resin" />
-                    <span class="style-card__preview">
-                      <span class="style-card__emoji">💎</span>
-                    </span>
-                    <span class="style-card__name" data-lang-key="style-resin">Premium Resin Art</span>
-                    <span class="style-card__desc" data-lang-key="style-resin-desc">Glossy & refined</span>
+                    <span class="style-card__preview"><span class="style-card__emoji">💎</span></span>
+                    <span class="style-card__name" data-lang-key="style-resin">Resin Art</span>
                   </label>
                   <label class="style-card">
                     <input type="radio" name="ai-style" value="pop-art" />
-                    <span class="style-card__preview">
-                      <span class="style-card__emoji">🎨</span>
-                    </span>
-                    <span class="style-card__name" data-lang-key="style-pop-art">Vibrant Pop Art</span>
-                    <span class="style-card__desc" data-lang-key="style-pop-art-desc">Bold & colorful</span>
+                    <span class="style-card__preview"><span class="style-card__emoji">🎨</span></span>
+                    <span class="style-card__name" data-lang-key="style-pop-art">Pop Art</span>
                   </label>
-                </div>
-
-                <div class="shape-toggle" data-shape-toggle>
-                  <span class="shape-toggle__label" data-lang-key="shape-label">Shape</span>
-                  <button type="button" class="shape-btn shape-btn--active" data-shape-btn data-shape="square" data-lang-attr="aria-label|shape-square">
-                    <span class="shape-btn__icon shape-btn__icon--square"></span>
-                    <span class="shape-btn__text" data-lang-key="shape-square">Square</span>
-                  </button>
-                  <button type="button" class="shape-btn" data-shape-btn data-shape="round" data-lang-attr="aria-label|shape-round">
-                    <span class="shape-btn__icon shape-btn__icon--round"></span>
-                    <span class="shape-btn__text" data-lang-key="shape-round">Round</span>
-                  </button>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="watercolor" />
+                    <span class="style-card__preview"><span class="style-card__emoji">🖌️</span></span>
+                    <span class="style-card__name" data-lang-key="style-watercolor">Watercolor</span>
+                  </label>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="oil-painting" />
+                    <span class="style-card__preview"><span class="style-card__emoji">🖼️</span></span>
+                    <span class="style-card__name" data-lang-key="style-oil-painting">Oil Painting</span>
+                  </label>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="pixel-art" />
+                    <span class="style-card__preview"><span class="style-card__emoji">👾</span></span>
+                    <span class="style-card__name" data-lang-key="style-pixel-art">Pixel Art</span>
+                  </label>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="anime" />
+                    <span class="style-card__preview"><span class="style-card__emoji">🌸</span></span>
+                    <span class="style-card__name" data-lang-key="style-anime">Anime Style</span>
+                  </label>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="clay" />
+                    <span class="style-card__preview"><span class="style-card__emoji">🪅</span></span>
+                    <span class="style-card__name" data-lang-key="style-clay">Clay World</span>
+                  </label>
                 </div>
               </fieldset>
 

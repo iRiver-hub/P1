@@ -8,41 +8,42 @@ const PRIMARY_MODEL = process.env.SEEDREAM_MODEL || "doubao-seedream-4-5-251128"
 const FALLBACK_MODEL = "doubao-seedream-4-0-250828";
 const GENERATION_TIMEOUT_MS = 120000;
 
-// ─── Fridge Magnet Prompt Templates ────────────────────────────────────────
-// ALL prompts generate: 3D magnet product ON a refrigerator door in a kitchen.
-// This ensures every output is a consistent "magnet on fridge" showcase.
+// ─── Magnet-Only Prompt Templates ─────────────────────────────────────────
+// AI generates ONLY the die-cut magnet product on white background.
+// Frontend composites the magnet onto a fixed fridge illustration.
 
 const STYLE_PROMPTS = {
-  "3d-cartoon": {
-    en: "A cute 3D cartoon style refrigerator magnet attached to a modern stainless steel French-door refrigerator. The magnet is a thick dimensional product with glossy resin surface, about 8mm thick, preserving the subject's features as an adorable cartoon character with smooth rounded edges. The refrigerator is in a clean bright modern kitchen with soft natural window lighting. Professional commercial product photography, shallow depth of field with the magnet in sharp focus and the refrigerator slightly blurred. The scene looks like a premium product listing photo.",
-    zh: "一个可爱的3D卡通风格冰箱贴，吸附在一台现代不锈钢法式对开门冰箱上。冰箱贴是厚重的立体产品，约8毫米厚，高光泽树脂表面，将照片主体的特征转化为可爱的卡通角色，边缘圆润光滑。冰箱位于明亮干净的现代厨房中，柔和自然光从窗户照入。专业商业产品摄影，浅景深，冰箱贴清晰对焦，冰箱背景略微虚化。整个画面如同一张高级产品展示照片。"
-  },
-  "ceramic": {
-    en: "A handcrafted ceramic style 3D refrigerator magnet attached to a modern stainless steel French-door refrigerator. The magnet is a thick glazed ceramic product with visible tactile texture and subtle hand-painted details, featuring the subject transformed into ceramic art. The magnet has dimensional depth, glossy glaze finish with slight color variations typical of kiln-fired ceramics. The refrigerator is in a clean bright kitchen with soft natural light. Professional product photography, shallow depth of field, the magnet in sharp focus.",
-    zh: "一个手工陶瓷风格的3D冰箱贴，吸附在一台现代不锈钢法式对开门冰箱上。冰箱贴是厚重的釉面陶瓷产品，具有可见的手工质感和手绘细节，将主体转化为陶瓷艺术品。冰箱贴有立体深度，亮光釉面，带有陶瓷烧制特有的微妙色彩变化。冰箱位于干净明亮的厨房中，柔和自然光照明。专业产品摄影，浅景深，冰箱贴清晰对焦。"
-  },
-  "resin": {
-    en: "A premium resin art 3D refrigerator magnet attached to a modern stainless steel French-door refrigerator. The magnet is a luxury collectible with crystal-clear resin encapsulation, the subject rendered as a detailed 3D figurine suspended within the resin layer. The magnet has dramatic dimensional depth, high gloss mirror-like surface, and metallic silver border edge. The refrigerator is in an elegant modern kitchen with soft ambient lighting. Premium product photography, shallow depth of field, the magnet in razor-sharp focus.",
-    zh: "一个高级树脂艺术3D冰箱贴，吸附在一台现代不锈钢法式对开门冰箱上。冰箱贴是奢侈收藏品级别，水晶般透明的树脂封装，主体被制作成精细的3D立体人偶悬浮在树脂层中。冰箱贴具有戏剧性的立体深度，镜面般高光泽表面，银色金属边框。冰箱位于优雅的现代厨房中，柔和环境光。高级产品摄影，浅景深，冰箱贴极致清晰对焦。"
-  },
-  "pop-art": {
-    en: "A vibrant pop art style 3D refrigerator magnet attached to a modern stainless steel French-door refrigerator. The magnet is a thick glossy product with bold pop art comic halftone dots, vivid saturated colors, and strong graphic outlines, featuring the subject in retro pop art illustration style. The magnet has pronounced 3D thickness, glossy finish, and a colorful border. The refrigerator is in a bright modern kitchen with natural lighting. Bold commercial product photography, shallow depth of field, the magnet in sharp focus.",
-    zh: "一个鲜艳的波普艺术风格3D冰箱贴，吸附在一台现代不锈钢法式对开门冰箱上。冰箱贴是厚重的高光泽产品，带有大胆的波普艺术漫画网点、高饱和鲜艳色彩和强烈的图形轮廓线，将主体转化为复古波普艺术插画风格。冰箱贴具有明显的3D厚度，高光表面，彩色边框。冰箱位于明亮的现代厨房中，自然光照明。大胆的商业产品摄影，浅景深，冰箱贴清晰对焦。"
-  }
+  "3d-cartoon": "A cute cartoon-style die-cut refrigerator magnet featuring the subject transformed into an adorable cartoon character with smooth rounded features and glossy surface. The magnet is cut to the natural contour shape of the character, no rectangular border.",
+  "ceramic": "A handcrafted ceramic-style die-cut refrigerator magnet featuring the subject as glazed ceramic art with visible tactile texture and subtle hand-painted details. The magnet follows organic contour shape, no frame.",
+  "resin": "A premium crystal-clear resin art die-cut refrigerator magnet featuring the subject rendered as a detailed figurine encapsulated within transparent resin. Contour-cut shape with metallic border edge.",
+  "pop-art": "A bold pop art style die-cut refrigerator magnet featuring the subject with comic halftone dots, vivid saturated colors, and strong graphic outlines in retro pop art style. Contour-cut to the subject shape.",
+  "watercolor": "A soft watercolor painting style die-cut refrigerator magnet featuring the subject with gentle color washes, bleeding edges, and artistic paper texture. Organic contour-cut shape.",
+  "oil-painting": "A classic oil painting style die-cut refrigerator magnet featuring the subject with visible brush strokes, rich impasto texture, and warm oil pigment colors. Contour-cut organic shape.",
+  "pixel-art": "A retro pixel art style die-cut refrigerator magnet featuring the subject as a pixel game character with crisp square pixels, limited color palette, and nostalgic 8-bit aesthetic. Contour silhouette cut.",
+  "anime": "A Japanese anime illustration style die-cut refrigerator magnet featuring the subject with clean line art, cel-shaded coloring, large expressive features, and vibrant screentone patterns. Contour-cut shape.",
+  "clay": "A stop-motion claymation style die-cut refrigerator magnet featuring the subject as a clay figure with fingerprint textures, soft rounded forms, and matte pastel colors. Organic contour-cut shape."
 };
 
-// ─── Shape descriptions (appended to prompt) ─────────────────────────────
-const SHAPE_DESCRIPTIONS = {
-  round: { en: "The magnet is circular/round shaped.", zh: "冰箱贴是圆形/圆形的。" },
-  square: { en: "The magnet is a rounded square shape with slightly rounded corners.", zh: "冰箱贴是圆角方形，四角略微圆润。" }
+// ─── 2D vs 3D prefix ────────────────────────────────────────────────────
+const DIM_PREFIX = {
+  "3d": "A thick 3D epoxy dome refrigerator magnet with glossy resin dome on top creating dimensional depth, approximately 8mm thick. ",
+  "2d": "A flat 2D die-cut printed refrigerator magnet. "
 };
 
-function buildPrompt(styleId, shape, lang) {
-  const templates = STYLE_PROMPTS[styleId] || STYLE_PROMPTS["3d-cartoon"];
-  const shapeDesc = SHAPE_DESCRIPTIONS[shape] || SHAPE_DESCRIPTIONS["square"];
-  const prompt = (templates.en || templates.zh) + " " + (shapeDesc.en || shapeDesc.zh);
-  const tail = "The refrigerator is always the same model: a modern stainless steel French-door refrigerator with two upper doors and a bottom freezer drawer, silver metallic finish. The kitchen is clean, bright, with white walls and soft daylight. The magnet is always clearly visible on the upper door area. No people, no hands, no text, no watermarks.";
-  return prompt + " " + tail;
+const DIM_SUFFIX = {
+  "3d": " slightly angled view to show 3D thickness and epoxy dome effect. The magnet has visible dimensional depth with a glossy raised resin layer on top. Isolated product on plain white studio background with clean shadow directly underneath. Professional product photography, studio lighting. No text, no watermarks.",
+  "2d": " flat top-down view showing the contour-cut edges. The magnet is completely flat with matte finish. Isolated product on plain white studio background with no shadow on the background. Professional product photography, even studio lighting. No text, no watermarks."
+};
+
+function buildPrompt(styleId, dim, lang) {
+  const styleDesc = STYLE_PROMPTS[styleId] || STYLE_PROMPTS["3d-cartoon"];
+  const prefix = DIM_PREFIX[dim] || DIM_PREFIX["3d"];
+  const suffix = DIM_SUFFIX[dim] || DIM_SUFFIX["3d"];
+
+  // Language-specific quality tag
+  const zhTag = lang === "zh" ? " 高质量产品图。" : "";
+
+  return prefix + styleDesc + suffix + zhTag;
 }
 
 function normalizeImage(imageData) {
@@ -107,14 +108,14 @@ async function callSeedream(image, prompt) {
 // ─── POST /api/ai/generate ────────────────────────────────────────────────
 
 router.post("/generate", async (req, res) => {
-  const { prompt: customPrompt, image: rawImage, styleId, shape, lang } = req.body;
+  const { prompt: customPrompt, image: rawImage, styleId, dim, lang } = req.body;
   if (!rawImage) return res.status(400).json({ error: "Missing required parameter: image" });
   const image = normalizeImage(rawImage);
   if (!image) return res.status(400).json({ error: "Invalid image data format" });
   const forbiddenKeywords = ["nude", "nsfw", "porn", "violence", "weapon", "gore", "hate"];
   if (forbiddenKeywords.some(kw => (customPrompt || "").toLowerCase().includes(kw))) return res.status(400).json({ error: "Content policy violation." });
 
-  const prompt = customPrompt || buildPrompt(styleId || "3d-cartoon", shape || "square", lang || "en");
+  const prompt = customPrompt || buildPrompt(styleId || "3d-cartoon", dim || "3d", lang || "en");
   const result = await callSeedream(image, prompt);
 
   if (!result.success) {
@@ -127,7 +128,7 @@ router.post("/generate", async (req, res) => {
     return res.status(502).json({ error: `AI service error: ${msg}` });
   }
 
-  console.log(`Seedream success: style=${styleId}`);
+  console.log(`Seedream success: style=${styleId}, dim=${dim}`);
   return res.json({ image_data_uri: result.imageDataUri });
 });
 
@@ -136,10 +137,15 @@ router.post("/generate", async (req, res) => {
 router.get("/styles", (req, res) => {
   res.json({
     styles: [
-      { id: "3d-cartoon", name: "Cute 3D Cartoon", description: "Adorable 3D cartoon character with glossy resin finish" },
-      { id: "ceramic", name: "Handcrafted Ceramic", description: "Glazed ceramic texture with warm handcrafted feel" },
-      { id: "resin", name: "Premium Resin Art", description: "Crystal-clear resin collectible with mirror gloss" },
-      { id: "pop-art", name: "Vibrant Pop Art", description: "Bold comic-style pop art with vivid saturated colors" }
+      { id: "3d-cartoon", name: "Cute Cartoon", description: "Adorable cartoon character style" },
+      { id: "ceramic", name: "Ceramic Art", description: "Handcrafted glazed ceramic texture" },
+      { id: "resin", name: "Resin Art", description: "Crystal-clear resin collectible" },
+      { id: "pop-art", name: "Pop Art", description: "Bold comic pop art style" },
+      { id: "watercolor", name: "Watercolor", description: "Soft watercolor painting style" },
+      { id: "oil-painting", name: "Oil Painting", description: "Classic oil painting texture" },
+      { id: "pixel-art", name: "Pixel Art", description: "Retro pixel game art style" },
+      { id: "anime", name: "Anime Style", description: "Japanese anime illustration" },
+      { id: "clay", name: "Clay World", description: "Stop-motion claymation look" }
     ]
   });
 });

@@ -736,19 +736,19 @@ input[type="range"] {
 /* ── Style Cards V2 ── */
 .style-grid-v2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 14px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
 .style-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 14px 8px 12px;
+  gap: 4px;
+  padding: 10px 6px 8px;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
@@ -757,7 +757,7 @@ input[type="range"] {
 .style-card:hover {
   border-color: var(--accent);
   background: var(--accent-dim);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .style-card input {
@@ -780,9 +780,9 @@ input[type="range"] {
 }
 
 .style-card__preview {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   background: var(--bg);
   border: 1px solid var(--border);
   display: flex;
@@ -793,16 +793,16 @@ input[type="range"] {
 
 .style-card:has(input:checked) .style-card__preview,
 .style-card--active .style-card__preview {
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 .style-card__emoji {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   line-height: 1;
 }
 
 .style-card__name {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--text);
   text-align: center;
@@ -814,73 +814,73 @@ input[type="range"] {
   color: var(--accent);
 }
 
-.style-card__desc {
-  font-size: 0.7rem;
-  color: var(--text-subtle);
-  text-align: center;
-  line-height: 1;
-}
-
-/* ── Shape Toggle ── */
-.shape-toggle {
+/* ── 2D / 3D Dimension Toggle ── */
+.dim-toggle {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-.shape-toggle__label {
+.dim-toggle__label {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
-  min-width: 42px;
+  min-width: 34px;
 }
 
-.shape-btn {
+.dim-btn {
+  flex: 1;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
   border: 2px solid var(--border);
   border-radius: 10px;
   background: var(--bg);
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
-.shape-btn:hover {
+.dim-btn:hover {
   border-color: var(--accent);
   color: var(--text);
 }
 
-.shape-btn--active {
+.dim-btn--active {
   border-color: var(--accent);
   background: var(--accent-dim);
   color: var(--accent);
-  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--accent);
 }
 
-.shape-btn__icon {
+.dim-btn__icon {
   display: block;
-  width: 18px;
-  height: 18px;
-  border: 2px solid currentColor;
-  transition: border-radius 0.2s ease;
+  width: 20px;
+  height: 20px;
+  position: relative;
 }
 
-.shape-btn__icon--square {
+.dim-btn__icon--3d {
+  background: linear-gradient(135deg, var(--accent) 40%, var(--accent-light) 60%, var(--accent) 80%);
   border-radius: 4px;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
-.shape-btn__icon--round {
-  border-radius: 50%;
+.dim-btn__icon--2d {
+  background: var(--accent);
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
-.shape-btn__text {
-  font-size: 0.82rem;
+.dim-btn__text {
+  font-size: 0.85rem;
 }
 
 /* ── Large Button ── */

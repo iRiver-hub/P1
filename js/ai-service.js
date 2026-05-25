@@ -1,10 +1,15 @@
 (function () {
-  // ─── Style Definitions (for UI display only) ───────────────────────────
+  // ─── Style Definitions ───────────────────────────────────────────────
   var AI_STYLES = [
-    { id: "3d-cartoon", name: "Cute 3D Cartoon", desc: "Adorable cartoon character with glossy resin finish" },
-    { id: "ceramic", name: "Handcrafted Ceramic", desc: "Glazed ceramic texture with handcrafted warmth" },
-    { id: "resin", name: "Premium Resin Art", desc: "Crystal-clear resin collectible with mirror gloss" },
-    { id: "pop-art", name: "Vibrant Pop Art", desc: "Bold comic pop art with vivid saturated colors" }
+    { id: "3d-cartoon", name: "Cute Cartoon", desc: "Adorable cartoon character style" },
+    { id: "ceramic", name: "Ceramic Art", desc: "Handcrafted glazed ceramic texture" },
+    { id: "resin", name: "Resin Art", desc: "Crystal-clear resin collectible" },
+    { id: "pop-art", name: "Pop Art", desc: "Bold comic pop art style" },
+    { id: "watercolor", name: "Watercolor", desc: "Soft watercolor painting style" },
+    { id: "oil-painting", name: "Oil Painting", desc: "Classic oil painting texture" },
+    { id: "pixel-art", name: "Pixel Art", desc: "Retro pixel game art style" },
+    { id: "anime", name: "Anime Style", desc: "Japanese anime illustration" },
+    { id: "clay", name: "Clay World", desc: "Stop-motion claymation look" }
   ];
 
   var API_BASE = (function () {
@@ -29,7 +34,7 @@
       xhr.ontimeout = function () { onResult(false, "AI server connection timed out"); };
       xhr.send();
     },
-    generate: function (sourceImage, styleId, shape, onProgress, onSuccess, onError) {
+    generate: function (sourceImage, styleId, dim, onProgress, onSuccess, onError) {
       var style = this.getStyleById(styleId);
       if (!style) { onError("Unknown style option. Please refresh the page and try again."); return; }
       if (!sourceImage || !sourceImage.naturalWidth) { onError("No valid photo loaded. Please upload an image first."); return; }
@@ -48,11 +53,11 @@
       var dataUri;
       try { dataUri = canvas.toDataURL("image/png", 0.95); } catch (e) { onError("Failed to process image. The photo may be too large."); return; }
 
-      onProgress("Generating fridge magnet with AI... (may take 15-30 seconds)");
+      onProgress("AI is generating your magnet... (may take 15-30 seconds)");
       var userLang = "en";
       try { var stored = localStorage.getItem("river-lang"); if (stored === "zh") userLang = "zh"; } catch (e) {}
 
-      var requestBody = { image: dataUri, styleId: styleId, shape: shape || "square", lang: userLang };
+      var requestBody = { image: dataUri, styleId: styleId, dim: dim || "3d", lang: userLang };
       var xhr = new XMLHttpRequest();
       xhr.open("POST", API_BASE + "/ai/generate");
       xhr.setRequestHeader("Content-Type", "application/json");
