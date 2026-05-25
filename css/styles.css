@@ -733,83 +733,181 @@ input[type="range"] {
   line-height: 1.5;
 }
 
-.style-grid {
+/* ── Style Cards V2 ── */
+.style-grid-v2 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   margin-bottom: 14px;
 }
 
-.style-option {
+.style-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 10px 6px;
+  padding: 14px 8px 12px;
   border: 2px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-.style-option:hover {
+.style-card:hover {
   border-color: var(--accent);
+  background: var(--accent-dim);
   transform: translateY(-2px);
 }
 
-.style-option input {
+.style-card input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
 
-.style-option input:checked + .style-option__preview {
-  box-shadow: 0 0 0 3px var(--accent);
-  transform: scale(1.05);
+.style-card:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 0 1px var(--accent);
 }
 
-.style-option input:checked ~ .style-option__name {
+/* Fallback for browsers without :has — active class */
+.style-card--active {
+  border-color: var(--accent) !important;
+  background: var(--accent-dim) !important;
+  box-shadow: 0 0 0 1px var(--accent) !important;
+}
+
+.style-card__preview {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.style-card:has(input:checked) .style-card__preview,
+.style-card--active .style-card__preview {
+  transform: scale(1.08);
+}
+
+.style-card__emoji {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.style-card__name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.style-card:has(input:checked) .style-card__name,
+.style-card--active .style-card__name {
+  color: var(--accent);
+}
+
+.style-card__desc {
+  font-size: 0.7rem;
+  color: var(--text-subtle);
+  text-align: center;
+  line-height: 1;
+}
+
+/* ── Shape Toggle ── */
+.shape-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.shape-toggle__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 42px;
+}
+
+.shape-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.shape-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.shape-btn--active {
+  border-color: var(--accent);
+  background: var(--accent-dim);
   color: var(--accent);
   font-weight: 600;
 }
 
-.style-option__preview {
-  width: 52px;
-  height: 52px;
-  border-radius: 10px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+.shape-btn__icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  transition: border-radius 0.2s ease;
 }
 
-.style-option__name {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-align: center;
-  transition: color 0.15s ease;
+.shape-btn__icon--square {
+  border-radius: 4px;
 }
 
-.style-preview--3d {
-  background: url('https://picsum.photos/seed/3d/100/100') center/cover;
+.shape-btn__icon--round {
+  border-radius: 50%;
 }
 
-.style-preview--clay {
-  background: url('https://picsum.photos/seed/clay/100/100') center/cover;
-  border-radius: 14px;
+.shape-btn__text {
+  font-size: 0.82rem;
 }
 
-.style-preview--pixel {
-  background: url('https://picsum.photos/seed/pixel/100/100') center/cover;
+/* ── Large Button ── */
+.btn--lg {
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  border-radius: var(--radius);
+  letter-spacing: -0.02em;
 }
 
-.style-preview--anime {
-  background: url('https://picsum.photos/seed/anime/100/100') center/cover;
+.btn__icon {
+  font-size: 1.2em;
+  margin-right: 6px;
 }
 
-.style-preview--watercolor {
-  background: url('https://picsum.photos/seed/watercolor/100/100') center/cover;
-}
-
+/* ── Hide legacy styles ── */
+.control-row,
+.checkbox-row,
+.style-grid,
+.style-option,
+.style-preview--3d,
+.style-preview--clay,
+.style-preview--pixel,
+.style-preview--anime,
+.style-preview--watercolor,
 .style-preview--oil {
-  background: url('https://picsum.photos/seed/oil/100/100') center/cover;
+  display: none;
 }
 
 .showcase__grid {

@@ -232,105 +232,62 @@
                 No image selected yet.
               </p>
 
-              <fieldset class="controls-fieldset" data-controls disabled>
-                <legend class="controls-fieldset__legend" data-lang-key="appearance-legend">Appearance</legend>
-
-                <div class="control-row">
-                  <label class="control-label" for="radius-range">
-                    <span data-lang-key="radius-label">Corner Radius</span> <span data-radius-value>18</span> px
-                  </label>
-                  <input
-                    id="radius-range"
-                    type="range"
-                    min="8"
-                    max="48"
-                    value="18"
-                    data-radius-range
-                  />
-                </div>
-
-                <div class="control-row">
-                  <label class="control-label" for="frame-range">
-                    <span data-lang-key="frame-label">White Border</span> <span data-frame-value>14</span> px
-                  </label>
-                  <input
-                    id="frame-range"
-                    type="range"
-                    min="6"
-                    max="28"
-                    value="14"
-                    data-frame-range
-                  />
-                </div>
-
-                <div class="control-row">
-                  <label class="control-label" for="shadow-range">
-                    <span data-lang-key="shadow-label">Shadow Intensity</span> <span data-shadow-value>50</span> %
-                  </label>
-                  <input
-                    id="shadow-range"
-                    type="range"
-                    min="20"
-                    max="80"
-                    value="50"
-                    data-shadow-range
-                  />
-                </div>
-
-                <label class="checkbox-row">
-                  <input type="checkbox" data-gloss-toggle checked />
-                  <span data-lang-key="gloss-label">Glossy Finish (Preview)</span>
-                </label>
-              </fieldset>
-
               <fieldset class="controls-fieldset ai-style-section" data-ai-controls disabled>
-                <legend class="controls-fieldset__legend" data-lang-key="ai-legend">🎨 AI Style Generation</legend>
-                <p class="ai-style-desc" data-lang-key="ai-desc">After uploading, select a style and click "AI Generate" to transform your photo</p>
+                <legend class="controls-fieldset__legend" data-lang-key="ai-legend">Choose Your Style</legend>
+                <p class="ai-style-desc" data-lang-key="ai-desc">Select a 3D artistic style to transform your photo</p>
 
-                <div class="style-grid" data-style-grid>
-                  <label class="style-option">
+                <div class="style-grid-v2" data-style-grid>
+                  <label class="style-card">
                     <input type="radio" name="ai-style" value="3d-cartoon" checked />
-                    <span class="style-option__preview style-preview--3d"></span>
-                    <span class="style-option__name" data-lang-key="style-3d">3D Cartoon</span>
+                    <span class="style-card__preview">
+                      <span class="style-card__emoji">🧸</span>
+                    </span>
+                    <span class="style-card__name" data-lang-key="style-3d-cartoon">Cute 3D Cartoon</span>
+                    <span class="style-card__desc" data-lang-key="style-3d-cartoon-desc">Playful & adorable</span>
                   </label>
-                  <label class="style-option">
-                    <input type="radio" name="ai-style" value="clay-world" />
-                    <span class="style-option__preview style-preview--clay"></span>
-                    <span class="style-option__name" data-lang-key="style-clay">Clay Art</span>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="ceramic" />
+                    <span class="style-card__preview">
+                      <span class="style-card__emoji">🏺</span>
+                    </span>
+                    <span class="style-card__name" data-lang-key="style-ceramic">Handcrafted Ceramic</span>
+                    <span class="style-card__desc" data-lang-key="style-ceramic-desc">Warm & textured</span>
                   </label>
-                  <label class="style-option">
-                    <input type="radio" name="ai-style" value="pixel-art" />
-                    <span class="style-option__preview style-preview--pixel"></span>
-                    <span class="style-option__name" data-lang-key="style-pixel">Pixel Art</span>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="resin" />
+                    <span class="style-card__preview">
+                      <span class="style-card__emoji">💎</span>
+                    </span>
+                    <span class="style-card__name" data-lang-key="style-resin">Premium Resin Art</span>
+                    <span class="style-card__desc" data-lang-key="style-resin-desc">Glossy & refined</span>
                   </label>
-                  <label class="style-option">
-                    <input type="radio" name="ai-style" value="anime" />
-                    <span class="style-option__preview style-preview--anime"></span>
-                    <span class="style-option__name" data-lang-key="style-anime">Anime Style</span>
-                  </label>
-                  <label class="style-option">
-                    <input type="radio" name="ai-style" value="watercolor" />
-                    <span class="style-option__preview style-preview--watercolor"></span>
-                    <span class="style-option__name" data-lang-key="style-watercolor">Watercolor</span>
-                  </label>
-                  <label class="style-option">
-                    <input type="radio" name="ai-style" value="oil-painting" />
-                    <span class="style-option__preview style-preview--oil"></span>
-                    <span class="style-option__name" data-lang-key="style-oil">Oil Painting</span>
+                  <label class="style-card">
+                    <input type="radio" name="ai-style" value="pop-art" />
+                    <span class="style-card__preview">
+                      <span class="style-card__emoji">🎨</span>
+                    </span>
+                    <span class="style-card__name" data-lang-key="style-pop-art">Vibrant Pop Art</span>
+                    <span class="style-card__desc" data-lang-key="style-pop-art-desc">Bold & colorful</span>
                   </label>
                 </div>
 
-                <button type="button" class="btn btn--accent btn--block" data-ai-generate-btn disabled data-lang-key="btn-ai-generate">
-                  ✨ AI Generate Style
-                </button>
-                <button type="button" class="btn btn--ghost btn--block" data-reset-btn style="display:none" data-lang-key="btn-reset">
-                  ↩ Reset to Original
-                </button>
+                <div class="shape-toggle" data-shape-toggle>
+                  <span class="shape-toggle__label" data-lang-key="shape-label">Shape</span>
+                  <button type="button" class="shape-btn shape-btn--active" data-shape-btn data-shape="square" data-lang-attr="aria-label|shape-square">
+                    <span class="shape-btn__icon shape-btn__icon--square"></span>
+                    <span class="shape-btn__text" data-lang-key="shape-square">Square</span>
+                  </button>
+                  <button type="button" class="shape-btn" data-shape-btn data-shape="round" data-lang-attr="aria-label|shape-round">
+                    <span class="shape-btn__icon shape-btn__icon--round"></span>
+                    <span class="shape-btn__text" data-lang-key="shape-round">Round</span>
+                  </button>
+                </div>
               </fieldset>
 
               <div class="panel-actions">
-                <button type="button" class="btn btn--primary btn--block" data-render-btn disabled data-lang-key="btn-update-preview">
-                  Update Preview
+                <button type="button" class="btn btn--accent btn--lg btn--block" data-ai-generate-btn disabled>
+                  <span class="btn__icon">✨</span>
+                  <span data-lang-key="btn-ai-generate">Generate My Magnet</span>
                 </button>
                 <button type="button" class="btn btn--ghost btn--block" data-download-btn disabled data-lang-key="btn-download">
                   Download Preview PNG

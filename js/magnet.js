@@ -1,360 +1,130 @@
 (function () {
-  const canvas = document.getElementById("magnet-canvas");
+  var canvas = document.getElementById("magnet-canvas");
   if (!canvas || !canvas.getContext) return;
 
-  const ctx = canvas.getContext("2d");
-  const fileInput = document.querySelector("[data-file-input]");
-  const dropzone = document.querySelector("[data-dropzone]");
-  const statusEl = document.querySelector("[data-status]");
-  const controls = document.querySelector("[data-controls]");
-  const aiControls = document.querySelector("[data-ai-controls]");
-  const radiusRange = document.querySelector("[data-radius-range]");
-  const frameRange = document.querySelector("[data-frame-range]");
-  const shadowRange = document.querySelector("[data-shadow-range]");
-  const radiusValue = document.querySelector("[data-radius-value]");
-  const frameValue = document.querySelector("[data-frame-value]");
-  const shadowValue = document.querySelector("[data-shadow-value]");
-  const glossToggle = document.querySelector("[data-gloss-toggle]");
-  const renderBtn = document.querySelector("[data-render-btn]");
-  const downloadBtn = document.querySelector("[data-download-btn]");
-  const aiGenerateBtn = document.querySelector("[data-ai-generate-btn]");
-  const styleGrid = document.querySelector("[data-style-grid]");
+  var ctx = canvas.getContext("2d");
+  var fileInput = document.querySelector("[data-file-input]");
+  var dropzone = document.querySelector("[data-dropzone]");
+  var statusEl = document.querySelector("[data-status]");
+  var aiControls = document.querySelector("[data-ai-controls]");
+  var downloadBtn = document.querySelector("[data-download-btn]");
+  var aiGenerateBtn = document.querySelector("[data-ai-generate-btn]");
+  var styleGrid = document.querySelector("[data-style-grid]");
 
-  let sourceImage = null;       // current display image (original or AI-generated)
-  let originalImage = null;    // always the user's original upload
-  let aiGeneratedImage = null; // latest AI-generated result
-  let objectUrl = null;
-  let isGenerating = false;
+  var sourceImage = null;
+  var originalImage = null;
+  var aiGeneratedImage = null;
+  var objectUrl = null;
+  var isGenerating = false;
+  var W = canvas.width, H = canvas.height;
 
-  const W = canvas.width;
-  const H = canvas.height;
-
-  function setStatus(text) {
-    if (statusEl) statusEl.textContent = text;
-  }
+  function setStatus(text) { if (statusEl) statusEl.textContent = text; }
 
   function setReadyState(hasImage) {
-    if (controls) controls.disabled = !hasImage;
-    if (renderBtn) renderBtn.disabled = !hasImage;
     if (aiControls) aiControls.disabled = !hasImage;
-    if (aiGenerateBtn) {
-      aiGenerateBtn.disabled = !hasImage || !window.AIService?.isConfigured() || isGenerating;
-    }
-    // Download requires login: track image state, actual state set by auth.js
-    if (downloadBtn) {
-      downloadBtn.setAttribute("data-has-image", hasImage ? "true" : "false");
-    }
-    // Update access control display
-    if (window.updateCustomizerAccess) {
-      window.updateCustomizerAccess();
-    }
+    if (aiGenerateBtn) aiGenerateBtn.disabled = !hasImage || isGenerating;
+    if (downloadBtn) downloadBtn.setAttribute("data-has-image", hasImage ? "true" : "false");
+    if (window.updateCustomizerAccess) window.updateCustomizerAccess();
   }
 
-  function revokeObjectUrl() {
-    if (objectUrl) {
-      URL.revokeObjectURL(objectUrl);
-      objectUrl = null;
-    }
-  }
+  function revokeObjectUrl() { if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = null; } }
+
+  function getSelectedShape() { var el = document.querySelector("[data-shape-btn].shape-btn--active"); return el ? el.getAttribute("data-shape") : "square"; }
+  function getSelectedStyle() { var el = styleGrid?.querySelector('input[name="ai-style"]:checked'); return el ? el.value : null; }
 
   function loadFile(file) {
-    if (!file || !file.type.startsWith("image/")) {
-      setStatus("请选择有效的图片文件。");
-      return;
-    }
-    revokeObjectUrl();
-    objectUrl = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      sourceImage = img;
-      originalImage = img; // keep original for reset
-      aiGeneratedImage = null;
+    if (!file || !file.type.startsWith("image/")) { setStatus("Please select a valid image file."); return; }
+    revokeObjectUrl(); objectUrl = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function () {
+      sourceImage = img; originalImage = img; aiGeneratedImage = null;
       setReadyState(true);
-      setStatus(`Loaded: ${file.name} (${img.naturalWidth}×${img.naturalHeight})`);
-      updateResetButton();
+      setStatus("Photo loaded. Select a style and click Generate.");
       render();
     };
-    img.onerror = () => {
-      sourceImage = null;
-      setReadyState(false);
-      setStatus("图片无法读取，请换一张试试。");
-    };
+    img.onerror = function () { sourceImage = null; setReadyState(false); setStatus("Cannot read this image."); };
     img.src = objectUrl;
   }
 
-  function roundRectPath(context, x, y, w, h, r) {
-    const radius = Math.min(r, w / 2, h / 2);
-    context.beginPath();
-    context.moveTo(x + radius, y);
-    context.arcTo(x + w, y, x + w, y + h, radius);
-    context.arcTo(x + w, y + h, x, y + h, radius);
-    context.arcTo(x, y + h, x, y, radius);
-    context.arcTo(x, y, x + w, y, radius);
-    context.closePath();
+  function drawPlaceholder() {
+    var grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, "#e8ecf1"); grad.addColorStop(0.5, "#dce0e8"); grad.addColorStop(1, "#c8cdd6");
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "rgba(255,255,255,0.4)"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(W / 2, 50); ctx.lineTo(W / 2, H - 180); ctx.stroke();
+    ctx.strokeStyle = "rgba(255,255,255,0.35)"; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(W / 2 + 40, H * 0.35); ctx.lineTo(W / 2 + 40, H * 0.55); ctx.stroke();
+    ctx.fillStyle = "rgba(15,23,42,0.35)"; ctx.font = "600 18px system-ui, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("Upload a photo to get started", W / 2, H / 2);
+    ctx.font = "400 13px system-ui, sans-serif"; ctx.fillStyle = "rgba(15,23,42,0.22)";
+    ctx.fillText("Your 3D magnet preview will appear here", W / 2, H / 2 + 30);
   }
 
-  function drawFridgeBackground(context, width, height) {
-    const grd = context.createLinearGradient(0, 0, width, height);
-    grd.addColorStop(0, "#c8d0dc");
-    grd.addColorStop(0.45, "#aeb8c9");
-    grd.addColorStop(1, "#9aa5b8");
-    context.fillStyle = grd;
-    context.fillRect(0, 0, width, height);
-
-    context.save();
-    context.globalAlpha = 0.12;
-    for (let x = 0; x < width; x += 40) {
-      context.fillStyle = x % 80 === 0 ? "#ffffff" : "#e2e8f0";
-      context.fillRect(x, 0, 20, height);
-    }
-    context.restore();
-
-    context.strokeStyle = "rgba(255,255,255,0.25)";
-    context.lineWidth = 2;
-    context.beginPath();
-    context.moveTo(0, height * 0.35);
-    context.bezierCurveTo(width * 0.3, height * 0.25, width * 0.65, height * 0.45, width, height * 0.32);
-    context.stroke();
-  }
-
-  function drawImageCover(context, img, dx, dy, dw, dh) {
-    const iw = img.naturalWidth;
-    const ih = img.naturalHeight;
-    if (!iw || !ih) return;
-
-    const scale = Math.max(dw / iw, dh / ih);
-    const sw = dw / scale;
-    const sh = dh / scale;
-    const sx = (iw - sw) / 2;
-    const sy = (ih - sh) / 2;
-
-    context.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
-  }
-
-  function render() {
-    if (!sourceImage) {
-      drawFridgeBackground(ctx, W, H);
-      ctx.fillStyle = "rgba(15,23,42,0.45)";
-      ctx.font = "600 20px system-ui, sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("上传图片后显示冰箱贴预览", W / 2, H / 2);
-      return;
-    }
-
-    const radius = Number(radiusRange?.value || 18);
-    const frame = Number(frameRange?.value || 14);
-    const shadowPct = Number(shadowRange?.value || 50) / 100;
-    const gloss = glossToggle?.checked !== false;
-
-    if (radiusValue) radiusValue.textContent = String(radius);
-    if (frameValue) frameValue.textContent = String(frame);
-    if (shadowValue) shadowValue.textContent = String(Math.round(shadowPct * 100));
-
-    drawFridgeBackground(ctx, W, H);
-
-    const magnetW = Math.min(340, W * 0.42);
-    const magnetH = magnetW * 1.28;
-    const cx = W / 2;
-    const cy = H / 2 - 10;
-
-    const x = cx - magnetW / 2;
-    const y = cy - magnetH / 2;
-
+  function drawImagePreview(img) {
+    ctx.clearRect(0, 0, W, H);
+    var imgW = img.naturalWidth || img.width, imgH = img.naturalHeight || img.height;
+    var scale = Math.min(W / imgW, H / imgH, 1);
+    var dw = imgW * scale, dh = imgH * scale, dx = (W - dw) / 2, dy = (H - dh) / 2;
     ctx.save();
-    ctx.shadowColor = `rgba(0,0,0,${0.22 + shadowPct * 0.35})`;
-    ctx.shadowBlur = 18 + shadowPct * 28;
-    ctx.shadowOffsetY = 10 + shadowPct * 14;
-    ctx.fillStyle = "#f1f5f9";
-    roundRectPath(ctx, x, y, magnetW, magnetH, radius + 4);
-    ctx.fill();
+    ctx.shadowColor = "rgba(0,0,0,0.15)"; ctx.shadowBlur = 20; ctx.shadowOffsetY = 6;
+    ctx.fillStyle = "#f0f0f0"; ctx.fillRect(dx - 2, dy - 2, dw + 4, dh + 4);
     ctx.restore();
-
-    ctx.save();
-    roundRectPath(ctx, x, y, magnetW, magnetH, radius + 2);
-    ctx.clip();
-
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(x, y, magnetW, magnetH);
-
-    const innerX = x + frame;
-    const innerY = y + frame;
-    const innerW = magnetW - frame * 2;
-    const innerH = magnetH - frame * 2;
-    const innerR = Math.max(4, radius - 6);
-
-    ctx.save();
-    roundRectPath(ctx, innerX, innerY, innerW, innerH, innerR);
-    ctx.clip();
-    drawImageCover(ctx, sourceImage, innerX, innerY, innerW, innerH);
-    ctx.restore();
-
-    ctx.strokeStyle = "rgba(255,255,255,0.85)";
-    ctx.lineWidth = 2;
-    roundRectPath(ctx, innerX + 0.5, innerY + 0.5, innerW - 1, innerH - 1, innerR);
-    ctx.stroke();
-
-    if (gloss) {
-      const glossGrad = ctx.createLinearGradient(x, y, x + magnetW, y + magnetH);
-      glossGrad.addColorStop(0, "rgba(255,255,255,0.55)");
-      glossGrad.addColorStop(0.35, "rgba(255,255,255,0.08)");
-      glossGrad.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.save();
-      roundRectPath(ctx, x, y, magnetW, magnetH, radius + 2);
-      ctx.clip();
-      ctx.fillStyle = glossGrad;
-      ctx.fillRect(x, y, magnetW, magnetH);
-      ctx.restore();
-    }
-
-    ctx.save();
-    ctx.strokeStyle = "rgba(15,23,42,0.08)";
-    ctx.lineWidth = 1;
-    roundRectPath(ctx, x + 0.5, y + 0.5, magnetW - 1, magnetH - 1, radius + 2);
-    ctx.stroke();
-    ctx.restore();
+    ctx.drawImage(img, dx, dy, dw, dh);
+    ctx.strokeStyle = "rgba(255,255,255,0.7)"; ctx.lineWidth = 3;
+    ctx.strokeRect(dx + 1, dy + 1, dw - 2, dh - 2);
   }
 
-  fileInput?.addEventListener("change", (e) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) loadFile(file);
+  function render() { if (!sourceImage) drawPlaceholder(); else drawImagePreview(sourceImage); }
+
+  fileInput?.addEventListener("change", function (e) { var f = e.target.files && e.target.files[0]; if (f) loadFile(f); });
+  dropzone?.addEventListener("dragover", function (e) { e.preventDefault(); dropzone.dataset.dragActive = "true"; });
+  dropzone?.addEventListener("dragleave", function () { dropzone.dataset.dragActive = "false"; });
+  dropzone?.addEventListener("drop", function (e) { e.preventDefault(); dropzone.dataset.dragActive = "false"; var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) loadFile(f); });
+
+  document.querySelectorAll("[data-shape-btn]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("[data-shape-btn]").forEach(function (s) { s.classList.remove("shape-btn--active"); });
+      btn.classList.add("shape-btn--active");
+    });
   });
 
-  dropzone?.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropzone.dataset.dragActive = "true";
+  // Style card click handler — activate parent card for :has fallback
+  styleGrid?.addEventListener("click", function (e) {
+    var card = e.target.closest(".style-card");
+    if (!card) return;
+    styleGrid.querySelectorAll(".style-card").forEach(function (s) { s.classList.remove("style-card--active"); });
+    card.classList.add("style-card--active");
   });
 
-  dropzone?.addEventListener("dragleave", () => {
-    dropzone.dataset.dragActive = "false";
-  });
-
-  dropzone?.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropzone.dataset.dragActive = "false";
-    const file = e.dataTransfer.files && e.dataTransfer.files[0];
-    if (file) loadFile(file);
-  });
-
-  ["input", "change"].forEach((ev) => {
-    radiusRange?.addEventListener(ev, () => sourceImage && render());
-    frameRange?.addEventListener(ev, () => sourceImage && render());
-    shadowRange?.addEventListener(ev, () => sourceImage && render());
-  });
-  glossToggle?.addEventListener("change", () => sourceImage && render());
-
-  renderBtn?.addEventListener("click", () => render());
-
-  downloadBtn?.addEventListener("click", () => {
-    // Check login before download
-    if (!window.AuthService || !window.AuthService.isLoggedIn()) {
-      setStatus("Please login or sign up to download preview");
-      if (window.openAuthModal) {
-        window.openAuthModal("login");
-      }
-      return;
-    }
+  downloadBtn?.addEventListener("click", function () {
+    if (!window.AuthService || !window.AuthService.isLoggedIn()) { setStatus("Please login or sign up to download preview"); if (window.openAuthModal) window.openAuthModal("login"); return; }
     if (!sourceImage) return;
     render();
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          setStatus("导出失败，请重试。");
-          return;
-        }
-        const a = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        a.href = url;
-        a.download = `river-magnet-preview-${Date.now()}.png`;
-        a.click();
-        URL.revokeObjectURL(url);
-        setStatus("已下载预览 PNG（示意图）。");
-      },
-      "image/png",
-      1
-    );
+    canvas.toBlob(function (blob) {
+      if (!blob) { setStatus("Export failed."); return; }
+      var a = document.createElement("a"); var url = URL.createObjectURL(blob);
+      a.href = url; a.download = "river-magnet-preview-" + Date.now() + ".png"; a.click();
+      URL.revokeObjectURL(url); setStatus("Preview downloaded! Ready to order.");
+    }, "image/png", 1);
   });
 
-  aiGenerateBtn?.addEventListener("click", () => {
+  aiGenerateBtn?.addEventListener("click", function () {
     if (!sourceImage || !window.AIService || isGenerating) return;
-
-    const selectedStyle = styleGrid?.querySelector('input[name="ai-style"]:checked');
-    if (!selectedStyle) {
-      setStatus("Please select an AI style first");
-      return;
-    }
-
-    const styleId = selectedStyle.value;
-    isGenerating = true;
-    setReadyState(true);
-    setStatus("Preparing AI generation...");
-
-    window.AIService.generate(
-      sourceImage,
-      styleId,
-      function onProgress(text) {
-        setStatus(text);
-      },
+    var styleId = getSelectedStyle(); if (!styleId) { setStatus("Please select a style first"); return; }
+    var shape = getSelectedShape();
+    isGenerating = true; setReadyState(true);
+    setStatus("Generating your 3D magnet... (15-30 seconds)");
+    window.AIService.generate(sourceImage, styleId, shape,
+      function onProgress(text) { setStatus(text); },
       function onSuccess(generatedImg) {
-        aiGeneratedImage = generatedImg;
-        sourceImage = generatedImg;
+        aiGeneratedImage = generatedImg; sourceImage = generatedImg;
         setReadyState(true);
-        setStatus("AI generation complete! Style applied: " + (window.AIService.getStyleById(styleId)?.name || styleId));
-        updateResetButton();
-        render();
-        isGenerating = false;
+        setStatus("Your magnet is ready! Download or order now.");
+        render(); isGenerating = false;
       },
-      function onError(errorMsg) {
-        setStatus("AI generation failed: " + errorMsg);
-        isGenerating = false;
-        setReadyState(true);
-      }
+      function onError(msg) { setStatus("Generation failed: " + msg); isGenerating = false; setReadyState(true); }
     );
   });
 
-  styleGrid?.addEventListener("change", (e) => {
-    if (e.target.name === "ai-style") {
-      // If user changes style, hint that they need to click generate again
-      var styleName = e.target.value;
-      var styleObj = window.AIService && window.AIService.getStyleById(styleName);
-      if (aiGeneratedImage) {
-        setStatus("Style changed to: " + (styleObj?.name || styleName) + ". Click 'AI Generate' to apply.");
-      }
-    }
-  });
-
-  // ─── Reset to Original ────────────────────────────────────────────────
-  var resetBtn = document.querySelector("[data-reset-btn]");
-
-  function updateResetButton() {
-    if (!resetBtn) return;
-    if (aiGeneratedImage) {
-      resetBtn.style.display = "";
-      var styleName = "";
-      if (window.AIService) {
-        var selected = styleGrid?.querySelector('input[name="ai-style"]:checked');
-        if (selected) {
-          var s = window.AIService.getStyleById(selected.value);
-          styleName = s ? s.name : "";
-        }
-      }
-      resetBtn.textContent = "↩ Reset to Original" + (styleName ? " (current: " + styleName + ")" : "");
-    } else {
-      resetBtn.style.display = "none";
-    }
-  }
-
-  if (resetBtn) {
-    resetBtn.addEventListener("click", function () {
-      if (!originalImage) return;
-      sourceImage = originalImage;
-      aiGeneratedImage = null;
-      updateResetButton();
-      setStatus("Reset to original photo. You can select a different style and generate again.");
-      render();
-    });
-  }
-
-  render();
-  setReadyState(false);
+  render(); setReadyState(false);
 })();
