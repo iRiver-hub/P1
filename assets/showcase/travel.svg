@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Travel memory flat magnet on fridge">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ebe6df"/><stop offset="100%" stop-color="#ddd8d0"/></linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#b8bcc0"/><stop offset="50%" stop-color="#dce0e4"/><stop offset="100%" stop-color="#b0b4b8"/></linearGradient>
+    <linearGradient id="sunset" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#f4a261"/><stop offset="50%" stop-color="#e76f51"/><stop offset="100%" stop-color="#48cae4"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.22"/></filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#wall)"/>
+  <rect y="278" width="400" height="22" fill="#cfc9c0"/>
+  <rect x="118" y="18" width="164" height="252" rx="10" fill="url(#steel)" stroke="#9a9ea2" stroke-width="1"/>
+  <rect x="199" y="22" width="3" height="178" fill="#1e1e22"/>
+  <rect x="122" y="198" width="156" height="3" fill="#1e1e22"/>
+  <g filter="url(#shadow)" transform="translate(220 82)">
+    <path d="M4 8 L36 2 L68 10 L72 48 L40 56 L0 44 Z" fill="url(#sunset)" stroke="#fff" stroke-width="3"/>
+    <circle cx="52" cy="18" r="8" fill="#ffd166"/>
+    <path d="M8 40 L24 28 L40 36 L56 24 L64 42" stroke="#fff" stroke-width="2" fill="none" opacity="0.8"/>
+  </g>
+  <text x="200" y="292" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#888">Flat Print · Travel</text>
+</svg>

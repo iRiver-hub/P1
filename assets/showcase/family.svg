@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Custom family cartoon fridge magnet on refrigerator">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ebe6df"/><stop offset="100%" stop-color="#ddd8d0"/></linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#b8bcc0"/><stop offset="50%" stop-color="#dce0e4"/><stop offset="100%" stop-color="#b0b4b8"/></linearGradient>
+    <linearGradient id="magnetGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity="0.45"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.25"/></filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#wall)"/>
+  <rect y="278" width="400" height="22" fill="#cfc9c0"/>
+  <rect x="118" y="18" width="164" height="252" rx="10" fill="url(#steel)" stroke="#9a9ea2" stroke-width="1"/>
+  <rect x="199" y="22" width="3" height="178" fill="#1e1e22"/>
+  <rect x="122" y="198" width="156" height="3" fill="#1e1e22"/>
+  <rect x="132" y="70" width="6" height="110" rx="3" fill="#d8dce0"/>
+  <rect x="262" y="70" width="6" height="110" rx="3" fill="#d8dce0"/>
+  <rect x="168" y="218" width="64" height="5" rx="2" fill="#d8dce0"/>
+  <!-- Cartoon family magnet -->
+  <g filter="url(#shadow)" transform="translate(218 78)">
+    <ellipse cx="38" cy="52" rx="36" ry="44" fill="#ffd6a5"/>
+    <ellipse cx="38" cy="48" rx="34" ry="40" fill="#ffb4a2"/>
+    <circle cx="26" cy="42" r="5" fill="#2d2d2d"/><circle cx="50" cy="42" r="5" fill="#2d2d2d"/>
+    <path d="M30 58 Q38 66 46 58" stroke="#c45c4a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="14" cy="28" r="12" fill="#ffc8dd"/><circle cx="62" cy="28" r="12" fill="#bde0fe"/>
+    <rect x="0" y="0" width="76" height="88" rx="8" fill="url(#magnetGloss)" opacity="0.6"/>
+  </g>
+  <text x="200" y="292" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#888">3D Cartoon · Family</text>
+</svg>

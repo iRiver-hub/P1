@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400" role="img" aria-label="River Magnets custom 3D fridge magnet preview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0e7490"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c8ccd0"/><stop offset="50%" stop-color="#e8ecef"/><stop offset="100%" stop-color="#b8bcc0"/></linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity="0.5"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <filter id="sh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-opacity="0.35"/></filter>
+  </defs>
+  <rect width="320" height="400" rx="20" fill="url(#bg)"/>
+  <g transform="translate(48 40)" filter="url(#sh)">
+    <rect x="0" y="0" width="120" height="300" rx="8" fill="url(#steel)"/>
+    <rect x="58" y="4" width="4" height="210" fill="#2a2a2e"/>
+    <rect x="4" y="214" width="112" height="3" fill="#2a2a2e"/>
+    <rect x="10" y="60" width="5" height="130" rx="2" fill="#d8dce0"/>
+    <rect x="105" y="60" width="5" height="130" rx="2" fill="#d8dce0"/>
+    <g transform="translate(68 88)">
+      <ellipse cx="22" cy="30" rx="20" ry="24" fill="#ffb4a2"/>
+      <circle cx="15" cy="24" r="3" fill="#333"/><circle cx="29" cy="24" r="3" fill="#333"/>
+      <path d="M16 34 Q22 40 28 34" stroke="#c45c4a" stroke-width="1.5" fill="none"/>
+      <rect width="44" height="52" rx="6" fill="url(#gloss)" opacity="0.5"/>
+    </g>
+  </g>
+  <text x="160" y="370" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#fff">Your Photo ’ 3D Magnet</text>
+</svg>

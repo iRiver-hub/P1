@@ -11,8 +11,12 @@ desktop.ini
 # Logs / OS
 *.log
 
+# Dependencies
+node_modules/
+
 # Server
 server/node_modules/
 server/users.json
 server/orders.json
 server/contacts.json
+server/data/

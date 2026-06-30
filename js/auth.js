@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE = "http://localhost:3000/api";
+  const API_BASE = window.API_BASE || "http://localhost:3000/api";
   const TOKEN_KEY = "river-magnet-token";
   const USER_KEY = "river-magnet-user";
 
@@ -330,6 +330,13 @@
 
     updateUserDisplay();
     updateCustomizerAccess();
+    if (window.updateCartUI) window.updateCartUI();
+
+    function updateOrderButtonState() {
+      if (window.updateCartUI) window.updateCartUI();
+    }
+
+    window.updateOrderButtonState = updateOrderButtonState;
 
     // Order form handler
     var orderForm = document.querySelector("[data-order-form]");
@@ -348,12 +355,81 @@
         return;
       }
 
+      var cartItems = window.CartService ? window.CartService.getItems() : [];
+      if (!cartItems.length) {
+        if (orderError) {
+          orderError.textContent = "Your cart is empty. Add designs from the customizer.";
+          orderError.style.display = "block";
+        }
+        return;
+      }
+
+      var orderConfirmCheck = document.querySelector("[data-order-confirm-check]");
+      if (!orderConfirmCheck?.checked) {
+        if (orderError) {
+          orderError.textContent = window.t ? window.t("order-need-confirm") : "Please confirm the preview for production before placing your order.";
+          orderError.style.display = "block";
+        }
+        return;
+      }
+
       if (orderError) orderError.style.display = "none";
       if (orderSuccess) orderSuccess.style.display = "none";
 
+      var totals = window.ProductCatalog.calcTotals(cartItems);
+
+      function confirmPendingDesigns(items) {
+        var designMap = {};
+        var pending = {};
+        items.forEach(function (item) {
+          if (item.designId || !item.sessionId || !item.candidateId) return;
+          var key = item.sessionId + ":" + item.candidateId;
+          pending[key] = { sessionId: item.sessionId, candidateId: item.candidateId };
+        });
+        var chain = Promise.resolve();
+        Object.keys(pending).forEach(function (key) {
+          var p = pending[key];
+          chain = chain.then(function () {
+            return window.DesignService.confirmCandidate(p.sessionId, p.candidateId).then(function (data) {
+              designMap[key] = data.designId;
+            });
+          });
+        });
+        return chain.then(function () {
+          return items.map(function (item) {
+            var key = item.sessionId + ":" + item.candidateId;
+            return Object.assign({}, item, { designId: item.designId || designMap[key] });
+          });
+        });
+      }
+
+      confirmPendingDesigns(cartItems).then(function (confirmedItems) {
+        if (confirmedItems.some(function (i) { return !i.designId; })) {
+          if (orderError) {
+            orderError.textContent = "Failed to confirm design. Please try again.";
+            orderError.style.display = "block";
+          }
+          return;
+        }
+
       var formData = {
-        quantity: parseInt(document.getElementById("order-quantity")?.value || "1"),
-        size: document.getElementById("order-size")?.value || "Standard (8x10 cm)",
+        items: confirmedItems.map(function (item) {
+          return {
+            designId: item.designId,
+            styleId: item.styleId,
+            sizeId: item.sizeId,
+            size: item.sizeLabel,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            previewUrl: item.previewUrl,
+            fridgeType: item.fridgeType,
+            dim: item.dim
+          };
+        }),
+        subtotal: totals.subtotal,
+        discountPercent: totals.discountPercent,
+        discountAmount: totals.discountAmount,
+        total: totals.total,
         shippingName: document.getElementById("order-name")?.value || "",
         email: document.getElementById("order-email")?.value || "",
         shippingAddress: document.getElementById("order-address")?.value || "",
@@ -373,20 +449,21 @@
       }
 
       var submitBtn = orderForm.querySelector("button[type='submit']");
+      var submitLabel = submitBtn && submitBtn.querySelector(".checkout-submit__label");
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Placing order...";
+        if (submitLabel) submitLabel.textContent = window.t ? window.t("btn-placing-order") : "Placing order...";
       }
 
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", API_BASE + "/orders");
+      xhr.open("POST", API_BASE + "/orders/batch");
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.setRequestHeader("Authorization", "Bearer " + window.AuthService.getToken());
 
       xhr.onload = function () {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Place Order — $9.99";
+          if (window.updateCartUI) window.updateCartUI();
         }
 
         try {
@@ -401,10 +478,15 @@
 
         if (xhr.status === 201 || xhr.status === 200) {
           if (orderSuccess) {
-            orderSuccess.innerHTML = "<strong>" + (data.message || "Order placed successfully!") + "</strong><br>Order #" + data.order.id + " | Status: " + data.order.status + "<br>We will contact you at your email shortly.";
+            var discNote = data.order.discountPercent > 0
+              ? " (saved " + data.order.discountPercent + "%)"
+              : "";
+            orderSuccess.innerHTML = "<strong>" + (data.message || "Order placed successfully!") + "</strong><br>Order #" + data.order.id + discNote + " | Total: $" + data.order.total.toFixed(2) + "<br>We will contact you at your email shortly.";
             orderSuccess.style.display = "block";
           }
           orderForm.reset();
+          if (orderConfirmCheck) orderConfirmCheck.checked = false;
+          if (window.CartService) window.CartService.clear();
         } else {
           if (orderError) {
             orderError.textContent = data.error || "Failed to place order. Please try again.";
@@ -416,7 +498,7 @@
       xhr.onerror = function () {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Place Order — $9.99";
+          if (window.updateCartUI) window.updateCartUI();
         }
         if (orderError) {
           orderError.textContent = "Network error. Is the server running?";
@@ -425,6 +507,14 @@
       };
 
       xhr.send(JSON.stringify(formData));
+      }).catch(function (err) {
+        if (orderError) {
+          orderError.textContent = err.message || "Failed to confirm design.";
+          orderError.style.display = "block";
+        }
+      });
+
+      return;
     });
 
     // Contact form handler

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>River Magnets — Admin</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f4f6f8; color: #1a1a2e; padding: 24px; }
+    h1 { font-size: 1.5rem; margin-bottom: 8px; }
+    .sub { color: #666; margin-bottom: 24px; font-size: 0.9rem; }
+    .toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    input[type=password] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; min-width: 200px; }
+    button { padding: 8px 16px; border: none; border-radius: 6px; background: #06b6d4; color: #fff; cursor: pointer; }
+    button:hover { background: #0891b2; }
+    .grid { display: grid; gap: 20px; }
+    @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+    section { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    h2 { font-size: 1.1rem; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+    th { color: #666; font-weight: 600; }
+    .err { color: #dc2626; margin-top: 12px; }
+    .preview-link { color: #06b6d4; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; background: #e0f2fe; color: #0369a1; }
+  </style>
+</head>
+<body>
+  <h1>River Magnets Admin</h1>
+  <p class="sub">订单与设计管理（需 Admin Key，默认开发密钥：river-admin-dev）</p>
+
+  <div class="toolbar">
+    <input type="password" id="admin-key" placeholder="Admin Key" value="river-admin-dev" />
+    <button type="button" id="load-btn">加载数据</button>
+  </div>
+  <p class="err" id="error" hidden></p>
+
+  <div class="grid">
+    <section>
+      <h2>订单</h2>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>用户</th><th>设计</th><th>风格</th><th>数量</th><th>状态</th></tr>
+        </thead>
+        <tbody id="orders-body"></tbody>
+      </table>
+    </section>
+    <section>
+      <h2>已确认设计</h2>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>用户</th><th>风格</th><th>预览</th><th>锁定时间</th></tr>
+        </thead>
+        <tbody id="designs-body"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="js/api-base.js"></script>
+  <script>
+    var API = window.API_BASE.replace("/api", "");
+
+    function showError(msg) {
+      var el = document.getElementById("error");
+      el.textContent = msg;
+      el.hidden = !msg;
+    }
+
+    document.getElementById("load-btn").addEventListener("click", function () {
+      var key = document.getElementById("admin-key").value;
+      showError("");
+
+      Promise.all([
+        fetch(API + "/api/admin/orders", { headers: { "X-Admin-Key": key } }).then(function (r) { return r.json(); }),
+        fetch(API + "/api/admin/designs", { headers: { "X-Admin-Key": key } }).then(function (r) { return r.json(); })
+      ]).then(function (results) {
+        var ordersData = results[0];
+        var designsData = results[1];
+        if (ordersData.error) throw new Error(ordersData.error);
+        if (designsData.error) throw new Error(designsData.error);
+
+        var ordersBody = document.getElementById("orders-body");
+        ordersBody.innerHTML = (ordersData.orders || []).map(function (o) {
+          var firstItem = o.items && o.items[0];
+          var designId = firstItem ? firstItem.designId : o.designId;
+          var sessionId = firstItem ? firstItem.sessionId : o.sessionId;
+          var preview = designId && sessionId
+            ? '<a class="preview-link" href="' + API + '/api/admin/designs/' + designId + '/preview" target="_blank">查看</a>'
+            : "—";
+          return "<tr><td>#" + o.id + "</td><td>" + (o.username || o.userId) + "</td><td>" + (o.items ? o.items.length + " designs" : "#" + (o.designId || "—")) + " " + preview + "</td><td>" + (o.styleId || (o.items && o.items[0] && o.items[0].styleId) || "—") + "</td><td>" + (o.totalQuantity || o.quantity) + (o.discountPercent ? " (-" + o.discountPercent + "%)" : "") + "</td><td><span class=\"badge\">" + o.status + "</span></td></tr>";
+        }).join("") || "<tr><td colspan=\"6\">暂无订单</td></tr>";
+
+        var designsBody = document.getElementById("designs-body");
+        designsBody.innerHTML = (designsData.designs || []).map(function (d) {
+          return "<tr><td>#" + d.id + "</td><td>" + (d.userId || "—") + "</td><td>" + d.styleId + "</td><td><a class=\"preview-link\" href=\"" + API + "/api/admin/designs/" + d.id + "/preview\" target=\"_blank\">预览</a></td><td>" + (d.lockedAt || "").slice(0, 19) + "</td></tr>";
+        }).join("") || "<tr><td colspan=\"5\">暂无设计</td></tr>";
+      }).catch(function (err) {
+        showError(err.message || "加载失败");
+      });
+    });
+  </script>
+</body>
+</html>

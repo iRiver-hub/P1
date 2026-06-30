@@ -13,8 +13,10 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/designs", require("./routes/designs"));
 app.use("/api/orders", require("./routes/orders"));
 app.use("/api/contact", require("./routes/contact"));
+app.use("/api/admin", require("./routes/admin"));
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });

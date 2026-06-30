@@ -44,6 +44,11 @@
           <a href="#contact" data-lang-key="nav-contact">Contact</a>
         </nav>
         <div class="header-tools">
+          <button type="button" class="cart-btn" data-cart-open aria-label="Open cart">
+            <span class="cart-btn__icon" aria-hidden="true">🛒</span>
+            <span class="cart-btn__label" data-lang-key="nav-cart">Cart</span>
+            <span class="cart-btn__count" data-cart-count hidden>0</span>
+          </button>
           <button type="button" class="hamburger" data-hamburger aria-label="Open menu" data-lang-attr="aria-label|menu-open">
             <span></span><span></span><span></span>
           </button>
@@ -137,28 +142,36 @@
           </p>
           <div class="showcase__grid">
             <div class="showcase-item">
-              <div class="showcase-item__image showcase-image--family"></div>
+              <div class="showcase-item__image">
+                <img src="assets/showcase/family.svg" alt="3D cartoon family fridge magnet on refrigerator" width="400" height="300" loading="lazy" />
+              </div>
               <div class="showcase-item__content">
                 <h3 data-lang-key="gallery-item-1-title">Family Moments</h3>
                 <p data-lang-key="gallery-item-1-desc">Transform family portraits into warm kitchen decor. Every time you open the fridge, it's a happy memory.</p>
               </div>
             </div>
             <div class="showcase-item">
-              <div class="showcase-item__image showcase-image--pet"></div>
+              <div class="showcase-item__image">
+                <img src="assets/showcase/pet.svg" alt="Chibi pet fridge magnet on refrigerator" width="400" height="300" loading="lazy" />
+              </div>
               <div class="showcase-item__content">
                 <h3 data-lang-key="gallery-item-2-title">Pet Love</h3>
                 <p data-lang-key="gallery-item-2-desc">Capture your furry friend's cutest moments forever on your fridge. A daily dose of joy awaits.</p>
               </div>
             </div>
             <div class="showcase-item">
-              <div class="showcase-item__image showcase-image--travel"></div>
+              <div class="showcase-item__image">
+                <img src="assets/showcase/travel.svg" alt="Travel memory flat fridge magnet" width="400" height="300" loading="lazy" />
+              </div>
               <div class="showcase-item__content">
                 <h3 data-lang-key="gallery-item-3-title">Travel Memories</h3>
                 <p data-lang-key="gallery-item-3-desc">Beautiful landscapes and delicious cuisines from your journeys. Let travel memories become the most special decoration in your home.</p>
               </div>
             </div>
             <div class="showcase-item">
-              <div class="showcase-item__image showcase-image--art"></div>
+              <div class="showcase-item__image">
+                <img src="assets/showcase/art.svg" alt="Watercolor art style fridge magnet" width="400" height="300" loading="lazy" />
+              </div>
               <div class="showcase-item__content">
                 <h3 data-lang-key="gallery-item-4-title">Artistic Styles</h3>
                 <p data-lang-key="gallery-item-4-desc">Transform photos into watercolor, oil painting, clay and more artistic styles with AI. Create truly unique fridge magnets.</p>
@@ -208,19 +221,13 @@
         <div class="container">
           <h2 class="section__title" data-lang-key="customizer-title">Create Your Magnet</h2>
           <p class="section__intro" data-lang-key="customizer-intro">
-            Upload your photo, choose a style, and let AI transform it into a unique artistic masterpiece. Fine-tune until perfect, then download the preview and contact us to order.
+            Upload your photo, choose a style, and let AI transform it into a unique artistic masterpiece. Compare up to 3 previews, then add to cart.
           </p>
 
           <div class="customizer__grid">
             <div class="panel panel--controls">
               <label class="dropzone" data-dropzone>
-                <input
-                  type="file"
-                  class="dropzone__input"
-                  accept="image/jpeg,image/png,image/webp,image/gif"
-                  data-file-input
-                  aria-label="Upload image"
-                />
+                <input type="file" class="dropzone__input" accept="image/jpeg,image/png,image/webp,image/gif" data-file-input aria-label="Upload image" />
                 <span class="dropzone__icon" aria-hidden="true"></span>
                 <span class="dropzone__text" data-lang-key="dropzone-text">
                   <strong>Click or drag image here</strong>
@@ -228,9 +235,7 @@
                 </span>
               </label>
 
-              <p class="status-line" role="status" aria-live="polite" data-status data-lang-key="status-no-image">
-                No image selected yet.
-              </p>
+              <p class="status-line" role="status" aria-live="polite" data-status data-lang-key="status-no-image">No image selected yet.</p>
 
               <fieldset class="controls-fieldset ai-style-section" data-ai-controls disabled>
                 <legend class="controls-fieldset__legend" data-lang-key="ai-legend">Choose Your Style</legend>
@@ -249,79 +254,70 @@
 
                 <p class="ai-style-desc" data-lang-key="ai-desc">Select an artistic style to transform your photo</p>
 
-                <div class="style-grid-v2" data-style-grid>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="3d-cartoon" checked />
-                    <span class="style-card__preview"><span class="style-card__emoji">🧸</span></span>
-                    <span class="style-card__name" data-lang-key="style-3d-cartoon">Cute Cartoon</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="ceramic" />
-                    <span class="style-card__preview"><span class="style-card__emoji">🏺</span></span>
-                    <span class="style-card__name" data-lang-key="style-ceramic">Ceramic Art</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="resin" />
-                    <span class="style-card__preview"><span class="style-card__emoji">💎</span></span>
-                    <span class="style-card__name" data-lang-key="style-resin">Resin Art</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="pop-art" />
-                    <span class="style-card__preview"><span class="style-card__emoji">🎨</span></span>
-                    <span class="style-card__name" data-lang-key="style-pop-art">Pop Art</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="watercolor" />
-                    <span class="style-card__preview"><span class="style-card__emoji">🖌️</span></span>
-                    <span class="style-card__name" data-lang-key="style-watercolor">Watercolor</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="oil-painting" />
-                    <span class="style-card__preview"><span class="style-card__emoji">🖼️</span></span>
-                    <span class="style-card__name" data-lang-key="style-oil-painting">Oil Painting</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="pixel-art" />
-                    <span class="style-card__preview"><span class="style-card__emoji">👾</span></span>
-                    <span class="style-card__name" data-lang-key="style-pixel-art">Pixel Art</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="anime" />
-                    <span class="style-card__preview"><span class="style-card__emoji">🌸</span></span>
-                    <span class="style-card__name" data-lang-key="style-anime">Anime Style</span>
-                  </label>
-                  <label class="style-card">
-                    <input type="radio" name="ai-style" value="clay" />
-                    <span class="style-card__preview"><span class="style-card__emoji">🪅</span></span>
-                    <span class="style-card__name" data-lang-key="style-clay">Clay World</span>
-                  </label>
-                </div>
+                <div class="style-grid-v2" data-style-grid></div>
               </fieldset>
 
               <div class="panel-actions">
+                <div class="generate-progress" data-generate-progress hidden>
+                  <div class="generate-progress__bar"><span data-generate-progress-fill></span></div>
+                  <p class="generate-progress__step" data-generate-progress-step></p>
+                </div>
                 <button type="button" class="btn btn--accent btn--lg btn--block" data-ai-generate-btn disabled>
                   <span class="btn__icon">✨</span>
                   <span data-lang-key="btn-ai-generate">Generate My Magnet</span>
                 </button>
-                <button type="button" class="btn btn--ghost btn--block" data-download-btn disabled data-lang-key="btn-download">
-                  Download Preview PNG
-                </button>
+                <div class="candidates-strip" data-candidates-strip hidden></div>
+                <button type="button" class="btn btn--ghost btn--block" data-download-btn disabled data-lang-key="btn-download">Download Preview PNG</button>
+              </div>
+
+              <div class="customizer-order-actions" data-customizer-actions hidden>
+                <p class="wizard-success" data-lang-key="wizard-order-ready">Preview selected! Choose size and add to cart.</p>
+                <p class="discount-promo-inline" data-lang-key="discount-promo">Buy 2+ save 5% · 4+ save 10% · 7+ save 15%</p>
+                <button type="button" class="btn btn--accent btn--lg btn--block" data-add-to-cart data-lang-key="btn-add-to-cart">Add to Cart</button>
+                <a class="btn btn--primary btn--lg btn--block" href="#checkout" data-lang-key="wizard-go-checkout">Go to Checkout</a>
               </div>
             </div>
 
             <div class="panel panel--preview">
+              <div class="preview-tabs" data-preview-tabs>
+                <button type="button" class="preview-tab preview-tab--active" data-preview-tab="fridge" data-lang-key="preview-tab-fridge">On Fridge</button>
+                <button type="button" class="preview-tab" data-preview-tab="product" data-lang-key="preview-tab-product">Product Close-up</button>
+              </div>
+              <div class="product-options" data-product-options>
+                <span class="product-options__label" data-lang-key="size-picker-label">Size</span>
+                <div class="size-chips" data-size-options role="group" aria-label="Magnet size"></div>
+              </div>
               <div class="preview-wrap">
-                <canvas
-                  id="magnet-canvas"
-                  width="880"
-                  height="720"
-                  class="magnet-canvas"
-                  data-lang-attr="aria-label|preview-label"
-                ></canvas>
+                <canvas id="magnet-canvas" width="880" height="720" class="magnet-canvas" data-lang-attr="aria-label|preview-label"></canvas>
+              </div>
+              <div class="preview-scale" data-preview-scale>
+                <div class="preview-scale__row">
+                  <span class="preview-scale__tag preview-scale__tag--fridge" data-lang-key="scale-label-fridge">Fridge</span>
+                  <span class="preview-scale__val" data-scale-fridge>≈ 91 × 178 cm</span>
+                </div>
+                <div class="preview-scale__row">
+                  <span class="preview-scale__tag preview-scale__tag--magnet" data-lang-key="scale-label-magnet">Magnet</span>
+                  <span class="preview-scale__val" data-scale-magnet>≈ 8 × 10 cm</span>
+                </div>
+                <div class="preview-scale__row">
+                  <span class="preview-scale__tag" data-lang-key="scale-label-ratio">Magnet / Fridge height</span>
+                  <span class="preview-scale__val" data-scale-ratio>6.2%</span>
+                </div>
+                <p class="preview-scale__bg" data-scale-bg hidden data-lang-key="scale-bg-removed">✓ Background removed in preview</p>
               </div>
               <p class="preview-note" data-lang-key="preview-note">
-                Preview generated by browser (includes fridge metal background and magnet shadow). Final print may have color variations and cropping differences. Actual product takes precedence.
+                Preview is for confirmation only. Final product follows confirmed design and manufacturing constraints.
               </p>
+              <div class="customizer-cart-bar" data-cart-bar hidden>
+                <div class="customizer-cart-bar__info">
+                  <strong data-lang-key="cart-bar-title">Design ready</strong>
+                  <span data-lang-key="cart-bar-hint">Pick a size, then add to cart. Confirm at checkout.</span>
+                </div>
+                <div class="customizer-cart-bar__actions">
+                  <button type="button" class="btn btn--accent" data-add-to-cart data-lang-key="btn-add-to-cart">Add to Cart</button>
+                  <button type="button" class="btn btn--ghost" data-cart-open data-lang-key="cart-bar-view">View Cart</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -331,34 +327,34 @@
         <div class="container">
           <h2 class="section__title" data-lang-key="checkout-title">Place Your Order</h2>
           <p class="section__intro" data-lang-key="checkout-intro">
-            Ready to bring your magnet to life? Fill in your shipping details and place your order.
+            Review your cart, enjoy multi-item discounts, and submit one order for all designs.
           </p>
 
           <div class="checkout__grid">
-            <div class="checkout-summary">
-              <h3 data-lang-key="checkout-summary-title">Order Summary</h3>
-              <div class="checkout-summary__items">
+            <aside class="checkout-summary">
+              <h3 class="checkout-summary__title" data-lang-key="checkout-summary-title">Order Summary</h3>
+              <p class="checkout-promo" data-discount-banner data-lang-key="discount-promo">Buy 2+ save 5% · 4+ save 10% · 7+ save 15%</p>
+              <div class="checkout-summary__lines cart-lines" data-cart-lines></div>
+              <p class="checkout-empty" data-checkout-design-warning data-lang-key="cart-empty">Your cart is empty. Confirm a design and add it here.</p>
+              <div class="checkout-summary__totals">
                 <div class="checkout-summary__row">
-                  <span data-lang-key="checkout-product">Custom Photo Magnet</span>
-                  <span>$9.99</span>
+                  <span data-lang-key="cart-subtotal">Subtotal</span>
+                  <span data-cart-subtotal>$0.00</span>
+                </div>
+                <div class="checkout-summary__row checkout-summary__row--discount" data-cart-discount-row hidden>
+                  <span data-lang-key="cart-discount">Multi-item discount</span>
+                  <span data-cart-discount>-$0.00</span>
+                </div>
+                <div class="checkout-summary__row checkout-summary__row--total">
+                  <span data-lang-key="cart-total">Total</span>
+                  <span data-cart-total>$0.00</span>
                 </div>
               </div>
-            </div>
+            </aside>
 
             <form class="checkout-form" data-order-form>
+              <h3 class="checkout-form__title" data-lang-key="checkout-shipping-title">Shipping Details</h3>
               <div class="checkout-form__grid">
-                <div class="form-group">
-                  <label for="order-quantity" data-lang-key="order-quantity-label">Quantity *</label>
-                  <input type="number" id="order-quantity" name="quantity" min="1" max="100" value="1" required />
-                </div>
-                <div class="form-group">
-                  <label for="order-size" data-lang-key="order-size-label">Size</label>
-                  <select id="order-size" name="size">
-                    <option value="Standard (8x10 cm)" data-lang-key="order-size-standard">Standard (8x10 cm)</option>
-                    <option value="Large (12x15 cm)" data-lang-key="order-size-large">Large (12x15 cm)</option>
-                    <option value="Mini (5x6 cm)" data-lang-key="order-size-mini">Mini (5x6 cm)</option>
-                  </select>
-                </div>
                 <div class="form-group form-group--full">
                   <label for="order-name" data-lang-key="order-name-label">Full Name *</label>
                   <input type="text" id="order-name" name="shippingName" required />
@@ -408,8 +404,14 @@
               <p class="order-error" data-order-error style="display:none;"></p>
               <p class="order-success" data-order-success style="display:none;"></p>
 
-              <button type="submit" class="btn btn--primary btn--block" data-lang-key="btn-place-order">
-                Place Order — $9.99
+              <label class="checkout-confirm">
+                <input type="checkbox" data-order-confirm-check />
+                <span data-lang-key="wizard-confirm-agree">I confirm this preview for production. I understand minor color/crop differences may occur.</span>
+              </label>
+
+              <button type="submit" class="btn btn--primary btn--block checkout-submit" data-place-order-btn disabled>
+                <span class="checkout-submit__label" data-lang-key="btn-place-order">Place Order</span>
+                <span class="checkout-submit__amount" data-place-order-total hidden></span>
               </button>
               <p class="checkout-note" data-lang-key="checkout-note">
                 By placing your order, you agree to our Terms of Service. We will contact you via email with payment and shipping details.
@@ -539,11 +541,46 @@
       </div>
     </footer>
 
+    <script src="js/api-base.js" defer></script>
     <script src="js/main.js" defer></script>
     <script src="js/lang.js" defer></script>
+    <script src="js/product-catalog.js" defer></script>
+    <script src="js/fridge-scene.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/preview-engine.js" defer></script>
+    <script src="js/design-service.js" defer></script>
     <script src="js/ai-service.js" defer></script>
+    <script src="js/style-picker.js" defer></script>
     <script src="js/auth.js" defer></script>
     <script src="js/magnet.js" defer></script>
+
+    <!-- Cart drawer -->
+    <div class="cart-drawer" data-cart-drawer hidden aria-hidden="true">
+      <div class="cart-drawer__backdrop" data-cart-drawer-close tabindex="-1"></div>
+      <aside class="cart-drawer__panel" role="dialog" aria-labelledby="cart-drawer-title">
+        <header class="cart-drawer__header">
+          <h2 id="cart-drawer-title" data-lang-key="cart-drawer-title">Shopping Cart</h2>
+          <button type="button" class="cart-drawer__close" data-cart-drawer-close aria-label="Close">×</button>
+        </header>
+        <div class="cart-drawer__body" data-cart-drawer-lines></div>
+        <footer class="cart-drawer__footer">
+          <p class="discount-banner discount-banner--compact" data-cart-drawer-promo data-lang-key="discount-promo">Buy 2+ save 5% · 4+ save 10% · 7+ save 15%</p>
+          <div class="cart-drawer__row">
+            <span data-lang-key="cart-subtotal">Subtotal</span>
+            <span data-cart-drawer-subtotal>$0.00</span>
+          </div>
+          <div class="cart-drawer__row cart-drawer__row--discount" data-cart-drawer-discount-row hidden>
+            <span data-lang-key="cart-discount">Multi-item discount</span>
+            <span data-cart-drawer-discount>-$0.00</span>
+          </div>
+          <div class="cart-drawer__row cart-drawer__row--total">
+            <span data-lang-key="cart-total">Total</span>
+            <span data-cart-drawer-total>$0.00</span>
+          </div>
+          <a href="#checkout" class="btn btn--primary btn--block" data-cart-drawer-checkout data-lang-key="cart-drawer-checkout">Go to Checkout</a>
+        </footer>
+      </aside>
+    </div>
 
     <!-- Cookie Consent Banner -->
     <div class="cookie-banner" data-cookie-banner style="display:none;">
