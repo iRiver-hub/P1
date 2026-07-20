@@ -11,7 +11,10 @@
     if (loc.hostname.includes("github.io")) {
       return "https://api.rivermagnets.com/api";
     }
-    return loc.protocol + "//" + loc.hostname + ":3000/api";
+    if (loc.hostname === "api.rivermagnets.com") {
+      return loc.origin + "/api";
+    }
+    return "http://localhost:3000/api";
   }
 
   window.getApiBase = resolveApiBase;
