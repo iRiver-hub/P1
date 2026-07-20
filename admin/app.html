@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>River Magnets Admin</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        River Admin
+        <small>????</small>
+      </div>
+      <nav>
+        <a class="nav-item active" data-view="dashboard">?? ??</a>
+        <a class="nav-item" data-view="orders">?? ??</a>
+        <a class="nav-item" data-view="designs">?? ??</a>
+        <a class="nav-item" data-view="contacts">?? ??</a>
+        <a class="nav-item" data-view="products">??? ??</a>
+        <a class="nav-item" data-view="users">?? ??</a>
+        <a class="nav-item" data-view="audit">?? ??</a>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <h2 id="page-title">??</h2>
+        <button type="button" class="btn btn--ghost btn--sm" id="logout-btn">??</button>
+      </header>
+      <div class="content" id="content"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="ship-modal">
+    <div class="modal">
+      <h3>??????</h3>
+      <input type="hidden" id="ship-order-id" />
+      <div class="form-group">
+        <label>????</label>
+        <input type="text" id="ship-carrier" placeholder="USPS / FedEx / DHL" />
+      </div>
+      <div class="form-group">
+        <label>???</label>
+        <input type="text" id="ship-tracking" />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost" id="ship-cancel">??</button>
+        <button type="button" class="btn btn--primary" id="ship-submit">????</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-api.js"></script>
+  <script src="js/admin-app.js"></script>
+</body>
+</html>

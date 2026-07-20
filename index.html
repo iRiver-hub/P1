@@ -42,6 +42,7 @@
           <a href="#checkout" data-lang-key="nav-checkout">Order</a>
           <a href="#specs" data-lang-key="nav-specs">Specs</a>
           <a href="#contact" data-lang-key="nav-contact">Contact</a>
+          <a href="user-center.html" data-lang-key="nav-account">My Orders</a>
         </nav>
         <div class="header-tools">
           <button type="button" class="cart-btn" data-cart-open aria-label="Open cart">
@@ -345,6 +346,14 @@
                   <span data-lang-key="cart-discount">Multi-item discount</span>
                   <span data-cart-discount>-$0.00</span>
                 </div>
+                <div class="checkout-summary__row" data-cart-addon-row hidden>
+                  <span data-lang-key="cart-addons">Add-ons</span>
+                  <span data-cart-addon-total></span>
+                </div>
+                <div class="checkout-summary__row" data-cart-shipping-row hidden>
+                  <span data-lang-key="cart-shipping">Shipping</span>
+                  <span data-cart-shipping></span>
+                </div>
                 <div class="checkout-summary__row checkout-summary__row--total">
                   <span data-lang-key="cart-total">Total</span>
                   <span data-cart-total>$0.00</span>
@@ -401,6 +410,24 @@
                 </div>
               </div>
 
+              <fieldset class="checkout-addons">
+                <legend data-lang-key="checkout-addons-title">Optional add-ons</legend>
+                <label class="checkout-addon">
+                  <input type="checkbox" data-order-addon="giftBox" />
+                  <span data-lang-key="addon-gift-box">Gift box packaging (+$3.99)</span>
+                </label>
+                <label class="checkout-addon">
+                  <input type="checkbox" data-order-addon="proRetouch" />
+                  <span data-lang-key="addon-pro-retouch">Pro retouch &amp; cutout review (+$4.99)</span>
+                </label>
+                <label class="checkout-addon">
+                  <input type="checkbox" data-order-addon="rush" />
+                  <span data-lang-key="addon-rush">Rush production 24h (+$7.99)</span>
+                </label>
+              </fieldset>
+
+              <p class="checkout-shipping-note" data-lang-key="shipping-note">Free US shipping on orders $35+. Otherwise $4.99 flat rate.</p>
+
               <p class="order-error" data-order-error style="display:none;"></p>
               <p class="order-success" data-order-success style="display:none;"></p>
 
@@ -418,6 +445,35 @@
               </p>
             </form>
           </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section">
+        <div class="container container--narrow">
+          <h2 class="section__title" data-lang-key="faq-title">FAQ</h2>
+          <dl class="faq-list">
+            <div class="faq-item">
+              <dt data-lang-key="faq-q1">How long does production take?</dt>
+              <dd data-lang-key="faq-a1">Standard orders ship within 2–3 business days after payment. Rush add-on targets 24h production.</dd>
+            </div>
+            <div class="faq-item">
+              <dt data-lang-key="faq-q2">Will the magnet look exactly like the preview?</dt>
+              <dd data-lang-key="faq-a2">We match your confirmed design. Minor color and crop differences may occur due to printing — the preview is your approval reference.</dd>
+            </div>
+            <div class="faq-item">
+              <dt data-lang-key="faq-q3">What is your return policy?</dt>
+              <dd data-lang-key="faq-a3">Defective or damaged items: free replacement within 14 days. Custom items cannot be returned unless we made an error.</dd>
+            </div>
+            <div class="faq-item">
+              <dt data-lang-key="faq-q4">What sizes are available?</dt>
+              <dd data-lang-key="faq-a4">Mini 5×6 cm ($7.99), Standard 8×10 cm ($11.99), Large 12×15 cm ($16.99). Multi-item discounts apply automatically.</dd>
+            </div>
+            <div class="faq-item">
+              <dt data-lang-key="faq-q5">How does payment work?</dt>
+              <dd data-lang-key="faq-a5">Secure card checkout via Stripe when enabled. Otherwise we confirm your order by email with payment instructions.</dd>
+            </div>
+          </dl>
+          <p class="faq-compare-link"><a href="competitor.html" data-lang-key="faq-compare-link">See how River Magnets compares →</a></p>
         </div>
       </section>
 
@@ -547,6 +603,7 @@
     <script src="js/product-catalog.js" defer></script>
     <script src="js/fridge-scene.js" defer></script>
     <script src="js/cart.js" defer></script>
+    <script src="js/payments.js" defer></script>
     <script src="js/preview-engine.js" defer></script>
     <script src="js/design-service.js" defer></script>
     <script src="js/ai-service.js" defer></script>

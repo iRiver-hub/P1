@@ -23,6 +23,12 @@
   }
 
   function calcTotals(items) {
+    if (window.ProductCatalog && window.ProductCatalog.calcCheckoutTotals) {
+      var countryEl = document.getElementById("order-country");
+      return window.ProductCatalog.calcCheckoutTotals(items, {
+        shippingCountry: countryEl ? countryEl.value : ""
+      });
+    }
     if (window.ProductCatalog) return window.ProductCatalog.calcTotals(items);
     var subtotal = items.reduce(function (s, i) { return s + i.unitPrice * i.quantity; }, 0);
     var totalQty = items.reduce(function (s, i) { return s + i.quantity; }, 0);
@@ -234,6 +240,15 @@
     if (discRow) discRow.hidden = totals.discountPercent === 0;
     if (drawerDiscRow) drawerDiscRow.hidden = totals.discountPercent === 0;
 
+    var shipRow = document.querySelector("[data-cart-shipping-row]");
+    var shipEl = document.querySelector("[data-cart-shipping]");
+    var addonRow = document.querySelector("[data-cart-addon-row]");
+    var addonEl = document.querySelector("[data-cart-addon-total]");
+    if (shipRow) shipRow.hidden = !totals.shippingFee;
+    if (shipEl) shipEl.textContent = totals.shippingFee ? formatMoney(totals.shippingFee) : "";
+    if (addonRow) addonRow.hidden = !totals.addonTotal;
+    if (addonEl) addonEl.textContent = totals.addonTotal ? formatMoney(totals.addonTotal) : "";
+
     setPromoText(banner, totals);
     setPromoText(drawerPromo, totals);
 
@@ -289,6 +304,7 @@
 
   document.addEventListener("change", function (e) {
     if (e.target.matches("[data-order-confirm-check]")) updateUI();
+    if (e.target.matches("[data-order-addon]") || e.target.id === "order-country") updateUI();
   });
 
   window.updateCartUI = updateUI;

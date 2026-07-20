@@ -5,21 +5,21 @@
       langKey: "size-mini",
       widthCm: 5,
       heightCm: 6,
-      price: 6.99
+      price: 7.99
     },
     standard: {
       id: "standard",
       langKey: "size-standard",
       widthCm: 8,
       heightCm: 10,
-      price: 9.99
+      price: 11.99
     },
     large: {
       id: "large",
       langKey: "size-large",
       widthCm: 12,
       heightCm: 15,
-      price: 14.99
+      price: 16.99
     }
   };
 
@@ -33,6 +33,41 @@
     { minQty: 4, percent: 10, langKey: "discount-tier-2" },
     { minQty: 2, percent: 5, langKey: "discount-tier-1" }
   ];
+
+  var ADDONS = {
+    giftBox: { id: "giftBox", langKey: "addon-gift-box", price: 3.99 },
+    proRetouch: { id: "proRetouch", langKey: "addon-pro-retouch", price: 4.99 },
+    rush: { id: "rush", langKey: "addon-rush", price: 7.99 }
+  };
+
+  var BUNDLES = {
+    couple: {
+      id: "couple",
+      langKey: "bundle-couple",
+      sizeId: "standard",
+      quantity: 2,
+      price: 21.99
+    },
+    family6: {
+      id: "family6",
+      langKey: "bundle-family6",
+      sizeId: "mini",
+      quantity: 6,
+      price: 39.99
+    },
+    memory9: {
+      id: "memory9",
+      langKey: "bundle-memory9",
+      sizeId: "mini",
+      quantity: 9,
+      price: 54.99
+    }
+  };
+
+  var SHIPPING = {
+    flatRate: 4.99,
+    freeThreshold: 35
+  };
 
   function getSize(id) {
     return SIZES[id] || SIZES.standard;
@@ -76,20 +111,91 @@
     };
   }
 
+  function getSelectedAddons() {
+    var ids = [];
+    document.querySelectorAll("[data-order-addon]:checked").forEach(function (el) {
+      var id = el.getAttribute("data-order-addon");
+      if (id) ids.push(id);
+    });
+    return ids;
+  }
+
+  function calcAddonTotal(addonIds) {
+    var total = 0;
+    (addonIds || []).forEach(function (id) {
+      if (ADDONS[id]) total += ADDONS[id].price;
+    });
+    return Math.round(total * 100) / 100;
+  }
+
+  function calcShippingFee(merchandiseTotal, shippingCountry) {
+    if (!shippingCountry || shippingCountry === "CN") return 0;
+    return merchandiseTotal >= SHIPPING.freeThreshold ? 0 : SHIPPING.flatRate;
+  }
+
+  function calcCheckoutTotals(items, options) {
+    options = options || {};
+    var base = calcTotals(items);
+    var addonIds = options.addons || getSelectedAddons();
+    var addonTotal = calcAddonTotal(addonIds);
+    var merchandiseTotal = base.total;
+    var shippingFee = calcShippingFee(merchandiseTotal, options.shippingCountry);
+    return Object.assign({}, base, {
+      addons: addonIds,
+      addonTotal: addonTotal,
+      shippingFee: shippingFee,
+      total: Math.round((merchandiseTotal + addonTotal + shippingFee) * 100) / 100
+    });
+  }
+
   function formatMoney(n) {
     return "$" + Number(n).toFixed(2);
+  }
+
+  function sizeList() { return [SIZES.mini, SIZES.standard, SIZES.large]; }
+
+  function applyCatalog(catalog) {
+    if (!catalog || !catalog.sizes) return;
+    catalog.sizes.forEach(function (s) {
+      SIZES[s.id] = {
+        id: s.id,
+        langKey: s.langKey || ("size-" + s.id),
+        widthCm: s.widthCm,
+        heightCm: s.heightCm,
+        price: s.price
+      };
+    });
+    if (catalog.discountTiers && catalog.discountTiers.length) {
+      DISCOUNT_TIERS.length = 0;
+      catalog.discountTiers.forEach(function (t) {
+        DISCOUNT_TIERS.push({ minQty: t.minQty, percent: t.percent, langKey: t.langKey });
+      });
+    }
+  }
+
+  if (window.API_BASE) {
+    fetch(window.API_BASE + "/products/catalog")
+      .then(function (r) { return r.json(); })
+      .then(applyCatalog)
+      .catch(function () {});
   }
 
   window.ProductCatalog = {
     SIZES: SIZES,
     FRIDGE_TYPES: FRIDGE_TYPES,
     DISCOUNT_TIERS: DISCOUNT_TIERS,
+    ADDONS: ADDONS,
+    BUNDLES: BUNDLES,
+    SHIPPING: SHIPPING,
     getSize: getSize,
     getFridgeType: getFridgeType,
     getSizeLabel: getSizeLabel,
     getDiscountPercent: getDiscountPercent,
     calcTotals: calcTotals,
+    calcCheckoutTotals: calcCheckoutTotals,
+    getSelectedAddons: getSelectedAddons,
     formatMoney: formatMoney,
-    sizeList: function () { return [SIZES.mini, SIZES.standard, SIZES.large]; }
+    sizeList: sizeList,
+    applyCatalog: applyCatalog
   };
 })();

@@ -376,8 +376,6 @@
       if (orderError) orderError.style.display = "none";
       if (orderSuccess) orderSuccess.style.display = "none";
 
-      var totals = window.ProductCatalog.calcTotals(cartItems);
-
       function confirmPendingDesigns(items) {
         var designMap = {};
         var pending = {};
@@ -412,6 +410,11 @@
           return;
         }
 
+      var totals = window.ProductCatalog.calcCheckoutTotals(confirmedItems, {
+        addons: window.ProductCatalog.getSelectedAddons(),
+        shippingCountry: document.getElementById("order-country")?.value || ""
+      });
+
       var formData = {
         items: confirmedItems.map(function (item) {
           return {
@@ -426,9 +429,12 @@
             dim: item.dim
           };
         }),
+        addons: totals.addons || [],
         subtotal: totals.subtotal,
         discountPercent: totals.discountPercent,
         discountAmount: totals.discountAmount,
+        addonTotal: totals.addonTotal || 0,
+        shippingFee: totals.shippingFee || 0,
         total: totals.total,
         shippingName: document.getElementById("order-name")?.value || "",
         email: document.getElementById("order-email")?.value || "",
@@ -455,58 +461,66 @@
         if (submitLabel) submitLabel.textContent = window.t ? window.t("btn-placing-order") : "Placing order...";
       }
 
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", API_BASE + "/orders/batch");
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.setRequestHeader("Authorization", "Bearer " + window.AuthService.getToken());
+      function submitManualOrder() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", API_BASE + "/orders/batch");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Authorization", "Bearer " + window.AuthService.getToken());
 
-      xhr.onload = function () {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          if (window.updateCartUI) window.updateCartUI();
-        }
-
-        try {
-          var data = JSON.parse(xhr.responseText);
-        } catch (e) {
-          if (orderError) {
-            orderError.textContent = "Server error. Please try again later.";
-            orderError.style.display = "block";
+        xhr.onload = function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            if (window.updateCartUI) window.updateCartUI();
           }
-          return;
-        }
+
+          try {
+            var data = JSON.parse(xhr.responseText);
+          } catch (e) {
+            if (orderError) {
+              orderError.textContent = "Server error. Please try again later.";
+              orderError.style.display = "block";
+            }
+            return;
+          }
 
         if (xhr.status === 201 || xhr.status === 200) {
-          if (orderSuccess) {
-            var discNote = data.order.discountPercent > 0
-              ? " (saved " + data.order.discountPercent + "%)"
-              : "";
-            orderSuccess.innerHTML = "<strong>" + (data.message || "Order placed successfully!") + "</strong><br>Order #" + data.order.id + discNote + " | Total: $" + data.order.total.toFixed(2) + "<br>We will contact you at your email shortly.";
-            orderSuccess.style.display = "block";
+          if (data.checkoutUrl && data.requiresPayment) {
+            window.location.href = data.checkoutUrl;
+            return;
           }
-          orderForm.reset();
-          if (orderConfirmCheck) orderConfirmCheck.checked = false;
-          if (window.CartService) window.CartService.clear();
-        } else {
+          if (orderSuccess) {
+              var discNote = data.order.discountPercent > 0
+                ? " (saved " + data.order.discountPercent + "%)"
+                : "";
+              orderSuccess.innerHTML = "<strong>" + (data.message || "Order placed successfully!") + "</strong><br>Order #" + data.order.id + discNote + " | Total: $" + data.order.total.toFixed(2) + "<br><a href=\"user-center.html\">View my orders</a>";
+              orderSuccess.style.display = "block";
+            }
+            orderForm.reset();
+            if (orderConfirmCheck) orderConfirmCheck.checked = false;
+            if (window.CartService) window.CartService.clear();
+          } else {
+            if (orderError) {
+              orderError.textContent = data.error || "Failed to place order. Please try again.";
+              orderError.style.display = "block";
+            }
+          }
+        };
+
+        xhr.onerror = function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            if (window.updateCartUI) window.updateCartUI();
+          }
           if (orderError) {
-            orderError.textContent = data.error || "Failed to place order. Please try again.";
+            orderError.textContent = "Network error. Is the server running?";
             orderError.style.display = "block";
           }
-        }
-      };
+        };
 
-      xhr.onerror = function () {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          if (window.updateCartUI) window.updateCartUI();
-        }
-        if (orderError) {
-          orderError.textContent = "Network error. Is the server running?";
-          orderError.style.display = "block";
-        }
-      };
+        xhr.send(JSON.stringify(formData));
+      }
 
-      xhr.send(JSON.stringify(formData));
+      submitManualOrder();
       }).catch(function (err) {
         if (orderError) {
           orderError.textContent = err.message || "Failed to confirm design.";

@@ -1,12 +1,13 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const { createUser, findUserByUsername, findUserByEmail, verifyPassword, updateLastLogin } = require("../db");
+const userStore = require("../services/userStore");
+const emailService = require("../services/emailService");
+const { JWT_SECRET } = require("../lib/authMiddleware");
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || "river-magnet-dev-secret-" + (process.env.NODE_ENV === "production" ? require("crypto").randomBytes(32).toString("hex") : "2024");
 const JWT_EXPIRES_IN = "7d";
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
@@ -29,18 +30,20 @@ router.post("/register", (req, res) => {
     return res.status(400).json({ error: "请输入有效的邮箱地址" });
   }
 
-  const result = createUser(username, email, password);
+  const result = userStore.createUser(username, email, password);
 
   if (!result.success) {
     return res.status(400).json({ error: result.error });
   }
 
-  const user = { id: result.userId, username, email };
+  const user = userStore.toPublicUser(userStore.findUserById(result.userId));
   const token = jwt.sign(user, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+
+  await emailService.welcomeEmail(user);
 
   res.status(201).json({
     message: "注册成功",
-    user: { id: user.id, username: user.username, email: user.email },
+    user,
     token
   });
 });
@@ -52,26 +55,24 @@ router.post("/login", (req, res) => {
     return res.status(400).json({ error: "请填写用户名和密码" });
   }
 
-  let user = findUserByUsername(username);
+  let user = userStore.findUserByUsername(username);
 
   if (!user) {
-    const emailUser = findUserByEmail(username);
-    if (emailUser) {
-      user = emailUser;
-    }
+    const emailUser = userStore.findUserByEmail(username);
+    if (emailUser) user = emailUser;
   }
 
   if (!user) {
     return res.status(401).json({ error: "用户名或密码错误" });
   }
 
-  if (!verifyPassword(password, user.password)) {
+  if (!userStore.verifyPassword(password, user.password)) {
     return res.status(401).json({ error: "用户名或密码错误" });
   }
 
-  updateLastLogin(user.id);
+  userStore.updateLastLogin(user.id);
 
-  const userInfo = { id: user.id, username: user.username, email: user.email };
+  const userInfo = userStore.toPublicUser(user);
   const token = jwt.sign(userInfo, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 
   res.json({
@@ -92,14 +93,8 @@ router.get("/me", (req, res) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    res.json({
-      user: {
-        id: decoded.id,
-        username: decoded.username,
-        email: decoded.email
-      }
-    });
-  } catch (error) {
+    res.json({ user: decoded });
+  } catch {
     return res.status(401).json({ error: "登录已过期，请重新登录" });
   }
 });

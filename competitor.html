@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>River Magnets � ???????</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .onepager { padding: 48px 0 80px; }
+    .onepager__hero { text-align: center; margin-bottom: 40px; }
+    .onepager__hero h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 12px; }
+    .onepager__hero p { color: var(--text-muted); max-width: 640px; margin: 0 auto; line-height: 1.6; }
+    .onepager__tagline { display: inline-block; margin-top: 16px; padding: 8px 16px; border-radius: 999px; background: var(--accent-dim); color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+    .compare-table-wrap { overflow-x: auto; margin: 32px 0; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 720px; }
+    .compare-table th, .compare-table td { padding: 12px 14px; text-align: center; border-bottom: 1px solid var(--border); }
+    .compare-table th { background: var(--bg); font-weight: 600; position: sticky; top: 0; }
+    .compare-table th:first-child, .compare-table td:first-child { text-align: left; font-weight: 500; }
+    .compare-table .col-river { background: rgba(6, 182, 212, 0.08); }
+    .compare-table th.col-river { color: var(--accent); }
+    .yes { color: #22c55e; font-weight: 700; }
+    .no { color: #94a3b8; }
+    .partial { color: #f59e0b; }
+    .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 32px 0; }
+    .price-card { padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-card); }
+    .price-card--river { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .price-card h3 { font-size: 1rem; margin-bottom: 8px; }
+    .price-card .price { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .price-card p { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; line-height: 1.5; }
+    .positioning { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 32px; }
+    .position-card { padding: 18px; border-radius: var(--radius); background: var(--bg); border: 1px solid var(--border); }
+    .position-card strong { display: block; margin-bottom: 6px; color: var(--accent); font-size: 0.85rem; }
+    .onepager__footer { text-align: center; margin-top: 48px; }
+    .onepager__footer a { margin: 0 12px; }
+    @media print {
+      .onepager__footer .btn { display: none; }
+      .compare-table { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">River Magnets</a>
+      <nav class="nav">
+        <a href="index.html#customizer">Create</a>
+        <a href="index.html#checkout">Order</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="onepager">
+    <div class="container">
+      <div class="onepager__hero">
+        <h1>River Magnets ????</h1>
+        <p>??????????? � 2026 ? 6 ???<br />???<strong>AI ???? + ?????? + ??????</strong></p>
+        <span class="onepager__tagline">???????AI + ??????????</span>
+      </div>
+
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>??</th>
+              <th class="col-river">River Magnets</th>
+              <th>Snap / Shutterfly</th>
+              <th>Pick Your Magnet</th>
+              <th>??? / ???</th>
+              <th>?????</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AI ???</td>
+              <td class="col-river"><span class="yes">?</span> 9 ?</td>
+              <td><span class="no">�</span></td>
+              <td><span class="yes">?</span> 8 ?</td>
+              <td><span class="yes">?</span></td>
+              <td><span class="no">�</span></td>
+            </tr>
+            <tr>
+              <td>??????</td>
+              <td class="col-river"><span class="yes">?</span></td>
+              <td><span class="no">�</span></td>
+              <td><span class="no">�</span></td>
+              <td><span class="partial">?</span></td>
+              <td><span class="no">�</span></td>
+            </tr>
+            <tr>
+              <td>?????</td>
+              <td class="col-river"><span class="yes">?</span> ?3</td>
+              <td><span class="no">�</span></td>
+              <td><span class="no">�</span></td>
+              <td><span class="partial">?</span></td>
+              <td><span class="no">�</span></td>
+            </tr>
+            <tr>
+              <td>3D / 2D ??</td>
+              <td class="col-river"><span class="yes">?</span></td>
+              <td><span class="no">�</span></td>
+              <td><span class="no">�</span></td>
+              <td><span class="yes">?</span></td>
+              <td><span class="partial">?</span></td>
+            </tr>
+            <tr>
+              <td>????</td>
+              <td class="col-river"><span class="partial">?</span> Stripe</td>
+              <td><span class="yes">?</span></td>
+              <td><span class="yes">?</span></td>
+              <td><span class="yes">?</span></td>
+              <td><span class="yes">?</span></td>
+            </tr>
+            <tr>
+              <td>?? SLA</td>
+              <td class="col-river"><span class="yes">?</span> 2�3 ?</td>
+              <td><span class="yes">?</span> 1�2 ?</td>
+              <td><span class="partial">?</span></td>
+              <td><span class="yes">?</span></td>
+              <td><span class="partial">?</span> 3�5 ?</td>
+            </tr>
+            <tr>
+              <td>????</td>
+              <td class="col-river"><span class="yes">?</span> ??</td>
+              <td><span class="no">�</span></td>
+              <td><span class="partial">?</span></td>
+              <td><span class="yes">?</span></td>
+              <td><span class="yes">?</span> CNC</td>
+            </tr>
+            <tr>
+              <td>????USD?</td>
+              <td class="col-river"><strong>$7.99</strong></td>
+              <td>$3�6</td>
+              <td>$15+</td>
+              <td>�15�39</td>
+              <td>~$0.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 class="section__title" style="font-size:1.25rem;margin-top:40px;">????</h2>
+      <div class="price-grid">
+        <div class="price-card price-card--river">
+          <h3>River Magnets</h3>
+          <div class="price">$7.99 ?</div>
+          <p>Standard $11.99 � ? $35 ???? � AI ??????</p>
+        </div>
+        <div class="price-card">
+          <h3>Shutterfly / Mixbook</h3>
+          <div class="price">$3�13</div>
+          <p>?????? AI??????</p>
+        </div>
+        <div class="price-card">
+          <h3>Pick Your Magnet</h3>
+          <div class="price">$15�25</div>
+          <p>AI ??????????</p>
+        </div>
+        <div class="price-card">
+          <h3>?????</h3>
+          <div class="price">�3.5�10</div>
+          <p>?????????????</p>
+        </div>
+      </div>
+
+      <h2 class="section__title" style="font-size:1.25rem;margin-top:40px;">?????</h2>
+      <div class="positioning">
+        <div class="position-card">
+          <strong>vs ????</strong>
+          ?????? AI ???? + ??????
+        </div>
+        <div class="position-card">
+          <strong>vs Pick Your Magnet</strong>
+          ?????????????????????
+        </div>
+        <div class="position-card">
+          <strong>vs ??</strong>
+          ?????????????3 ???????
+        </div>
+        <div class="position-card">
+          <strong>vs ???</strong>
+          ?????????????
+        </div>
+      </div>
+
+      <div class="onepager__footer">
+        <a href="index.html#customizer" class="btn btn--accent">????</a>
+        <a href="docs/product-strategy.md" class="btn btn--ghost">??????</a>
+        <p style="margin-top:24px;font-size:0.8rem;color:var(--text-muted);">� 2026 River Magnets � ??/?????? � ???? 2026-06</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

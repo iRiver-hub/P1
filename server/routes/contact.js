@@ -1,24 +1,7 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
+const contactStore = require("../services/contactStore");
+
 const router = express.Router();
-
-const CONTACTS_FILE = path.join(__dirname, "..", "contacts.json");
-
-function loadContacts() {
-  try {
-    if (fs.existsSync(CONTACTS_FILE)) {
-      return JSON.parse(fs.readFileSync(CONTACTS_FILE, "utf8"));
-    }
-  } catch (e) {
-    console.error("Error loading contacts:", e.message);
-  }
-  return [];
-}
-
-function saveContacts(data) {
-  fs.writeFileSync(CONTACTS_FILE, JSON.stringify(data, null, 2), "utf8");
-}
 
 router.post("/", (req, res) => {
   const { name, email, subject, message } = req.body;
@@ -35,20 +18,9 @@ router.post("/", (req, res) => {
     return res.status(400).json({ error: "Message must be at least 10 characters" });
   }
 
-  const contacts = loadContacts();
-  const entry = {
-    id: contacts.length + 1,
-    name,
-    email,
-    subject: subject || "",
-    message,
-    createdAt: new Date().toISOString()
-  };
+  const entry = contactStore.createContact({ name, email, subject, message });
 
-  contacts.push(entry);
-  saveContacts(contacts);
-
-  res.status(201).json({ message: "Message sent successfully! We will get back to you soon." });
+  res.status(201).json({ message: "Message sent successfully! We will get back to you soon.", contact: entry });
 });
 
 module.exports = router;

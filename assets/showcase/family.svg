@@ -22,5 +22,5 @@
     <circle cx="14" cy="28" r="12" fill="#ffc8dd"/><circle cx="62" cy="28" r="12" fill="#bde0fe"/>
     <rect x="0" y="0" width="76" height="88" rx="8" fill="url(#magnetGloss)" opacity="0.6"/>
   </g>
-  <text x="200" y="292" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#888">3D Cartoon · Family</text>
+  <text x="200" y="292" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#888">3D Cartoon ï¿½ Family</text>
 </svg>

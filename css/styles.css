@@ -1838,6 +1838,76 @@ input[type="range"] {
   display: none;
 }
 
+.checkout-addons {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.checkout-addons legend {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0 6px;
+}
+
+.checkout-addon {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.checkout-addon input {
+  margin-top: 3px;
+}
+
+.checkout-shipping-note {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.container--narrow {
+  max-width: 720px;
+}
+
+.faq-list {
+  margin-top: 24px;
+}
+
+.faq-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-item dt {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.faq-item dd {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.faq-compare-link {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.faq-compare-link a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .wizard-steps {
   display: flex;
   gap: 8px;

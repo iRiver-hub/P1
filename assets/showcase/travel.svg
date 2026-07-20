@@ -15,5 +15,5 @@
     <circle cx="52" cy="18" r="8" fill="#ffd166"/>
     <path d="M8 40 L24 28 L40 36 L56 24 L64 42" stroke="#fff" stroke-width="2" fill="none" opacity="0.8"/>
   </g>
-  <text x="200" y="292" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#888">Flat Print · Travel</text>
+  <text x="200" y="292" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#888">Flat Print ï¿½ Travel</text>
 </svg>

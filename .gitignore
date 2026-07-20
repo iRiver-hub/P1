@@ -20,3 +20,4 @@ server/users.json
 server/orders.json
 server/contacts.json
 server/data/
+server/data/river.db
