@@ -7,6 +7,11 @@ if (!JWT_SECRET) {
   process.exit(1);
 }
 
+if (JWT_SECRET.length < 32) {
+  console.error("FATAL: JWT_SECRET must be at least 32 characters long.");
+  process.exit(1);
+}
+
 function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {

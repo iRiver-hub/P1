@@ -75,8 +75,8 @@ async function main() {
   ok("Place batch order", order.status === 201, "order #" + order.json.order?.id + " total=$" + order.json.order?.total);
 
   const adminLogin = await request("POST", "/api/admin/login", {
-    username: process.env.ADMIN_USERNAME || "admin",
-    password: process.env.ADMIN_PASSWORD || "admin123"
+    username: process.env.ADMIN_USERNAME || "testadmin",
+    password: process.env.ADMIN_PASSWORD || "testpass123"
   });
   ok("Admin login", adminLogin.status === 200);
 

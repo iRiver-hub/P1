@@ -157,20 +157,32 @@ function listOrdersByUser(userId) {
 function listAllOrders(filters = {}) {
   let sql = "SELECT * FROM orders WHERE 1=1";
   const params = [];
+  const allowedStatuses = ["pending", "paid", "in_production", "shipped", "delivered", "cancelled", "refunded"];
+  const allowedPaymentStatuses = ["unpaid", "paid", "failed", "refunded"];
 
   if (filters.status) {
+    if (!allowedStatuses.includes(filters.status)) {
+      throw new Error("Invalid status filter");
+    }
     sql += " AND status = ?";
     params.push(filters.status);
   }
   if (filters.paymentStatus) {
+    if (!allowedPaymentStatuses.includes(filters.paymentStatus)) {
+      throw new Error("Invalid paymentStatus filter");
+    }
     sql += " AND payment_status = ?";
     params.push(filters.paymentStatus);
   }
 
   sql += " ORDER BY created_at DESC";
   if (filters.limit) {
+    const limit = parseInt(filters.limit, 10);
+    if (Number.isNaN(limit) || limit <= 0) {
+      throw new Error("Invalid limit filter");
+    }
     sql += " LIMIT ?";
-    params.push(filters.limit);
+    params.push(limit);
   }
 
   const rows = all(sql, params);
@@ -202,6 +214,15 @@ function markPaymentPaid(orderId, stripeSessionId, paymentIntent) {
     [paymentIntent || null, now, orderId, stripeSessionId]
   );
   updateOrder(orderId, { paymentStatus: "paid", status: "paid" });
+}
+
+function markPaymentFailed(orderId, stripeSessionId, paymentIntent) {
+  const now = new Date().toISOString();
+  run(
+    "UPDATE payments SET status = 'failed', stripe_payment_intent = ?, updated_at = ? WHERE order_id = ? AND stripe_session_id = ?",
+    [paymentIntent || null, now, orderId, stripeSessionId]
+  );
+  updateOrder(orderId, { paymentStatus: "failed" });
 }
 
 function getOrderByStripeSession(sessionId) {
@@ -238,6 +259,7 @@ module.exports = {
   upsertShipment,
   createPayment,
   markPaymentPaid,
+  markPaymentFailed,
   getOrderByStripeSession,
   getStats,
   getOrderItems

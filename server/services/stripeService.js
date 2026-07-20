@@ -105,6 +105,10 @@ async function handleWebhook(rawBody, signature) {
     const orderId = parseInt(session.metadata?.orderId, 10);
     if (!orderId) return { success: false, error: "Missing orderId in metadata" };
 
+    if (session.payment_status !== "paid") {
+      return { success: true, ignored: "unpaid session", paymentStatus: session.payment_status };
+    }
+
     orderStore.markPaymentPaid(orderId, session.id, session.payment_intent);
     const result = orderService.markPaid(orderId, "stripe");
     const order = orderStore.getOrderById(orderId);
@@ -112,6 +116,15 @@ async function handleWebhook(rawBody, signature) {
       await emailService.paymentSuccessEmail(order);
     }
     return { success: true, orderId, status: result.order?.status };
+  }
+
+  if (event.type === "checkout.session.async_payment_failed" || event.type === "payment_intent.payment_failed") {
+    const session = event.data.object;
+    const orderId = parseInt(session.metadata?.orderId, 10);
+    if (orderId) {
+      orderStore.markPaymentFailed(orderId, session.id, session.payment_intent);
+    }
+    return { success: true, orderId, ignored: event.type, note: "payment failed" };
   }
 
   return { success: true, ignored: event.type };

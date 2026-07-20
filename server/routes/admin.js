@@ -110,9 +110,14 @@ router.get("/orders/:id/production-pack", (req, res) => {
 
   order.items.forEach((item) => {
     if (!item.sessionId || !item.previewImage) return;
-    const filePath = path.join(store.sessionDir(item.sessionId), item.previewImage);
+    const safePreview = path.basename(item.previewImage);
+    if (!/^[a-zA-Z0-9._-]+$/.test(safePreview)) return;
+    const filePath = path.join(store.sessionDir(item.sessionId), safePreview);
+    const resolvedFilePath = path.resolve(filePath);
+    const resolvedBaseDir = path.resolve(store.sessionDir(item.sessionId));
+    if (!resolvedFilePath.startsWith(resolvedBaseDir)) return;
     if (fs.existsSync(filePath)) {
-      zip.addLocalFile(filePath, "", `design-${item.designId}-${item.previewImage}`);
+      zip.addLocalFile(filePath, "", `design-${item.designId}-${safePreview}`);
     }
   });
 
@@ -133,7 +138,13 @@ router.get("/designs", (req, res) => {
 router.get("/designs/:designId/preview", (req, res) => {
   const design = store.getDesign(parseInt(req.params.designId, 10));
   if (!design) return res.status(404).json({ error: "Design not found" });
-  const filePath = path.join(store.sessionDir(design.sessionId), design.previewImage);
+  const safePreview = path.basename(design.previewImage);
+  if (!/^[a-zA-Z0-9._-]+$/.test(safePreview)) {
+    return res.status(400).json({ error: "Invalid preview filename" });
+  }
+  const baseDir = path.resolve(store.sessionDir(design.sessionId));
+  const filePath = path.resolve(baseDir, safePreview);
+  if (!filePath.startsWith(baseDir)) return res.status(400).json({ error: "Invalid path" });
   res.sendFile(filePath, (err) => {
     if (err) res.status(404).json({ error: "Preview not found" });
   });

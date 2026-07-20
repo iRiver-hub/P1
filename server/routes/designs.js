@@ -101,11 +101,17 @@ router.get("/sessions/:sessionId", (req, res) => {
   });
 });
 
+const SAFE_FILENAME = /^[a-zA-Z0-9._-]+$/;
+
 router.get("/sessions/:sessionId/images/:filename", (req, res) => {
   const sessionId = parseInt(req.params.sessionId, 10);
   const filename = path.basename(req.params.filename);
-  const filePath = path.join(store.sessionDir(sessionId), filename);
-  if (!filePath.startsWith(store.sessionDir(sessionId))) return res.status(400).end();
+  if (!SAFE_FILENAME.test(filename)) {
+    return res.status(400).json({ error: "Invalid filename" });
+  }
+  const baseDir = path.resolve(store.sessionDir(sessionId));
+  const filePath = path.resolve(baseDir, filename);
+  if (!filePath.startsWith(baseDir)) return res.status(400).json({ error: "Invalid path" });
   res.sendFile(filePath, (err) => {
     if (err) res.status(404).json({ error: "Image not found" });
   });

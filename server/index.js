@@ -1,7 +1,8 @@
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 const rateLimit = require("express-rate-limit");
 const { initDatabase } = require("./db/database");
 const stripeService = require("./services/stripeService");
@@ -9,6 +10,32 @@ const stripeService = require("./services/stripeService");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ROOT = path.join(__dirname, "..");
+const PUBLIC_DIR = path.join(ROOT, "public");
+
+const PROTECTED_PATHS = [
+  "/server",
+  "/.env",
+  "/server/.env",
+  "/server/data",
+  "/server/scripts",
+  "/server/db",
+  "/server/routes",
+  "/server/services",
+  "/server/lib",
+  "/docs",
+  "/.git",
+  "/.gitignore",
+  "/package-lock.json",
+  "/PROJECT_TRACKER.md"
+];
+
+app.use((req, res, next) => {
+  const normalized = path.normalize(req.path).toLowerCase().replace(/\\/g, "/");
+  if (PROTECTED_PATHS.some((p) => normalized === p || normalized.startsWith(p + "/"))) {
+    return res.status(404).send("Not found");
+  }
+  next();
+});
 
 const corsOrigins = (process.env.CORS_ORIGINS ||
   "http://localhost:3000,http://127.0.0.1:3000,http://localhost:5500,http://127.0.0.1:5500")
@@ -79,8 +106,22 @@ app.get("/api/health", (req, res) => {
 });
 
 if (process.env.SERVE_STATIC !== "false") {
-  app.use(express.static(ROOT));
-  app.get("/", (req, res) => res.sendFile(path.join(ROOT, "index.html")));
+  if (fs.existsSync(PUBLIC_DIR)) {
+    app.use(express.static(PUBLIC_DIR));
+    app.get("/", (req, res) => res.sendFile(path.join(PUBLIC_DIR, "index.html")));
+  } else {
+    app.use(express.static(ROOT, {
+      dotfiles: "deny",
+      index: ["index.html"],
+      setHeaders: (res, filePath) => {
+        const relative = path.relative(ROOT, filePath).toLowerCase().replace(/\\/g, "/");
+        if (relative.startsWith("server/") || relative.startsWith("docs/") || relative.startsWith(".git")) {
+          res.status(404).send("Not found");
+        }
+      }
+    }));
+    app.get("/", (req, res) => res.sendFile(path.join(ROOT, "index.html")));
+  }
 }
 
 async function start() {

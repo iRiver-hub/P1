@@ -11,9 +11,9 @@ function nextUserId() {
 function createUser(username, email, password) {
   const existing = get("SELECT id, username, email FROM users WHERE username = ? OR email = ?", [username, email]);
   if (existing) {
-    if (existing.username === username) return { success: false, error: "???????" };
-    if (existing.email === email) return { success: false, error: "??????" };
-    return { success: false, error: "??????????" };
+    if (existing.username === username) return { success: false, error: "Username already exists" };
+    if (existing.email === email) return { success: false, error: "Email already registered" };
+    return { success: false, error: "Username or email already taken" };
   }
 
   const id = nextUserId();

@@ -18,6 +18,10 @@ router.post("/", (req, res) => {
     return res.status(400).json({ error: "Message must be at least 10 characters" });
   }
 
+  if (name.length > 100 || (subject && subject.length > 200) || message.length > 2000) {
+    return res.status(400).json({ error: "Input too long" });
+  }
+
   const entry = contactStore.createContact({ name, email, subject, message });
 
   res.status(201).json({ message: "Message sent successfully! We will get back to you soon.", contact: entry });

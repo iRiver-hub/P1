@@ -12,13 +12,13 @@ const VALID_TRANSITIONS = {
 };
 
 const STATUS_LABELS = {
-  pending: "???",
-  paid: "???",
-  in_production: "???",
-  shipped: "???",
-  delivered: "???",
-  cancelled: "???",
-  refunded: "???"
+  pending: "Pending payment",
+  paid: "Paid",
+  in_production: "In production",
+  shipped: "Shipped",
+  delivered: "Delivered",
+  cancelled: "Cancelled",
+  refunded: "Refunded"
 };
 
 function canTransition(from, to) {
@@ -36,7 +36,11 @@ function updateStatus(orderId, newStatus, actor = "system") {
     };
   }
 
-  const updated = orderStore.updateOrder(orderId, { status: newStatus });
+  const patch = { status: newStatus };
+  if (newStatus === "paid") patch.paymentStatus = "paid";
+  if (newStatus === "refunded") patch.paymentStatus = "refunded";
+
+  const updated = orderStore.updateOrder(orderId, patch);
   audit.log(actor, "order.status_change", "order", String(orderId), {
     from: order.status,
     to: newStatus

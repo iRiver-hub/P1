@@ -11,6 +11,16 @@ if (!ADMIN_KEY || !ADMIN_USERNAME || !ADMIN_PASSWORD) {
   process.exit(1);
 }
 
+if (ADMIN_KEY.length < 32) {
+  console.error("FATAL: ADMIN_KEY must be at least 32 characters long.");
+  process.exit(1);
+}
+
+if (ADMIN_PASSWORD.length < 8) {
+  console.error("FATAL: ADMIN_PASSWORD must be at least 8 characters long.");
+  process.exit(1);
+}
+
 function requireAdmin(req, res, next) {
   const key = req.headers["x-admin-key"] || req.query.key;
   if (key && key === ADMIN_KEY) {

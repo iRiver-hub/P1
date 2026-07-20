@@ -7,8 +7,7 @@ const FALLBACK_MODEL = "doubao-seedream-4-0-250828";
 const GENERATION_TIMEOUT_MS = 120000;
 
 if (!ARK_API_KEY) {
-  console.error("FATAL: SEEDREAM_API_KEY is not set. Set it in your .env file.");
-  process.exit(1);
+  console.warn("WARNING: SEEDREAM_API_KEY is not set. /api/ai/generate will return 503.");
 }
 
 const DIM_PREFIX = {
@@ -115,9 +114,10 @@ async function callSeedream(image, prompt) {
 }
 
 async function generateMagnetImage(rawImage, styleId, dim, lang) {
+  if (!ARK_API_KEY) return { success: false, error: { status: 503, msg: "AI generation is not configured." } };
   const image = normalizeImage(rawImage);
-  if (!image) return { success: false, error: "Invalid image data" };
-  if (!getStyle(styleId)) return { success: false, error: "Style not available" };
+  if (!image) return { success: false, error: { status: 400, msg: "Invalid image data" } };
+  if (!getStyle(styleId)) return { success: false, error: { status: 400, msg: "Style not available" } };
   const effectiveDim = dim || getStyleDim(styleId);
   const prompt = buildPrompt(styleId, effectiveDim, lang || "en");
   return callSeedream(image, prompt);
