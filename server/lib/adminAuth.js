@@ -2,9 +2,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { JWT_SECRET } = require("./authMiddleware");
 
-const ADMIN_KEY = process.env.ADMIN_KEY || "river-admin-dev";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+const ADMIN_KEY = process.env.ADMIN_KEY;
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+if (!ADMIN_KEY || !ADMIN_USERNAME || !ADMIN_PASSWORD) {
+  console.error("FATAL: ADMIN_KEY, ADMIN_USERNAME and ADMIN_PASSWORD environment variables are required.");
+  process.exit(1);
+}
 
 function requireAdmin(req, res, next) {
   const key = req.headers["x-admin-key"] || req.query.key;

@@ -1,6 +1,11 @@
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = process.env.JWT_SECRET || "river-magnet-dev-secret-2024";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  console.error("FATAL: JWT_SECRET environment variable is required.");
+  process.exit(1);
+}
 
 function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization;

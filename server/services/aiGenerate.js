@@ -1,10 +1,15 @@
 const { STYLES_CATALOG, getStyle, getStyleDim, listStylesForApi } = require("./stylesCatalog");
 
-const ARK_API_KEY = process.env.SEEDREAM_API_KEY || "ark-0e32b23e-a8dc-4718-a6a4-94f50dadc430-d0bd9";
+const ARK_API_KEY = process.env.SEEDREAM_API_KEY;
 const ARK_BASE = process.env.SEEDREAM_ENDPOINT || "https://ark.cn-beijing.volces.com/api/v3";
 const PRIMARY_MODEL = process.env.SEEDREAM_MODEL || "doubao-seedream-4-5-251128";
 const FALLBACK_MODEL = "doubao-seedream-4-0-250828";
 const GENERATION_TIMEOUT_MS = 120000;
+
+if (!ARK_API_KEY) {
+  console.error("FATAL: SEEDREAM_API_KEY is not set. Set it in your .env file.");
+  process.exit(1);
+}
 
 const DIM_PREFIX = {
   "3d":

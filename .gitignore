@@ -16,6 +16,7 @@ node_modules/
 
 # Server
 server/node_modules/
+server/.env
 server/users.json
 server/orders.json
 server/contacts.json
